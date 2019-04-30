@@ -1,6 +1,9 @@
-import cflw网络设备 as 设备
-import cflw字符串 as 字符串
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw网络地址 as 地址
 import 网络设备.华为_接口 as 接口
 ca协议 = {
 	"Direct": 设备.E路由协议.e直连,

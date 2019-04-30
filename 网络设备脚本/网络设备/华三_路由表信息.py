@@ -1,6 +1,9 @@
-import cflw网络设备 as 设备
-import cflw字符串 as 字符串
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw网络地址 as 地址
 import 网络设备.华三_接口 as 接口
 ca协议 = {
 	"Direct": 设备.E路由协议.e直连,
@@ -36,5 +39,5 @@ class C路由表4:
 			v优先级 = int(v优先级s)
 			v开销 = int(v开销s)
 			v下一跳 = 地址.S网络地址4.fc自动(v下一跳s)
-			v接口 = 设备.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
 			yield 设备.S路由条目(a网络号 = v网络号, a下一跳 = v下一跳, a出接口 = v接口, a路由协议 = v协议, a优先级 = v优先级, a度量值 = v开销)

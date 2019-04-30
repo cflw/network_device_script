@@ -1,6 +1,9 @@
 import functools
-import cflw网络设备 as 设备
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw网络地址 as 地址
 import cflw网络设备_华为 as 华为
 from 网络设备.华为_常量 import *
 import 网络设备.通用_访问控制列表 as 通用访问列表
@@ -19,7 +22,7 @@ def f生成名称(a名称):
 		return "%s" % (v名称,)
 	return "name %s" % (v名称,)
 def f生成规则序号(a序号):
-	v命令 = 设备.C命令("rule")
+	v命令 = 命令.C命令("rule")
 	if a序号:
 		v命令 += a序号
 	return v命令
@@ -81,12 +84,12 @@ class I访问控制列表(设备.I访问控制列表):
 	def fg模式参数(self):
 		return (self.m类型, self.m名称)
 	def fg进入命令(self):
-		v命令 = 设备.C命令("acl")
+		v命令 = 命令.C命令("acl")
 		v命令 += self.m协议
 		v命令 += f生成名称(self.m名称)
 		return v命令
 	def fg显示命令(self, a序号 = None):
-		v命令 = 设备.C命令("display acl")
+		v命令 = 命令.C命令("display acl")
 		v命令 += self.m协议
 		v命令 += f生成名称(self.m名称)
 		if a序号 != None:
@@ -99,20 +102,20 @@ class I访问控制列表(设备.I访问控制列表):
 		v命令 = f生成规则序号(a序号)
 		v命令.f前面添加(c不)
 		self.f执行当前模式命令(v命令)
-	def fs规则(self, a序号 = None, a规则 = None, a操作 = 设备.E操作.e设置):
+	def fs规则(self, a序号 = None, a规则 = None, a操作 = 操作.E操作.e设置):
 		v操作 = 通用实用.f解析操作(a操作)
-		if v操作 == 设备.E操作.e设置:
+		if v操作 == 操作.E操作.e设置:
 			self.f添加规则(a序号, a规则)
-		elif v操作 == 设备.E操作.e新建:
+		elif v操作 == 操作.E操作.e新建:
 			self.f添加规则(a序号, a规则)
-		elif v操作 == 设备.E操作.e修改:
+		elif v操作 == 操作.E操作.e修改:
 			v序号 = a序号 if a序号 >= 0 else a规则.m序号
 			v规则 = self.fg规则(v序号)
 			v规则.f更新_规则(a规则)
 			if not self.m设备.m型号 & 华为.E型号.c云:
 				self.f删除规则(v序号)
 			self.f添加规则(v序号, v规则)
-		elif v操作 == 设备.E操作.e删除:
+		elif v操作 == 操作.E操作.e删除:
 			self.f删除规则(a序号)
 	def fe规则(self):
 		v命令 = self.fg显示命令()

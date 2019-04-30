@@ -1,7 +1,10 @@
 import ipaddress
 import functools
-import cflw网络设备 as 设备
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw网络地址 as 地址
 c空序号 = -1
 c空规则 = 设备.S访问控制列表规则(a允许 = False)	#拒绝所有
 #名称
@@ -39,30 +42,30 @@ def f解析名称和类型(a名称, a类型, a助手):
 		raise TypeError("无法解析的类型")
 #协议
 ca协议到字符串4 = {
-	设备.E协议.ip: "ip",
-	设备.E协议.ipv4: "ip",
-	设备.E协议.ipv6: "ipv6",
-	设备.E协议.tcp: "tcp",
-	设备.E协议.udp: "udp",
+	协议.E协议.ip: "ip",
+	协议.E协议.ipv4: "ip",
+	协议.E协议.ipv6: "ipv6",
+	协议.E协议.tcp: "tcp",
+	协议.E协议.udp: "udp",
 }
 ca协议到字符串6 = {
-	设备.E协议.ip: "ipv6",
-	设备.E协议.ipv4: "ip",
-	设备.E协议.ipv6: "ipv6",
-	设备.E协议.tcp: "tcp",
-	设备.E协议.udp: "udp",
+	协议.E协议.ip: "ipv6",
+	协议.E协议.ipv4: "ip",
+	协议.E协议.ipv6: "ipv6",
+	协议.E协议.tcp: "tcp",
+	协议.E协议.udp: "udp",
 }
 ca字符串到协议 = {
-	"ip": 设备.E协议.e网络协议4,
-	"ipv6": 设备.E协议.e网络协议6,
-	"tcp": 设备.E协议.e传输控制协议,
-	"udp": 设备.E协议.e用户数据报协议,
+	"ip": 协议.E协议.e网络协议4,
+	"ipv6": 协议.E协议.e网络协议6,
+	"tcp": 协议.E协议.e传输控制协议,
+	"udp": 协议.E协议.e用户数据报协议,
 }
 def f生成协议(a字典: dict, a协议)->str:
 	v类型 = type(a协议)
 	if v类型 == int:
 		return str(v类型)
-	elif v类型 == 设备.E协议:
+	elif v类型 == 协议.E协议:
 		return a字典[a协议]
 	elif v类型 == str:
 		return a协议

@@ -1,7 +1,10 @@
 import time
-import cflw网络设备 as 设备
-import cflw字符串 as 字符串
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw网络地址 as 地址
 import 网络设备.思科_接口 as 思科接口
 import 网络设备.思科_基本表信息 as 思科基本表信息
 #===============================================================================
@@ -34,7 +37,7 @@ class C接口表:
 			v状态 = "up" in v状态s
 			v双工 = None if "Unknown" in v双工s else "Full" in v双工s
 			v速率 = None if "Unknown" in v速率s else int(v速率s[:-1])
-			yield 设备.S接口表项(a接口 = v接口, a状态 = v状态, a速率 = v速率, a双工 = v双工, a虚拟局域网 = v虚拟局域网)
+			yield 接口.S接口表项(a接口 = v接口, a状态 = v状态, a速率 = v速率, a双工 = v双工, a虚拟局域网 = v虚拟局域网)
 class C交换接口表:
 	"""show interface switchport
 	适用于: s5750(v11.4)"""
@@ -61,7 +64,7 @@ class C交换接口表:
 			v接口s, v交换s, v模式s, v接入s, v本征s, v保护s, v虚拟局域网s, v列表s = 字符串.fe按位置分割(v行, *C交换接口表.ca列开始)
 			v接口 = 思科接口.f创建接口(v接口s)
 			v虚拟局域网 = int(v接入s)
-			yield 设备.S接口表项(a接口 = v接口, a虚拟局域网 = v虚拟局域网)
+			yield 接口.S接口表项(a接口 = v接口, a虚拟局域网 = v虚拟局域网)
 #===============================================================================
 # 网络接口表
 #===============================================================================

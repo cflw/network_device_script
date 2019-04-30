@@ -1,5 +1,5 @@
 import time
-import cflw字符串 as 字符串
+import cflw代码库py.cflw字符串 as 字符串
 class C版本信息:
 	"""show version
 	适用于: s3956(v2.2.0B)"""

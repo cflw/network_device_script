@@ -1,4 +1,7 @@
-import cflw网络设备 as 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
 from 网络设备.华三_常量 import *
 ca日子 = {
 	设备.E日子.e一: "mon",
@@ -20,7 +23,7 @@ def f生成相对时间(a元组: tuple)->str:
 	return "%s:%s" % a元组
 def f生成命令(a名称: str, a时间范围: 设备.S时间范围):
 	#前置
-	v命令 = 设备.C命令("time-range")
+	v命令 = 命令.C命令("time-range")
 	v命令 += a名称
 	#参数
 	if a时间范围.m绝对:

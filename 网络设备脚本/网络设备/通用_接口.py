@@ -1,4 +1,7 @@
-import cflw网络设备 as 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
 #接口展开
 def fe接口模式展开(a接口模式):
 	for v接口 in a接口模式.m接口.fe接口():

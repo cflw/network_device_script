@@ -1,11 +1,14 @@
-import cflw网络地址 as 地址
-import cflw网络设备 as 设备
-def f生成接口范围(a接口: 设备.S接口):
+import cflw代码库py.cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+def f生成接口范围(a接口: 接口.S接口):
 	"""如果不是范围,返回接口字符串.
 	如果是范围,返回以"to"连接的接口字符串"""
 	if a接口.fi范围():	#是范围
 		if not a接口.fi只有末尾序号是范围():
-			raise 设备.X接口格式(a接口)
+			raise 异常.X接口格式(a接口)
 		v头接口 = a接口.fg头接口()
 		return "%s %s to %s" % (v头接口.fg名称(), v头接口.fg序号字符串(), a接口.fg尾接口().fg序号字符串())
 	else:	#不是范围

@@ -1,6 +1,9 @@
-import cflw网络设备 as 设备
-import cflw字符串 as 字符串
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw网络地址 as 地址
 import 网络设备.华三_接口 as 接口
 import 网络设备.通用_实用 as 通用实用
 #===============================================================================
@@ -26,9 +29,9 @@ class C接口表r4:
 			if len(v行) < 50:
 				continue
 			v接口s, v链路s, v协议s, v地址s, v描述s = 字符串.fe按位置分割(v行, *C接口表r4.ca列开始)
-			v接口 = 设备.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
 			v状态 = v协议s == "UP"
-			yield 设备.S接口表项(a接口 = v接口, a状态 = v状态, a描述 = v描述s)
+			yield 接口.S接口表项(a接口 = v接口, a状态 = v状态, a描述 = v描述s)
 class C接口表s:
 	"""display interface brief
 	适用于: 交换机"""
@@ -51,12 +54,12 @@ class C接口表s:
 			if len(v行) < 50:
 				continue
 			v接口s, v链路s, v速率s, v双工s, v类型s, v虚拟局域网s, v描述s = 字符串.fe按位置分割(v行, *C接口表s.ca列开始)
-			v接口 = 设备.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
 			v状态 = v链路s == "UP"
 			v速率 = 通用实用.f解析速率(v速率s)
 			v双工 = v双工s == "F"
 			v虚拟局域网 = int(v虚拟局域网s)
-			yield 设备.S接口表项(a接口 = v接口, a状态 = v状态, a速率 = v速率, a双工 = v双工, a虚拟局域网 = v虚拟局域网, a描述 = v描述s)
+			yield 接口.S接口表项(a接口 = v接口, a状态 = v状态, a速率 = v速率, a双工 = v双工, a虚拟局域网 = v虚拟局域网, a描述 = v描述s)
 #===============================================================================
 # 网络接口表
 #===============================================================================
@@ -80,7 +83,7 @@ class C网络接口表4:
 			if len(v行) < 50:
 				continue
 			v接口s, v物理s, v协议s, v地址s, v描述s = 字符串.fe按位置分割(v行, *C网络接口表4.ca列开始)
-			v接口 = 设备.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
 			if v地址s == "--":
 				v地址 = None
 			else:

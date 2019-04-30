@@ -1,6 +1,9 @@
 import time
 import cflw时间 as 时间
-import cflw网络设备 as 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
 c启动字符 = '\x10'
 class C启动(设备.I启动模式):
 	def __init__(self, a):

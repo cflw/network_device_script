@@ -1,4 +1,7 @@
-import cflw网络设备 as 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
 # 注意: 下面所有代码均未测试. 具体步骤见 http://www.ruijie.com.cn/fw/qdwd/57697/
 c启动字符 = '\x03'  #ctrl+c	进入启动模式
 c顶级字符 = '\x1a'	#ctrl+z	回到顶级菜单

@@ -1,5 +1,8 @@
-import cflw网络设备 as 设备
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw网络地址 as 地址
 from . import 通用_访问控制列表 as 通用
 c不 = "undo"
 c版本4 = "ip-prefix"
@@ -17,7 +20,7 @@ class C前缀列表(设备.I前缀列表, 设备.C同级模式):
 		self.t地址 = t地址
 		self.c最大前缀长度 = t地址.c最大前缀长度
 	def f生成命令(self, a序号 = None, a规则 = None):
-		v命令 = 设备.C命令()
+		v命令 = 命令.C命令()
 		v命令 += "ip %s %s" % (self.m版本, self.m名称)
 		if a序号:
 			v命令 += "%s %d" % (c关键字_序号, a序号)

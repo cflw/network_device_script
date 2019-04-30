@@ -1,6 +1,9 @@
-import cflw网络设备 as 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
 import cflw工具_运算 as 运算
-import cflw字符串 as 字符串
+import cflw代码库py.cflw字符串 as 字符串
 import cflw时间 as 时间
 from 网络设备.华为_常量 import *
 import 网络设备.通用_登录 as 通用登录
@@ -108,7 +111,7 @@ class C登录(设备.I登录配置模式):
 		self.t登录配置表 = C登录配置表v5
 	#命令
 	def fg进入命令(self):
-		v命令 = 设备.C命令(c命令_登录配置v5)
+		v命令 = 命令.C命令(c命令_登录配置v5)
 		v命令 += self.fg模式参数()
 		return v命令
 	def fg模式参数(self):
@@ -130,14 +133,14 @@ class C登录(设备.I登录配置模式):
 		return self.m配置
 	#操作
 	def fs认证方式(self, a认证方式):
-		v命令 = 设备.C命令("authentication-mode")
+		v命令 = 命令.C命令("authentication-mode")
 		v命令 += ca登录认证方式[a认证方式]
 		self.f执行当前模式命令(v命令)
 	def fs访问控制列表(self, a访问列表):
 		v命令 = "acl %s inbound" % (a访问列表, )
 		self.f执行当前模式命令(v命令)
 	def fs操作超时(self, a秒 = 600):
-		v命令 = 设备.C命令("idle-timeout")
+		v命令 = 命令.C命令("idle-timeout")
 		v命令 += 时间.f总秒拆成分秒(a秒)
 		self.f执行当前模式命令(v命令)
 	#取
@@ -160,7 +163,7 @@ class C登录v7(C登录):
 		C登录.__init__(self, a, a方式, a范围)
 		self.t登录配置表 = C登录配置表v7
 	def fg进入命令(self):
-		v命令 = 设备.C命令(c命令_登录配置v7)
+		v命令 = 命令.C命令(c命令_登录配置v7)
 		v命令 += self.fg模式参数()
 		return v命令
 	def fs访问控制列表(self, a访问列表):

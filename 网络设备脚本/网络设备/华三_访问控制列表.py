@@ -1,6 +1,9 @@
 import functools
-import cflw网络设备 as 设备
-import cflw网络地址 as 地址
+from ..基础接口 import 操作
+from ..命令行接口 import 命令 as 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口
+import cflw代码库py.cflw网络地址 as 地址
 from 网络设备.华三_常量 import *
 import 网络设备.通用_访问控制列表 as 通用访问列表
 import 网络设备.通用_实用 as 通用实用
@@ -32,7 +35,7 @@ def f生成名称v7(a名称):	#序号不带"number"
 		return "%s" % (v名称,)
 	return "name %s" % (v名称,)
 def f生成规则序号(a序号):
-	v命令 = 设备.C命令("rule")
+	v命令 = 命令.C命令("rule")
 	if a序号:
 		v命令 += a序号
 	return v命令
@@ -99,7 +102,7 @@ class I访问控制列表(设备.I访问控制列表):
 		v命令 = f生成规则序号(a序号)
 		v命令.f前面添加(c不)
 		self.f执行当前模式命令(v命令)
-	def fs规则(self, a序号 = None, a规则 = None, a操作 = 设备.E操作.e设置):
+	def fs规则(self, a序号 = None, a规则 = None, a操作 = 操作.E操作.e设置):
 		v操作 = 通用实用.f解析操作(a操作)
 		if 通用实用.fi加操作(v操作):
 			self.f添加规则(a序号, a规则)
@@ -187,12 +190,12 @@ class I访问控制列表v5(I访问控制列表):
 	"""acl 类型 访问列表号
 	适用于: v5"""
 	def fg进入命令(self):
-		v命令 = 设备.C命令("acl")
+		v命令 = 命令.C命令("acl")
 		v命令 += self.m协议
 		v命令 += f生成名称v5(self.m名称)
 		return v命令
 	def fg显示命令(self, a序号 = None):
-		v命令 = 设备.C命令("display acl")
+		v命令 = 命令.C命令("display acl")
 		v命令 += self.m协议
 		v命令 += f生成名称v5(self.m名称)
 		if a序号 != None:
@@ -215,13 +218,13 @@ class I访问控制列表v7(I访问控制列表):
 	"""acl 类型 访问列表号
 	适用于: v7.1"""
 	def fg进入命令(self):
-		v命令 = 设备.C命令("acl")
+		v命令 = 命令.C命令("acl")
 		v命令 += self.m协议
 		v命令 += self.m类型
 		v命令 += f生成名称v7(self.m名称)
 		return v命令
 	def fg显示命令(self, a序号 = None):
-		v命令 = 设备.C命令("display acl")
+		v命令 = 命令.C命令("display acl")
 		v命令 += self.m协议
 		v命令 += f生成名称v7(self.m名称)
 		if a序号 != None:

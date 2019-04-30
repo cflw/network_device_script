@@ -1,0 +1,251 @@
+import time
+import random
+import cflw代码库py.cflw时间 as 时间
+import cflw代码库py.cflw字符串 as 字符串
+from ..基础接口 import 设备
+from ..基础接口 import 操作
+from ..命令行接口 import 模式
+c等待 = 2
+c间隔 = c等待 / 10
+c网络终端换码 = "\x1b["	#vt100控制码
+class I设备(设备.I设备):
+	"命令行设备接口"
+	def __init__(self):
+		self.m等待 = c等待
+		self.m间隔 = c间隔
+		self.m自动换页文本 = ''
+		self.ma模式 = []
+		self.fs回显(False, False)
+		self.m异常开关 = True
+		self.m注释 = "#"
+		self.m自动提交 = 操作.E自动提交.e不提交
+		self.m连接 = None
+	def __del__(self):
+		if not self.m连接:
+			return
+		#收集信息
+		vi自动提交 = self.m自动提交 != 操作.E自动提交.e不提交
+		#安全关闭
+		if vi自动提交:
+			self.f关闭()
+	#设备状态
+	def fs延迟(self, a间隔 = c间隔):
+		self.m间隔 = a间隔
+		self.m等待 = a间隔 * 10
+	def fs自动换页(self, a文本):
+		"设置自动换页标记"
+		self.m自动换页文本 = a文本
+		self.m自动换页替换 = None
+	def f关闭(self):
+		"执行清理操作, 然后关闭连接. f关闭 只能调用一次"
+		while self.ma模式:
+			self.f退出模式()
+		self.m连接 = None
+	def f设备_回显(self, a内容):
+		"输出时自动调用"
+		if self.m回显:
+			print(a内容, end = '', flush = True)
+		self.f设备_停顿()
+	def f设备_等待回显(self):
+		"手动调用,在需要等待的地方调用,显示一个点"
+		if self.m等待回显:
+			print(".", end = '', flush = True)
+	def f设备_停顿(self, a倍数 = 1):
+		time.sleep(self.m间隔 * a倍数)
+	#输入输出
+	def f输入(self, a文本):
+		self.f设备_停顿()
+		self.m连接.f写(a文本)
+	def f输出(self, a等待 = False):
+		"读取输出缓存中的内容, 清除输出缓存"
+		#不等待
+		if not a等待:
+			v内容 = self.m连接.f读_最新()
+			self.f设备_回显(v内容)
+			return v内容
+		#有等待
+		v计数 = 0
+		v内容 = ""
+		while True:
+			v读 = self.m连接.f读_最新()
+			if v读:
+				v内容 += v读
+				time.sleep(self.m间隔)
+				continue
+			else:
+				v计数 += 1
+				if v计数 >= 10:
+					break
+				else:
+					time.sleep(self.m间隔)
+					continue
+		self.f设备_回显(v内容)
+		return v内容
+	def f输入_回车(self, a数量 = 1, a等待 = 1):
+		if a数量 > 0:
+			for i in range(a数量):
+				self.m连接.f写('\r')
+				self.f设备_停顿(2)
+		elif a数量 == 0:
+			pass	#什么都不做
+		else:	#循环,有内容或时间到时结束
+			v阻塞 = 时间.C循环阻塞(a等待)
+			while v阻塞.f滴答():
+				self.m连接.f写('\r')
+				v输出 = self.f输出()
+				if v输出:
+					break
+	def f输入_退格(self, a数量 = 1):
+		self.m连接.f写('\b' * a数量)
+	def f输入_空格(self, a数量 = 1):
+		self.m连接.f写(' ' * a数量)
+	def f输入_任意键(self, a数量 = 1):
+		v字符 = random.choice("qwertyuiopasdfghjklzxcvbnm")
+		self.m连接.f写(v字符)
+	def f输入_注释(self):
+		self.m连接.f写(self.m注释)
+	def f刷新(self):
+		"清除正在输入的命令, 清除输出缓存"
+		self.f设备_停顿()
+		v输出 = self.m连接.f读_最新()
+	def f等待响应(self, a时间 = 5):
+		v输出 = self.m连接.f读_直到('', a时间)
+		if self.m回显 and v输出:	#回显
+			print(v输出, end = '', flush = True)
+			return
+	def f检查命令(self, a命令):
+		"判断命令能不能执行"
+		raise NotImplementedError()
+	def f执行命令(self, a命令):
+		"输入一段字符按回车, 并返回输出结果"
+		v命令 = str(a命令)
+		self.f刷新()
+		self.f输入(v命令)
+		self.f输入_回车()
+		v输出 = self.f输出()
+		return v输出
+	def f执行配置命令(self, a命令, a自动提交 = True):
+		self.f执行命令(a命令)
+		if a自动提交:
+			self.f自动提交(E自动提交.e立即)
+	def f执行显示命令(self, a命令, a自动换页 = True):
+		"有自动换页功能"
+		self.f刷新()
+		v命令 = str(a命令)
+		self.f输入(v命令)
+		self.f输入_回车()
+		v输出 = ''
+		if a自动换页 and self.m自动换页文本:
+			while True:
+				v读 = self.f输出(a等待 = True)
+				v输出 += v读
+				if self.m自动换页文本 in v读:	#还有更多
+					self.f输入_空格()
+					self.f设备_等待回显()
+					continue
+				else:
+					break
+			v输出 = self.f自动换页替换(v输出)
+		else:
+			v输出 = self.f输出(a等待 = True)
+		v输出 = v输出.replace("\r\n", "\n")
+		return v输出
+	def f自动换页替换(self, a字符串: str):
+		v替换位置 = a字符串.find(self.m自动换页文本)
+		if v替换位置 < 0:
+			return a字符串	#找不到,不处理
+		if not self.m自动换页替换:	#没有则生成
+			v退格结束位置 = 字符串.f连续找最后(a字符串, c网络终端换码, c网络终端换码, "D", a开始 = v替换位置)
+			if v退格结束位置 >= 0:	#telnetlib
+				self.m自动换页替换 = a字符串[v替换位置 : v退格结束位置+1]
+			elif '\x08' in a字符串:	#退格字符
+				v行首位置 = a字符串.rfind("\r\n", 0, v替换位置) + 2
+				v行尾位置 = a字符串.find("\r", v替换位置)
+				v退格位置 = a字符串.rfind('\x08', v行首位置, v行尾位置)
+				self.m自动换页替换 = a字符串[v行首位置 : v退格位置+1]
+			else:	#回车覆盖
+				v回车位置 = a字符串.find(" \r", v替换位置)
+				self.m自动换页替换 = a字符串[v替换位置 : v回车位置 + 1]
+		return a字符串.replace(self.m自动换页替换, '')
+	#模式操作
+	def fg当前模式(self):
+		if self.ma模式:
+			return self.ma模式[-1]
+		else:
+			return None
+	def f进入模式(self, a模式):
+		if not isinstance(a模式, 模式.I模式):
+			raise TypeError("a模式 必须是一个 模式.I模式 对象")
+		v命令 = a模式.fg进入命令()
+		if v命令:
+			self.f执行命令(v命令)
+		self.ma模式.append(a模式)
+		a模式.f事件_进入模式()
+	def f退出模式(self):
+		v模式 = self.ma模式[-1]
+		v模式.f事件_退出模式()
+		if type(v模式).fg退出命令 != 模式.I模式.fg退出命令:
+			self.f执行命令(v模式.fg退出命令())
+		else:
+			self.f退出()
+		self.ma模式.pop()
+	def f切换模式(self, aa模式):	#aa模式 必需是强引用, 而 模式.I模式.m模式栈 全是弱引用需要转换
+		"自动退出当前模式并进入新模式"
+		v现模式长度 = len(self.ma模式)
+		v新模式长度 = len(aa模式)
+		v最小长度 = min(v现模式长度, v新模式长度)
+		v进入位置 = 0
+		#判断模式是否一样,并退出现模式
+		for i in range(v最小长度):
+			#找不同模式的位置,然后退出到有相同模式的位置为止
+			#如果新模式是现模式的更深一层模式,不退出,直接进入新模式
+			if self.ma模式[i] != aa模式[i]:
+				for i1 in range(v现模式长度 - i):
+					self.f退出模式()
+				v进入位置 = i
+				break
+			else:
+				v进入位置 = i + 1
+		#进入模式
+		for i in range(v进入位置, v新模式长度):
+			self.f进入模式(aa模式[i])
+	def f抛出模式异常(self):
+		raise X模式(self.fg当前模式())
+	#动作&命令
+	def f自动适应延迟(self, a测试字符: str = '#'):
+		"发送字符测试延迟,根据响应时间确定间隔"
+		v和 = 0
+		v秒表 = 时间.C秒表()
+		for i in range(10):
+			v秒表.f重置()
+			self.m连接.f写(a测试字符)
+			self.m连接.f读_直到(a测试字符, 2)
+			v和 = v秒表.f滴答()
+		self.fs延迟(v和 / 5)	#间隔设置为平均响应时间的2倍
+	def f退出(self, a关闭 = False):
+		"""设备默认退出当前模式行为, 如果模式重写了 fg退出命令 则不调用该函数\n
+		如果当前模式是用户模式, 则退出登录"""
+		raise NotImplementedError()	#实现示例: self.f执行命令("exit")
+	def fg提示符(self):
+		raise NotImplementedError()
+	def fs自动提交(self, a):
+		"""设置自动提交行为:
+		0:不自动提交, 1:退出配置模式时自动提交, 2:退出当前模式时自动提交, 3:执行配置命令后立即提交"""
+		self.m自动提交 = a
+	def f提交(self):
+		"""手动提交"""
+		raise NotImplementedError()	#实现示例: self.f执行命令("commit")
+	def f自动提交(self, a级别):
+		"""判断级别确定是否提交"""
+		if self.m自动提交 == E自动提交.e不提交:
+			return
+		if a级别 > self.m自动提交:
+			return
+		v模式 = self.ma模式[-1]
+		if type(v模式).fg提交命令 != 模式.I模式.fg提交命令:
+			self.f执行命令(v模式.fg提交命令())
+		else:
+			self.f提交()
+	#显示.当存在可以在任何模式使用的命令,直接重写这里的函数
+	def f显示_当前模式配置(self):
+		raise NotImplementedError()

@@ -1,4 +1,4 @@
-import cflw字符串 as 字符串
+import cflw代码库py.cflw字符串 as 字符串
 #硬件信息
 class C板属性:
 	"""display elabel

@@ -1,16 +1,20 @@
 import enum
+import cflw代码库py.cflw字符串 as 字符串
 class I版本信息:
 	def fg版本s(self)->str:
 		"完整的版本字符串"
 		raise NotImplementedError()
 	def fg版本号(self)->str:
 		raise NotImplementedError()
-	def fg编译日期(self)->time.struct_time:
-		"如果找不到,返回None"
+	def fg编译日期(self):
+		"""返回time.struct_time对象
+		如果找不到,返回None"""
 		raise NotImplementedError()
-	def fg运行时间(self)->datetime.timedelta:
+	def fg运行时间(self):
+		"""返回datetime.timedelta对象"""
 		raise NotImplementedError()
-	def fg开机日期(self)->time.struct_time:
+	def fg开机日期(self):
+		"""返回time.struct_time对象"""
 		raise NotImplementedError()
 class E物理地址类型(enum.IntEnum):
 	e动态 = 0

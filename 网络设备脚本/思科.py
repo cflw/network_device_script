@@ -11,7 +11,7 @@ class E型号(enum.IntEnum):
 	c7200 = 7200
 def f创建设备(a连接, a型号: int = 0, a版本 = 0):
 	if a连接.c连接特性 & 0x0001:	#命令行
-		from .思科命令行 import 设备 as 思科设备
-		return 思科设备.C设备(a连接)
+		from .思科命令行 import 设备 as 设备
+		return 设备.C设备(a连接)
 	else:
 		raise ValueError("参数错误")

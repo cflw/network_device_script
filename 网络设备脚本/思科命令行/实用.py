@@ -4,7 +4,7 @@ from ..基础接口 import 操作
 from ..基础接口 import 接口
 from ..命令行接口 import 模式
 from ..命令行接口 import 接口配置
-from .思科_常量 import *
+from .常量 import *
 ca命令前缀 = {
 	操作.E操作.e设置: "",
 	操作.E操作.e删除: c不,

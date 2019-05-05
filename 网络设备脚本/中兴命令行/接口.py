@@ -1,10 +1,12 @@
 import cflw代码库py.cflw网络地址 as 地址
+from ..基础接口 import 接口
 from ..基础接口 import 操作
 from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口
-from 网络设备.中兴_常量 import *
-import 网络设备.通用_实用 as 通用实用
+from ..命令行接口 import 接口配置
+from .常量 import *
+from ..网络设备 import 通用_实用 as 通用实用
 #中兴常见接口
 ca接口名称 = 接口.fc接口名称字典({
 	接口.E接口.e空: "null",

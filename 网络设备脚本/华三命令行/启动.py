@@ -1,5 +1,5 @@
 import time
-import cflw时间 as 时间
+import cflw代码库py.cflw时间 as 时间
 from ..基础接口 import 操作
 from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议

@@ -2,14 +2,16 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口
-import 网络设备.思科_密码 as 密码
-from 网络设备.思科_常量 import *
+from . import 密码 as 密码
+from .常量 import *
+from ..基础接口 import 模式 as 模式
+from ..基础接口 import 用户 as 用户
 #===============================================================================
 # 用户配置
 #===============================================================================
-class C用户配置(设备.C同级模式, 设备.I用户配置模式):
-	def __init__(self, a父模式, a用户名):
-		设备.I用户配置模式.__init__(self, a父模式, a用户名)
+class C用户配置(模式.C同级模式, 用户.I用户配置):
+	def __init__(self, a, a用户名):
+		用户.I用户配置.__init__(self, a, a用户名)
 		self.m命令前缀 = 命令.C命令("username %s " % (self.m用户名,))
 	def fg删除命令(self):
 		return c不 + self.m命令前缀

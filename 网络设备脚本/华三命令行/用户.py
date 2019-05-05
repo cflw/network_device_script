@@ -2,9 +2,9 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口
-class C用户(设备.I用户配置模式):
+class C用户(设备.I用户配置):
 	def __init__(self, a, a用户名):
-		设备.I用户配置模式.__init__(self, a, a用户名)
+		设备.I用户配置.__init__(self, a, a用户名)
 	def fg模式参数(self):
 		return self.m用户名
 	def fg进入命令(self):

@@ -4,7 +4,7 @@ from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口
 import cflw代码库py.cflw网络地址 as 地址
-import cflw网络设备_华为 as 华为
+import cflw代码库py.cflw网络设备_华为 as 华为
 from 网络设备.华为_常量 import *
 import 网络设备.通用_访问控制列表 as 通用访问列表
 import 网络设备.通用_实用 as 通用实用

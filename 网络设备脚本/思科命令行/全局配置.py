@@ -23,7 +23,7 @@ class C全局配置(全局配置.I全局配置模式):
 		return v模式
 	def f模式_用户(self, a, a操作 = 操作.E操作.e设置):
 		from . import 用户
-		if isinstance(a, 设备.I用户配置模式):
+		if isinstance(a, 设备.I用户配置):
 			if not a.m设备 is self.m设备:
 				raise ValueError("设备不匹配")
 			v模式 = a

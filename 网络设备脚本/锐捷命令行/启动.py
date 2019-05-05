@@ -1,16 +1,19 @@
+import time
+import cflw代码库py.cflw时间 as 时间
 from ..基础接口 import 操作
 from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口
+from ..命令行接口 import 启动模式
 # 注意: 下面所有代码均未测试. 具体步骤见 http://www.ruijie.com.cn/fw/qdwd/57697/
 c启动字符 = '\x03'  #ctrl+c	进入启动模式
 c顶级字符 = '\x1a'	#ctrl+z	回到顶级菜单
 c命令字符 = '\x11'	#ctrl+q	v11敲命令用
 c命令字符1 = '\x10'	#ctrl+p	v11敲命令用
-class C启动v10(设备.I启动模式):
+class C启动v10(启动模式.I启动模式):
 	"""v10.4(2)之前可用"""
 	def __init__(self, a):
-		设备.I启动模式.__init__(self, a)
+		启动模式.I启动模式.__init__(self, a)
 	def f等待提示符(self, a超时 = 60):
 		v秒表 = 时间.C秒表()
 		while True:

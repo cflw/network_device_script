@@ -1,8 +1,8 @@
 import ipaddress
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 import cflw代码库py.cflw网络地址 as 地址
 def f生成对等体字符串(a对等体):
 	v类型 = type(a对等体)
@@ -39,7 +39,7 @@ class C路由(设备.I边界网关协议):
 		v命令 = "show ip bgp summary"
 		self.m设备.f执行显示命令(v命令)
 #泛用模式
-class C对等体(设备.I边界网关协议对等体, 设备.C同级模式):
+class C对等体(设备.I边界网关协议对等体, 模式.C同级模式):
 	def __init__(self, a, a对等体, a对等体组 = False):
 		设备.I边界网关协议对等体.__init__(self, a, a对等体)
 		if a对等体组:

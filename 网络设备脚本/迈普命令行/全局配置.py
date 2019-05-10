@@ -1,10 +1,10 @@
 from ..命令行接口 import 全局配置
 from ..基础接口 import 操作
 from ..思科命令行 import 接口
-class C全局配置(全局配置.I全局配置模式):
+class C全局配置(全局配置.I全局配置):
 	"""适用于: mps4120(v6.6.4.1.3)"""
 	def __init__(self, a):
-		全局配置.I全局配置模式.__init__(self, a)
+		全局配置.I全局配置.__init__(self, a)
 	#命令
 	def fg进入命令(self):
 		return "configure terminal"

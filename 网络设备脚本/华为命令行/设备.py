@@ -1,19 +1,19 @@
+import cflw代码库py.cflw网络连接 as 连接
 from ..基础接口 import 异常
 from ..基础接口 import 操作
-from ..命令行接口 import 设备
+from ..命令行接口 import 设备 as 南向设备
 from ..命令行接口 import 命令
 from ..命令行接口 import 用户模式
-from ..网络设备 import 通用_实用 as 通用实用
 from .. import 华为
 from .常量 import *
 ca错误文本与异常类 = [
 	("Error: Wrong parameter found at '^' position.", 异常.X命令),
 	("Error:Too many parameters found at '^' position.", 异常.X命令)
 ]
-class C设备(设备.I设备):
+class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
-		设备.I设备.__init__(self)
-		if a连接.c连接特性 & 0x0001:
+		南向设备.I设备.__init__(self)
+		if a连接.c连接特性 & 连接.E连接特性.e命令行:
 			self.m连接 = a连接
 			self.m连接.fs编码("gb2312")
 		else:
@@ -33,12 +33,12 @@ class C设备(设备.I设备):
 		from . import 用户模式 as 实现
 		return 实现.C用户视图(self)
 	def f执行命令(self, a命令):
-		v输出 = 设备.I设备.f执行命令(self, a命令)
+		v输出 = 南向设备.I设备.f执行命令(self, a命令)
 		self.f检测命令异常(v输出)
 		return v输出
 	def f执行显示命令(self, a命令, a自动换页 = False):
-		v输出 = 设备.I设备.f执行显示命令(self, a命令, a自动换页)
-		v输出 = 通用实用.f去头尾行(v输出)
+		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
+		v输出 = 南向设备.f去头尾行(v输出)
 		if v输出.count("\n") < 10:
 			self.f检测命令异常(v输出)
 		return v输出

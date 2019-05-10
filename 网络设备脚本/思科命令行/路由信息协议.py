@@ -1,7 +1,7 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 class C当代(设备.I路由信息协议):
 	def __init__(self, a):
 		设备.I路由信息协议.__init__(self, a)

@@ -1,7 +1,7 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 c不 = "no"
 class C经典4(模式.I模式):
 	def __init__(self, a, a自治系统号):
@@ -51,7 +51,7 @@ class C经典4(模式.I模式):
 			else:
 				v接口 = f创建接口(a接口)
 				v命令 += v接口
-		elif v类型 == 接口.S接口:
+		elif v类型 == 北向接口.S接口:
 			v命令 += a接口
 		self.f执行当前模式命令(v命令)
 	def f开关(self, a: bool):

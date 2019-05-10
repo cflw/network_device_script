@@ -1,9 +1,9 @@
 import time
 import cflw代码库py.cflw时间 as 时间
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 启动模式
 # 注意: 下面所有代码均未测试. 具体步骤见 http://www.ruijie.com.cn/fw/qdwd/57697/
 c启动字符 = '\x03'  #ctrl+c	进入启动模式

@@ -1,32 +1,33 @@
-from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
-from ..基础接口 import 协议
-from ..基础接口 import 接口
-import cflw工具_运算 as 运算
+import cflw代码库py.cflw工具_序列 as 序列
 import cflw代码库py.cflw字符串 as 字符串
-import cflw时间 as 时间
-from 网络设备.思科_常量 import *
-import 网络设备.通用_登录 as 通用登录
+import cflw代码库py.cflw时间 as 时间
+from ..基础接口 import 操作
+from ..命令行接口 import 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口 as 北向接口
+from .常量 import *
+from ..基础接口 import 登录 as 北向登录
+from ..命令行接口 import 登录 as 南向登录
 #命令&常量
 c命令_登录配置 = "line "
 c命令_访问控制列表 = "access-class "
 c命令_登录协议 = "transport input "
 #字典
 ca登录方式 = {
-	设备.E登录方式.e控制台: "con",
-	设备.E登录方式.e辅助接口: "aux",
-	设备.E登录方式.e虚拟终端: "vty"
+	北向登录.E登录方式.e控制台: "con",
+	北向登录.E登录方式.e辅助接口: "aux",
+	北向登录.E登录方式.e虚拟终端: "vty"
 }
 ca登录认证方式 = {
-	设备.E登录认证方式.e无: "no login",
-	设备.E登录认证方式.e密码: "login",
-	设备.E登录认证方式.e账号: "login local",
-	设备.E登录认证方式.e认证授权记账: "aaa new-model"
+	北向登录.E登录认证方式.e无: "no login",
+	北向登录.E登录认证方式.e密码: "login",
+	北向登录.E登录认证方式.e账号: "login local",
+	北向登录.E登录认证方式.e认证授权记账: "aaa new-model"
 }
 ca登录协议 = {
-	设备.E登录协议.e无: "none",
-	设备.E登录协议.e远程登录: "telnet",
-	设备.E登录协议.e安全外壳: "ssh"
+	北向登录.E登录协议.e无: "none",
+	北向登录.E登录协议.e远程登录: "telnet",
+	北向登录.E登录协议.e安全外壳: "ssh"
 }
 class S登录配置:
 	def __init__(self, a文本):
@@ -34,7 +35,7 @@ class S登录配置:
 		v头行尾 = self.m文本.find("\n")
 		v头行 = self.m文本[:v头行尾]
 		v分割 = v头行.split(" ")
-		self.m方式 = 运算.f字典按值找键(ca登录方式, v分割[1])
+		self.m方式 = 序列.f字典按值找键(ca登录方式, v分割[1])
 		if len(v分割) == 4:	#是范围
 			self.m范围 = range(int(v分割[2]), int(v分割[3])+1)
 		else:	#不是范围
@@ -47,7 +48,7 @@ class S登录配置:
 		return self.m范围
 	def fg认证方式(self):
 		v方式s = 字符串.f提取字符串周围(self.m文本, "\n", "login", "\n").strip()
-		return 运算.f字典按值找键(ca登录认证方式, v方式s)
+		return 序列.f字典按值找键(ca登录认证方式, v方式s)
 	def fg访问控制列表(self):
 		v名称 = 字符串.f提取字符串之间(self.m文本, c命令_访问控制列表, " ")
 		if v名称:
@@ -57,10 +58,10 @@ class S登录配置:
 	def fg登录协议(self):
 		v协议s = 字符串.f提取字符串之间(self.m文本, c命令_登录协议, "\n")
 		if not v协议s:
-			return 设备.E登录协议.e全部
+			return 北向登录.E登录协议.e全部
 		v值 = 0
 		for v in v协议s.split(" "):
-			k = 运算.f字典按值找键(v)
+			k = 序列.f字典按值找键(v)
 			if k:
 				v值 |= k
 		return v值
@@ -82,9 +83,9 @@ class C登录配置表:
 				yield S登录配置(self.m文本[v位置0 : v位置1])
 				v位置0 = v位置1
 		yield S登录配置(self.m文本[v位置1:])
-class C登录(设备.I登录配置模式):
+class C登录(南向登录.I登录配置):
 	def __init__(self, a, a方式, a范围 = 0):
-		设备.I登录配置模式.__init__(self, a)
+		南向登录.I登录配置.__init__(self, a)
 		self.m方式 = a方式
 		self.m范围 = a范围
 		self.m配置 = None
@@ -95,7 +96,7 @@ class C登录(设备.I登录配置模式):
 		return v命令
 	def fg模式参数(self):
 		v登录 = (ca登录方式[self.m方式],)
-		return v登录 + 通用登录.f生成范围元组(self.m方式, self.m范围)
+		return v登录 + 南向登录.f生成范围元组(self.m方式, self.m范围)
 	def f显示_当前模式配置(self):
 		if self.m配置:
 			return self.m配置
@@ -115,12 +116,12 @@ class C登录(设备.I登录配置模式):
 		v命令 = 命令.C命令()
 		v命令 += ca登录认证方式[a认证方式]
 		self.f执行当前模式命令(v命令)
-	def fs登录协议(self, a登录协议 = 设备.E登录协议.e全部, a操作 = 操作.E操作.e设置):
+	def fs登录协议(self, a登录协议 = 北向登录.E登录协议.e全部, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("transport input")
 		v删除操作 = a操作 == 操作.E操作.e删除
 		if a操作 == 操作.E操作.e重置:
 			v命令.f前面添加(c默认)
-		elif a登录协议 == 设备.E登录协议.e全部:
+		elif a登录协议 == 北向登录.E登录协议.e全部:
 			if v删除操作:
 				v命令 += "none"
 			else:

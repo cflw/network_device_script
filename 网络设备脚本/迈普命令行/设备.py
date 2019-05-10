@@ -1,10 +1,10 @@
-from ..命令行接口 import 设备
-from ..网络设备 import 通用_实用 as 通用实用
-class C设备(设备.I设备):
+import cflw代码库py.cflw网络连接 as 连接
+from ..命令行接口 import 设备 as 南向设备
+class C设备(南向设备.I设备):
 	"""适用于: mps4120(v6.6.4.1.3)"""
 	def __init__(self, a连接, a型号, a版本):
-		设备.I设备.__init__(self)
-		if a连接.c连接特性 & 0x0001:
+		南向设备.I设备.__init__(self)
+		if a连接.c连接特性 & 连接.E连接特性.e命令行:
 			self.m连接 = a连接
 			self.m连接.fs编码("gb2312")
 		else:
@@ -16,9 +16,9 @@ class C设备(设备.I设备):
 		self.f输入(c结束符)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v命令 = str(a命令)
-		v输出 = 设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
+		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
 		v输出 = v输出.replace("\r\n", "\n")
-		v输出 = 通用实用.f去头尾行(v输出)
+		v输出 = 南向设备.f去头尾行(v输出)
 		# if v输出.count("\n") < 10:	#输出行数太少,检测是否有异常
 		# 	self.f检测命令异常(v输出)
 		return v输出

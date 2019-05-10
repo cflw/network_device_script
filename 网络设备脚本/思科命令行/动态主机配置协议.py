@@ -1,7 +1,7 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 import cflw代码库py.cflw网络地址 as 地址
 c不 = "no"
 #===============================================================================
@@ -31,7 +31,7 @@ class C地址池4(设备.I动态主机配置协议地址池):
 		v命令 = 命令.C命令("dns-server address")
 		v命令.f添加(a地址)
 		self.f执行当前模式命令(v命令)
-class C服务4(设备.I动态主机配置协议, 设备.C同级模式):
+class C服务4(设备.I动态主机配置协议, 模式.C同级模式):
 	def __init__(self, a):
 		设备.I动态主机配置协议.__init__(self, a)
 	def f显示_已分配地址(self):
@@ -61,7 +61,7 @@ class C地址池6(设备.I动态主机配置协议地址池):
 		v命令 = 命令.C命令("dns-server address")
 		v命令.f添加(a地址)
 		self.f执行当前模式命令(v命令)
-class C服务6(设备.I动态主机配置协议, 设备.C同级模式):
+class C服务6(设备.I动态主机配置协议, 模式.C同级模式):
 	def __init__(self, a):
 		设备.I动态主机配置协议.__init__(self, a)
 	def f显示_已分配地址(self):

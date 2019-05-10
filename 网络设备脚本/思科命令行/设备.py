@@ -1,8 +1,8 @@
-from ..命令行接口 import 设备 as 设备
+import cflw代码库py.cflw网络连接 as 连接
+from ..命令行接口 import 设备 as 南向设备
 from ..基础接口 import 异常 as 异常
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..命令行接口 import 用户模式 as 用户模式
-from ..网络设备 import 通用_实用 as 通用实用
 from .常量 import *
 ca错误文本与异常类 = [
 	("% Invalid input detected at '^' marker.", 异常.X命令),	#语法错误
@@ -10,11 +10,11 @@ ca错误文本与异常类 = [
 	("% Duplicate sequence number", 异常.X执行),	#重复的acl规则序号
 	("% Multiple ports are allowed on named ACLs only", 异常.X执行),	#多端口号只允许在命名acl使用
 ]
-class C设备(设备.I设备):
+class C设备(南向设备.I设备):
 	def __init__(self, a连接):
-		设备.I设备.__init__(self)
+		南向设备.I设备.__init__(self)
 		self.fs自动换页("--More--")
-		if a连接.c连接特性 & 0x0001:
+		if a连接.c连接特性 & 连接.E连接特性.e命令行:
 			self.m连接 = a连接
 			self.m连接.fs编码("ascii")
 		else:
@@ -30,7 +30,7 @@ class C设备(设备.I设备):
 		# self.fs顶级模式(v模式)
 		return v模式
 	def f执行命令(self, a命令):
-		v输出 = 设备.I设备.f执行命令(self, a命令)
+		v输出 = 南向设备.I设备.f执行命令(self, a命令)
 		self.f检测命令异常(v输出)
 		return v输出
 	def f执行用户命令(self, a命令):
@@ -44,9 +44,9 @@ class C设备(设备.I设备):
 		v命令 = 命令.C命令(a命令)
 		if not isinstance(self.fg当前模式(), 用户模式.I用户模式):	#在配置模式，命令前要加个do
 			v命令.f前面添加(c做)
-		v输出 = 设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
+		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
 		v输出 = v输出.replace("\r\n", "\n")
-		v输出 = 通用实用.f去头尾行(v输出)
+		v输出 = 南向设备.f去头尾行(v输出)
 		if v输出.count("\n") < 10:	#输出行数太少,检测是否有异常
 			self.f检测命令异常(v输出)
 		return v输出

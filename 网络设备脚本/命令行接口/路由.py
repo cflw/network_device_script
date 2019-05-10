@@ -1,9 +1,7 @@
 import ipaddress
 import cflw代码库py.cflw网络地址 as 地址
-from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 #===============================================================================
 # 路由版本
 #===============================================================================
@@ -74,7 +72,7 @@ def f生成下一跳4(a下一跳, af创建接口):
 			return str(v接口)
 	elif v类型 == 地址.S网络地址4:
 		return a下一跳.fg地址s()
-	elif v类型 == 接口.S接口:
+	elif v类型 == 北向接口.S接口:
 		return str(a下一跳)
 	else:
 		raise TypeError("无法解析的类型")

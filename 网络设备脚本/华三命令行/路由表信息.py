@@ -1,16 +1,16 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
 import 网络设备.华三_接口 as 接口
 ca协议 = {
-	"Direct": 设备.E路由协议.e直连,
-	"Static": 设备.E路由协议.e静态,
-	"RIP": 设备.E路由协议.e路由信息协议,
-	"OSPF": 设备.E路由协议.e开放最短路径优先,
-	"BGP": 设备.E路由协议.e边界网关协议,
+	"Direct": 北向路由.E路由协议.e直连,
+	"Static": 北向路由.E路由协议.e静态,
+	"RIP": 北向路由.E路由协议.e路由信息协议,
+	"OSPF": 北向路由.E路由协议.e开放最短路径优先,
+	"BGP": 北向路由.E路由协议.e边界网关协议,
 }
 class C路由表4:
 	"""display ip routing-table
@@ -39,5 +39,5 @@ class C路由表4:
 			v优先级 = int(v优先级s)
 			v开销 = int(v开销s)
 			v下一跳 = 地址.S网络地址4.fc自动(v下一跳s)
-			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
-			yield 设备.S路由条目(a网络号 = v网络号, a下一跳 = v下一跳, a出接口 = v接口, a路由协议 = v协议, a优先级 = v优先级, a度量值 = v开销)
+			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			yield 北向路由.S路由条目(a网络号 = v网络号, a下一跳 = v下一跳, a出接口 = v接口, a路由协议 = v协议, a优先级 = v优先级, a度量值 = v开销)

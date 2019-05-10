@@ -1,4 +1,6 @@
 import enum
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw工具_运算 as 运算
 class E路由协议(enum.IntEnum):
 	#网络层
 	e本地 = 0

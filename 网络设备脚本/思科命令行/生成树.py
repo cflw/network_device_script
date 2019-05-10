@@ -1,7 +1,7 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 class C接口生成树(设备.I生成树接口配置模式):
 	def __init__(self, a, a接口):
 		设备.I生成树接口配置模式.__init__(self, a, a接口)
@@ -20,7 +20,7 @@ class C接口生成树(设备.I生成树接口配置模式):
 		else:
 			v命令.f前面添加(c不)
 		self.f执行当前模式命令(v命令)
-class C接口多生成树(C接口生成树, 设备.C同级模式):
+class C接口多生成树(C接口生成树, 模式.C同级模式):
 	def __init__(self, a, a接口):
 		C接口多生成树.__init__(self, a, a接口)
 	def fs开销(self, a树, a开销):
@@ -43,7 +43,7 @@ class C多生成树协议(设备.I多生成树):
 	def fs实例优先级(self, a实例, a优先级):
 		v命令 = 命令.C命令("spanning-tree mst", a实例, "priority", a虚拟局域网)
 	def fs实例开销(self, a接口, a实例, a开销):
-		if isinstance(a接口, 接口配置.I接口配置模式):
+		if isinstance(a接口, 南向接口.I接口配置):
 			v命令 = 命令.C命令("spanning-tree mst", a实例, "cost", a开销)
 			a接口.f执行当前模式命令(v命令)
 		else:

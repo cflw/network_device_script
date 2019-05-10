@@ -1,17 +1,17 @@
 import functools
-import ipaddress
-from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
-from ..基础接口 import 协议
-from ..基础接口 import 接口
 import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
-from ..网络设备 import 通用_实用 as 通用实用
-from ..网络设备 import 通用_访问控制列表 as 通用访问列表
+from ..基础接口 import 操作
+from ..基础接口 import 协议
+from ..基础接口 import 访问控制列表 as 北向列表
+from ..命令行接口 import 命令
+from ..命令行接口 import 访问控制列表 as 南向列表
 from .常量 import *
 #===============================================================================
 # 生成&解析
 #===============================================================================
+c标准 = "standard"
+c扩展 = "extended"
 #访问控制列表序号范围
 ca标准范围 = (range(1, 100), range(1300, 2000))
 ca扩展范围 = (range(100, 200), range(2000, 2700))
@@ -31,7 +31,7 @@ class F序号范围检查:
 fi标准范围 = F序号范围检查(ca标准范围, "标准访问控制列表号码范围应为1~99,1300~1999")
 fi扩展范围 = F序号范围检查(ca扩展范围, "扩展访问控制列表号码范围应为100~199,2000~2699")
 #端口号
-class C端口号到字符串(设备.I端口号到字符串):
+class C端口号到字符串(北向列表.I端口号到字符串):
 	def f大于(self, a值):
 		return "gt " + str(a值)
 	def f小于(self, a值):
@@ -43,7 +43,7 @@ class C端口号到字符串(设备.I端口号到字符串):
 	def f范围(self, a值: range):
 		return "range %d %d" % (a值.start, a值.stop - 1)
 g端口号到字符串 = C端口号到字符串()
-f生成端口 = functools.partial(通用访问列表.f生成端口, g端口号到字符串)
+f生成端口 = functools.partial(南向列表.f生成端口, g端口号到字符串)
 #规则序号
 def f生成规则序号4(a序号):
 	if a序号 == None or a序号 < 0:
@@ -57,7 +57,7 @@ def f生成规则序号6(a序号):
 		return "sequence " + str(a序号)
 #协议
 #允许
-f生成允许 = functools.partial(通用访问列表.f生成允许, 通用访问列表.c允许元组)
+f生成允许 = functools.partial(南向列表.f生成允许, 南向列表.c允许元组)
 #地址
 def f生成地址标准4(a地址):
 	if not a地址:
@@ -93,9 +93,9 @@ def f生成地址6(a地址):
 #===============================================================================
 # 类
 #===============================================================================
-class I访问控制列表(设备.I访问控制列表):
+class I访问控制列表(南向列表.I列表配置):
 	def __init__(self, a, a名称, a类型: str = "", a协议: str = "ip"):
-		设备.I访问控制列表.__init__(self, a)
+		南向列表.I列表配置.__init__(self, a)
 		self.m名称 = a名称
 		self.m类型 = a类型
 		self.m协议 = a协议
@@ -112,8 +112,8 @@ class I访问控制列表(设备.I访问控制列表):
 		raise NotImplementedError()
 	def f删除规则(self, a序号: int):
 		self.f执行当前模式命令(c不 + str(a序号))
-	def fs规则(self, a序号 = 通用访问列表.c空序号, a规则 = 通用访问列表.c空规则, a操作 = 操作.E操作.e设置):
-		v操作 = 通用实用.f解析操作(a操作)
+	def fs规则(self, a序号 = 北向列表.c空序号, a规则 = 北向列表.c空规则, a操作 = 操作.E操作.e设置):
+		v操作 = 操作.f解析操作(a操作)
 		if v操作 == 操作.E操作.e设置:
 			self.f添加规则(a序号, a规则)
 		elif v操作 == 操作.E操作.e新建:
@@ -157,7 +157,7 @@ class C标准4(I访问控制列表):
 	@staticmethod
 	def f解析规则(a规则: str):
 		v解析器 = C规则解析器(a规则)
-		v规则 = 设备.S访问控制列表规则()
+		v规则 = 北向列表.S规则()
 		v规则.m序号 = v解析器.f序号4()
 		v规则.m允许 = v解析器.f允许()
 		v规则.m源地址 = v解析器.f地址标准4()
@@ -170,8 +170,8 @@ class C扩展4(I访问控制列表):
 		v命令 += f生成规则序号4(a序号)
 		v命令 += f生成允许(a规则.m允许)
 		#确定
-		v命令 += 通用访问列表.ca协议到字符串4[a规则.m协议]
-		v层 = 通用实用.f取协议层(a规则.m协议)
+		v命令 += 南向列表.ca协议到字符串4[a规则.m协议]
+		v层 = 协议.f取协议层(a规则.m协议)
 		#按层
 		if v层 == 3:
 			v命令 += f生成地址扩展4(a规则.m源地址)
@@ -188,7 +188,7 @@ class C扩展4(I访问控制列表):
 	@staticmethod
 	def f解析规则(a规则: str):
 		v解析器 = C规则解析器(a规则)
-		v规则 = 设备.S访问控制列表规则()
+		v规则 = 北向列表.S规则()
 		v规则.m序号 = v解析器.f序号4()
 		v规则.m允许 = v解析器.f允许()
 		v规则.m协议 = v解析器.f协议()
@@ -212,8 +212,8 @@ class C六(I访问控制列表):
 		v命令 += f生成规则序号6(a序号)
 		v命令 += f生成允许(a规则.m允许)
 		#确定
-		v命令 += 通用访问列表.ca协议到字符串6[a规则.m协议]
-		v层 = 通用实用.f取协议层(a规则.m协议)
+		v命令 += 南向列表.ca协议到字符串6[a规则.m协议]
+		v层 = 协议.f取协议层(a规则.m协议)
 		#按层
 		if v层 == 3:
 			v命令 += f生成地址6(a规则.m源地址)
@@ -230,7 +230,7 @@ class C六(I访问控制列表):
 	@staticmethod
 	def f解析规则(a规则: str):
 		v解析器 = C规则解析器(a规则)
-		v规则 = 设备.S访问控制列表规则()
+		v规则 = 北向列表.S规则()
 		v规则.m允许 = v解析器.f允许()
 		v规则.m协议 = v解析器.f协议()
 		v规则.m源地址 = v解析器.f地址6()
@@ -240,7 +240,7 @@ class C六(I访问控制列表):
 		v规则.m序号 = v解析器.f序号6()
 		return v规则
 #===============================================================================
-class C助手(设备.I访问控制列表助手):
+class C助手(北向列表.I助手):
 	#元组结构含意:(序号开始, 序号结束（不包含）, 到目标序号的增加值)
 	c计算标准4 = [(0, 99, 1), (99, 799, 1200)]
 	c计算扩展4 = [(0, 99, 100), (99, 799, 1900)]
@@ -278,22 +278,22 @@ class C助手(设备.I访问控制列表助手):
 			except:
 				return None
 		return f
-	f判断标准4 = F判断类型(*c反算标准4, 设备.E访问控制列表类型.e标准4)
-	f判断扩展4 = F判断类型(*c反算扩展4, 设备.E访问控制列表类型.e扩展4)
+	f判断标准4 = F判断类型(*c反算标准4, 北向列表.E类型.e标准4)
+	f判断扩展4 = F判断类型(*c反算扩展4, 北向列表.E类型.e扩展4)
 	#实现
 	@staticmethod
 	def ft特定序号(n, a类型):
-		if a类型 == 设备.E访问控制列表类型.e标准4:
+		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f计算标准4(n)
-		elif a类型 == 设备.E访问控制列表类型.e扩展4:
+		elif a类型 == 北向列表.E类型.e扩展4:
 			return C助手.f计算扩展4(n)
 		else:
 			raise ValueError("类型错")
 	@staticmethod
 	def ft统一序号(n, a类型):
-		if a类型 == 设备.E访问控制列表类型.e标准4:
+		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f反算标准4(n)
-		elif a类型 == 设备.E访问控制列表类型.e扩展4:
+		elif a类型 == 北向列表.E类型.e扩展4:
 			return C助手.f反算扩展4(n)
 		else:
 			raise ValueError("类型错")
@@ -309,96 +309,83 @@ class C助手(设备.I访问控制列表助手):
 #===============================================================================
 class C规则解析器:
 	def __init__(self, a文本):
-		self.ma词 = a文本.split()
-		self.i = 0
-	def f取词(self):
-		if self.i >= len(self.ma词):
-			return None
-		return self.ma词[self.i]
-	def f推进(self):
-		self.i += 1
-	def f取词推进(self):	#先取词再推进
-		if self.i >= len(self.ma词):
-			return None
-		v词 = self.ma词[self.i]
-		self.i += 1
-		return v词
+		self.m取词 = 字符串.C推进取词(a文本)
 	def f允许(self):
-		return self.f取词推进() == "permit"
+		return self.m取词.f取词推进() == "permit"
 	def f协议(self):
-		return 通用访问列表.ca字符串到协议[self.f取词推进()]
+		return 南向列表.ca字符串到协议[self.m取词.f取词推进()]
 	def f序号4(self):
-		return int(self.f取词推进())
+		return int(self.m取词.f取词推进())
 	def f序号6(self):
-		self.f推进()	#"sequence"
-		return int(self.f取词推进())
+		self.m取词.f推进()	#"sequence"
+		return int(self.m取词.f取词推进())
 	def f地址标准4(self):	#标准4
-		v词0 = self.f取词推进()
+		v词0 = self.m取词.f取词推进()
 		if v词0 == "any":
 			return None
 		if v词0[-1] == ",":	#有通配符
 			v词0 = v词0[:-1]
-			self.f推进()
-			self.f推进()
-			v词1 = self.f取词推进()
+			self.m取词.f推进()
+			self.m取词.f推进()
+			v词1 = self.m取词.f取词推进()
 			v掩码 = 地址.S网络地址4.c全f - 地址.S网络地址4.f地址字符串转整数(v词1)
 			return 地址.S网络地址4.fc地址掩码(v词0, v掩码)
 		else:	#主机地址
 			return 地址.S网络地址4.fc地址字符串(v词0)
 	def f地址扩展4(self):	#扩展4
-		v词0 = self.f取词推进()
+		v词0 = self.m取词.f取词推进()
 		if v词0 == "any":
 			return None
 		elif v词0 == "host":
-			v词1 = self.f取词推进()
+			v词1 = self.m取词.f取词推进()
 			return 地址.S网络地址4.fc地址字符串(v词)
-		v词1 = self.f取词()	#通配符
+		v词1 = self.m取词.f取词()	#通配符
 		if not v词1:
 			return 地址.S网络地址4.fc地址字符串(v词0)
-		self.f推进()
+		self.m取词.f推进()
 		v掩码 = 地址.S网络地址4.c全f - 地址.S网络地址4.f地址字符串转整数(v词1)
 		return 地址.S网络地址4.fc地址掩码(v词0, v掩码)
 	def f地址6(self):	#六
-		v词0 = self.f取词推进()
+		v词0 = self.m取词.f取词推进()
 		if v词0 == "any":
 			return None
 		elif v词0 == "host":
-			v词1 = self.f取词推进()
+			v词1 = self.m取词.f取词推进()
 			return 地址.S网络地址6.fc自动(v词1)
 		return 地址.S网络地址6.fc自动(v词0)
 	def f端口号(self):
-		v词 = self.f取词()
+		v词 = self.m取词.f取词()
 		if not v词 in C规则解析器.ca端口号运算函数:
 			return None	#不是端口号
-		self.f推进()
+		self.m取词.f推进()
 		vf端口号 = C规则解析器.ca端口号运算函数[v词]
 		return vf端口号(self)
 	def f端口号_大于(self):
-		return 设备.S端口号.fc大于(int(self.f取词推进()))
+		return 北向列表.S端口号.fc大于(int(self.m取词.f取词推进()))
 	def f端口号_小于(self):
-		return 设备.S端口号.fc小于(int(self.f取词推进()))
+		return 北向列表.S端口号.fc小于(int(self.m取词.f取词推进()))
 	def f端口号_等于(self):
 		va端口号 = []
 		while True:
-			v词 = self.f取词()
+			v词 = self.m取词.f取词()
 			if v词 and v词.isdigit():
-				self.f推进()
+				self.m取词.f推进()
 				va端口号.append(int(v词))
 			else:
 				break
-		return 设备.S端口号.fc等于(*va端口号)
+		return 北向列表.S端口号.fc等于(*va端口号)
 	def f端口号_不等于(self):
 		va端口号 = []
 		while True:
-			v词 = self.f取词()
+			v词 = self.m取词.f取词()
 			if v词.isdigit():
-				self.f推进()
+				self.m取词.f推进()
 				va端口号.append(int(v词))
-		return 设备.S端口号.fc不等于(*va端口号)
+		return 北向列表.S端口号.fc不等于(*va端口号)
 	def f端口号_范围(self):
-		v词1 = self.f取词推进()
-		v词2 = self.f取词推进()
-		return 设备.S端口号.fc范围(range(int(v词1), int(v词2) + 1))
+		v词1 = self.m取词.f取词推进()
+		v词2 = self.m取词.f取词推进()
+		return 北向列表.S端口号.fc范围(range(int(v词1), int(v词2) + 1))
 	ca端口号运算函数 = {
 		"eq": f端口号_等于,
 		"neq": f端口号_不等于,

@@ -1,6 +1,11 @@
+import cflw代码库py.cflw工具_序列 as 序列
 import enum
 import copy
 import re
+#===============================================================================
+# 接口基础
+#===============================================================================
+c接口正则 = re.compile(r"\w+\d+(\/\d+)*(\.\d+)?")	#字母加数字就是接口
 class E接口(enum.IntEnum):#为保证取接口全名有个优先级顺序，高位16位为优先级
 	e无 = 0x00000000	#没有接口名的无接口
 	e空 = 0x00000001	#只丢包的空接口
@@ -39,9 +44,6 @@ class E接口分类(enum.IntEnum):
 	e串行 = 3
 	e虚拟局域网 = 4
 	e隧道 = 5
-class E方向(enum.IntEnum):
-	e入 = 0
-	e出 = 1
 ca接口名称 = {
 	E接口.e空: "Null",
 	E接口.e环回: "Loopback",
@@ -83,7 +85,7 @@ class S接口:
 		if ai字典字符串在右:
 			v字典 = a全称字典
 		else:
-			v字典 = dict(zip(a全称字典.values(), a全称字典.keys()))	#字典左右对调
+			v字典 = 序列.f字典键值反转(a全称字典)	#字典左右对调
 		v类型, v名称 = S接口.f解析_取全称(a字符串, v字典)
 		v序号, v子序号 = S接口.f解析_取序号(a字符串)
 		return S接口(v类型, v名称, v序号, v子序号)
@@ -246,7 +248,7 @@ class F创建接口:
 			v = copy.copy(a)
 			v.m名称 = self.m全称字典[v.m类型]
 			return v
-		elif isinstance(a, I接口配置模式):
+		elif isinstance(a, I接口配置):
 			v = copy.copy(a.m接口)
 			v.m名称 = self.m全称字典[v.m类型]
 			return v
@@ -254,3 +256,50 @@ class F创建接口:
 			return S接口.fc字符串(a, self.m全称字典)
 		else:
 			raise TypeError("无法解析的类型")
+#===============================================================================
+# 接口配置
+#===============================================================================
+class I接口配置:	#常见的接口配置
+	#模式
+	def f模式_虚拟局域网(self):
+		raise NotImplementedError()
+	def f模式_端口安全(self):
+		raise NotImplementedError()
+	def f模式_生成树(self):
+		raise NotImplementedError()
+	def f模式_路由信息协议(self, a进程号, a版本):
+		raise NotImplementedError()
+	def f模式_开放最短路径优先(self, a进程号, a版本):
+		raise NotImplementedError()
+	def f模式_增强内部网关路由协议(self, a版本):
+		raise NotImplementedError()
+	def f模式_中间系统到中间系统(self, a版本):
+		raise NotImplementedError()
+	#接口
+	def fs开关(self, a操作):	#可以填True/False,也可以填 E操作 值
+		raise NotImplementedError()
+	def fs描述(self, a描述, a操作):
+		raise NotImplementedError()
+	#以太网
+	def fs速率(self, a速率, a操作):
+		raise NotImplementedError()
+	def fs双工模式(self, a全双工, a操作):
+		raise NotImplementedError()
+	#三层
+	def fs网络地址4(self, a地址, a操作):
+		raise NotImplementedError()
+	def fe网络地址4(self):
+		"返回这个接口拥有的所有地址"
+		raise NotImplementedError()
+	def fs网络地址6(self, a地址, a操作):
+		raise NotImplementedError()
+	def fe网络地址6(self):
+		raise NotImplementedError()
+	#串行
+	def fs时钟频率(self, a频率, a操作):
+		raise NotImplementedError()
+	#流量控制
+	def fs访问控制列表(self, a访问控制列表, a方向, a操作):
+		raise NotImplementedError()
+	def fs服务质量(self, a, a方向, a操作):
+		raise NotImplementedError()

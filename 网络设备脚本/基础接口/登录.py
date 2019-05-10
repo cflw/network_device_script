@@ -1,4 +1,5 @@
 import enum
+import cflw代码库py.cflw网络连接 as 连接
 class E登录方式(enum.IntEnum):
 	e控制台 = 0	#console
 	e辅助接口 = 1	#aux
@@ -14,19 +15,17 @@ class E登录协议(enum.IntEnum):
 	e远程登录 = 0x0001
 	e安全外壳 = 0x0002
 	e全部 = 0xffffffff
-class I登录配置模式(I模式):
-	def __init__(self, a):
-		I模式.__init__(self, a)
-	def fs认证方式(self, a认证方式, a操作 = E操作.e设置):
+class I登录配置:
+	def fs认证方式(self, a认证方式, a操作):
 		raise NotImplementedError()
-	def fs登录协议(self, a登录协议, a操作 = E操作.e设置):
+	def fs登录协议(self, a登录协议, a操作):
 		raise NotImplementedError()
-	def fs访问控制列表(self, a访问列表, a操作 = E操作.e设置):
+	def fs访问控制列表(self, a访问列表, a操作):
 		raise NotImplementedError()
-	def fs登录超时(self, a秒, a操作 = E操作.e设置):
+	def fs登录超时(self, a秒, a操作):
 		"登录中在规定时间内输完用户名密码"
 		raise NotImplementedError()
-	def fs操作超时(self, a秒, a操作 = E操作.e设置):
+	def fs操作超时(self, a秒, a操作):
 		"登录后在规定时间内没有任何操作则断开连接"
 		raise NotImplementedError()
 	def fg认证方式(self):

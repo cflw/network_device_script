@@ -45,7 +45,7 @@ class I模式:
 		raise NotImplementedError()
 	def fg上级模式(self):
 		if len(self.m模式栈) > 1:
-			return self.m模式栈[-2]()
+			return self.m模式栈[-2]
 		else:
 			return None
 	def fg删除命令(self):

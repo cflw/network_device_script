@@ -1,11 +1,11 @@
 from ..命令行接口 import 全局配置
 from ..基础接口 import 操作
 from ..基础接口 import 协议
-class C系统视图(全局配置.I全局配置模式):
+class C系统视图(全局配置.I全局配置):
 	"""system-view
 	适用于: v5之前"""
 	def __init__(self, a):
-		全局配置.I全局配置模式.__init__(self, a)
+		全局配置.I全局配置.__init__(self, a)
 	def fg进入命令(self):
 		return "system-view"
 	#模式
@@ -27,13 +27,13 @@ class C系统视图(全局配置.I全局配置模式):
 	#其它
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		v名称, v类型 = 通用访问列表.f解析名称和类型(a名称, a类型, 访问控制列表.C助手)
-		if v类型 == 设备.E访问控制列表类型.e标准4:
+		if v类型 == 北向列表.E类型.e标准4:
 			return 访问控制列表.C基本4v5(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e扩展4:
+		elif v类型 == 北向列表.E类型.e扩展4:
 			return 访问控制列表.C高级4v5(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e标准6:
+		elif v类型 == 北向列表.E类型.e标准6:
 			return 访问控制列表.C基本6v5(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e扩展6:
+		elif v类型 == 北向列表.E类型.e扩展6:
 			return 访问控制列表.C高级6v5(self, v名称)
 		else:
 			raise ValueError("错误的类型")
@@ -42,11 +42,11 @@ class C系统视图(全局配置.I全局配置模式):
 		v命令 = 命令.C命令("sysname")
 		v命令 += a名称
 		self.f执行当前模式命令(a名称)
-class C系统视图v7(全局配置.I全局配置模式):
+class C系统视图v7(全局配置.I全局配置):
 	"""system-view
 	适用于: v7"""
 	def __init__(self, a):
-		全局配置.I全局配置模式.__init__(self, a)
+		全局配置.I全局配置.__init__(self, a)
 	def fg进入命令(self):
 		return "system-view"
 	def f显示_当前模式配置(self):
@@ -64,13 +64,13 @@ class C系统视图v7(全局配置.I全局配置模式):
 		return 登录.C登录v7(self, a方式, a范围)
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		v名称, v类型 = 通用访问列表.f解析名称和类型(a名称, a类型, 访问控制列表.C助手)
-		if v类型 == 设备.E访问控制列表类型.e标准4:
+		if v类型 == 北向列表.E类型.e标准4:
 			return 访问控制列表.C基本4v7(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e扩展4:
+		elif v类型 == 北向列表.E类型.e扩展4:
 			return 访问控制列表.C高级4v7(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e标准6:
+		elif v类型 == 北向列表.E类型.e标准6:
 			return 访问控制列表.C基本6v7(self, v名称)
-		elif v类型 == 设备.E访问控制列表类型.e扩展6:
+		elif v类型 == 北向列表.E类型.e扩展6:
 			return 访问控制列表.C高级6v7(self, v名称)
 		else:
 			raise ValueError("错误的类型")

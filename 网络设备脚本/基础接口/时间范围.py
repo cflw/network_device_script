@@ -30,6 +30,6 @@ class S时间范围:
 	def fc绝对(a开始时间, a结束时间):
 		v = S时间范围(a开始时间, a结束时间)
 		return v
-class I时间范围配置模式:
+class I时间范围配置:
 	def fs值(self, a时间范围, a操作):
 		raise NotImplementedError()

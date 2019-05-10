@@ -1,7 +1,7 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 import cflw代码库py.cflw网络地址 as 地址
 from . import 通用_访问控制列表 as 通用
 c不 = "undo"
@@ -10,7 +10,7 @@ c版本6 = "ipv6-prefix"
 c关键字_序号 = "index"
 c关键字_大于等于 = "greater-equal"
 c关键字_小于等于 = "less-equal"
-class C前缀列表(设备.I前缀列表, 设备.C同级模式):
+class C前缀列表(设备.I前缀列表, 模式.C同级模式):
 	def __init__(self, a, a名称, a版本, t地址):
 		设备.I前缀列表.__init__(self, a)
 		self.m名称 = a名称

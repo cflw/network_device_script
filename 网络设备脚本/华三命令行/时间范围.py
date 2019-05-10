@@ -1,8 +1,8 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
-from 网络设备.华三_常量 import *
+from ..基础接口 import 接口 as 北向接口
+from .常量 import *
 ca日子 = {
 	设备.E日子.e一: "mon",
 	设备.E日子.e二: "tue",
@@ -34,9 +34,9 @@ def f生成命令(a名称: str, a时间范围: 设备.S时间范围):
 		v命令 += f生成相对时间(a时间范围.m开始时间)
 		v命令 += "to " + f生成相对时间(a时间范围.m结束时间)
 	return v命令
-class C时间范围(设备.I时间范围配置模式, 设备.C同级模式):
+class C时间范围(设备.I时间范围配置, 模式.C同级模式):
 	def __init__(self, a, a名称: str):
-		设备.I时间范围配置模式.__init__(self, a)
+		设备.I时间范围配置.__init__(self, a)
 		self.m名称 = a名称
 	def f执行时间范围命令(self, ai: bool, a时间范围: 设备.S时间范围):
 		v命令 = f生成命令(self.m名称, a时间范围)

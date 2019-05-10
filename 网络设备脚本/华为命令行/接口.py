@@ -1,38 +1,36 @@
 import hashlib
 import struct
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
-from ..命令行接口 import 接口配置
+from ..基础接口 import 接口 as 北向接口
+from ..命令行接口 import 命令
+from ..命令行接口 import 接口 as 南向接口
 from .常量 import *
-from ..网络设备 import 通用_地址 as 通用地址
-from ..网络设备 import 通用_接口 as 通用接口
-from ..网络设备 import 通用_虚拟局域网 as 通用虚拟局域网
 from . import 实用 as 华为实用
-ca接口名称 = 接口.fc接口名称字典({
-	接口.E接口.e环回: "LoopBack",
-	接口.E接口.e内部: "InLoopBack",
-	接口.E接口.e虚拟局域网: "Vlanif",
+ca接口名称 = 北向接口.fc接口名称字典({
+	北向接口.E接口.e环回: "LoopBack",
+	北向接口.E接口.e内部: "InLoopBack",
+	北向接口.E接口.e虚拟局域网: "Vlanif",
 })
-f创建接口 = 接口.F创建接口(ca接口名称)
+f创建接口 = 北向接口.F创建接口(ca接口名称)
 #===============================================================================
 # 接口
 #===============================================================================
-class C接口视图(接口配置.I接口配置模式):
+class C接口视图(南向接口.I接口配置):
 	def __init__(self, a, a接口):
-		接口配置.I接口配置模式.__init__(self, a, a接口)
+		南向接口.I接口配置.__init__(self, a, a接口)
 	#模式
 	def f模式_虚拟局域网(self):
-		return C虚拟局域网(self.fg上级模式(), self.m接口)
+		from . import 虚拟局域网 as 实现虚网
+		return 实现虚网.C接口配置(self.fg上级模式(), self.m接口)
 	def f模式_开放最短路径优先(self, a进程号 = 1, a版本 = 协议.E协议.e开放最短路径优先):
 		return self.fg上级模式().f模式_开放最短路径优先(a进程号 = a进程号, a版本 = a版本, a接口 = self.m接口)
 	#接口操作
-	@通用接口.A接口自动展开
+	@南向接口.A接口自动展开
 	def fs开关(self, a操作 = 操作.E操作.e设置):
-		v命令 = 通用实用.f生成开关命令("shutdown", c不, a操作)
+		v命令 = 命令.f生成开关命令("shutdown", c不, a操作)
 		self.f执行当前模式命令(v命令)
-	@通用接口.A接口自动展开
+	@南向接口.A接口自动展开
 	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("ip address")
 		v命令 += 华为实用.f生成地址和前缀长度4(a地址)
@@ -44,7 +42,7 @@ class C接口视图(接口配置.I接口配置模式):
 			v命令.f前面添加(c不)
 		self.f执行当前模式命令(v命令)
 class C端口组(C接口视图):	#需要重写!
-	def __init__(self, a, a接口: 接口.S接口):
+	def __init__(self, a, a接口: 北向接口.S接口):
 		C接口视图.__init__(self, a, a接口)
 		#计算哈希
 		v范围 = a接口.m序号[2]
@@ -58,58 +56,3 @@ class C端口组(C接口视图):	#需要重写!
 		return 'port-group ' + self.fg模式参数()
 	def f切换到当前模式(self):
 		C接口视图.f切换到当前模式(self)
-#虚拟局域网
-class C虚拟局域网(设备.I虚拟局域网接口):
-	ca链路类型 = {
-		设备.E链路类型.e接入: "access",
-		设备.E链路类型.e中继: "trunk",
-		设备.E链路类型.e混合: "hybrid",
-	}
-	def __init__(self, a, a接口):
-		设备.I虚拟局域网接口.__init__(self, a, a接口)
-	@通用接口.A接口自动展开
-	def fs链路类型(self, a类型):
-		v命令 = 命令.C命令("port link-type")
-		v命令 += C虚拟局域网.ca链路类型[a类型]
-		self.f执行当前模式命令(v命令)
-	@通用接口.A接口自动展开
-	def f中继_s通过(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("port trunk allow-pass vlan")
-		v命令 += 通用虚拟局域网.f生成(a虚拟局域网)
-		self.m设备.f执行命令(v命令)
-	@通用接口.A接口自动展开
-	def f接入_s绑定(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("port default vlan")
-		v命令 += 通用虚拟局域网.f生成一个(a虚拟局域网)
-		self.f执行当前模式命令(v命令)
-#端口安全
-class C端口安全(设备.I端口安全接口):
-	def __init__(self, a, a接口):
-		设备.I端口安全接口.__init__(self, a, a接口)
-	@通用接口.A接口自动展开
-	def fs开关(self, a开关):
-		if a开关:
-			self.f执行当前模式命令("port-security enable")
-		else:
-			self.f执行当前模式命令("undo port-security enable")
-	@通用接口.A接口自动展开
-	def fs数量(self, a数量):
-		v命令 = "port-security max-mac-num " + int(a数量)
-		self.f执行当前模式命令(v命令)
-	@通用接口.A接口自动展开
-	def fs动作(self, a动作):
-		v命令 = "port-security protect-action " + C端口安全.f生成动作(a动作)
-		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f生成动作(a动作):
-		v类型 = type(a动作)
-		if v类型 == str:
-			return a动作
-		elif v类型 == int:
-			return ("shutdown", "restrict", "protect")[a动作]
-		elif v类型 == bool:
-			if a动作:
-				return "restrict"
-			else:
-				return "shutdown"
-		return "restrict"

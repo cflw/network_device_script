@@ -1,10 +1,10 @@
 from ..命令行接口 import 全局配置
 from . import 接口
 from ..基础接口 import 操作
-class C全局配置(全局配置.I全局配置模式):
+class C全局配置(全局配置.I全局配置):
 	"""适用于: s3956(v2.2.0B)"""
 	def __init__(self, a):
-		全局配置.I全局配置模式.__init__(self, a)
+		全局配置.I全局配置.__init__(self, a)
 	#命令
 	def fg进入命令(self):
 		return "configure"

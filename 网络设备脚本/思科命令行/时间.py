@@ -1,4 +1,4 @@
-class C时间(设备.C同级模式, 设备.I时间):
+class C时间(模式.C同级模式, 设备.I时间):
 	def __init__(self, a):
 		设备.I时间.__init__(self, a)
 	def fs日期时间(self, a):

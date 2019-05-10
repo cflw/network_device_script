@@ -1,8 +1,8 @@
-import string
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
+from ..基础接口 import 密码
 c明文 = 0
 c强密文 = 5
 c弱密文 = 7
@@ -34,7 +34,7 @@ def f提取密码0(a字符串: str):
 		v密码位置 = v加密命令长度 + 1
 	v结束位置 = a字符串.find("\n", v位置)
 	return a字符串[v开始位置 : v结束位置]
-class C弱密码助手(设备.I密码助手):
+class C弱密码助手(密码.I密码助手):
 	"尽量使用明文密码或弱密码"
 	@staticmethod
 	def f生成密码(a密码, a加密级别 = c明文):
@@ -45,7 +45,7 @@ class C弱密码助手(设备.I密码助手):
 			v加密级别 = 0
 		return C包装(ca弱加密级别映射[v加密级别], v加密级别, v密码)	
 	f提取密码 = f提取密码0
-class C强密码助手(设备.I密码助手):
+class C强密码助手(密码.I密码助手):
 	"尽量使用强加密密码"
 	@staticmethod
 	def f生成密码(a密码, a加密级别 = c明文):

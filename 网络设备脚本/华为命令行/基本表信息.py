@@ -1,10 +1,10 @@
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
-import 网络设备.华为_接口 as 接口
+from ..基础接口 import 接口 as 北向接口
+from . import 接口 as 实现接口
 class C接口表:
 	"""敲"display interface brief"所显示的信息"""
 	c标题行 = "Interface                   PHY   Protocol InUti OutUti   inErrors  outErrors"
@@ -27,9 +27,9 @@ class C接口表:
 			if len(v行) != C接口表.c标题行长度:
 				continue	#中间可能有其它东西,跳过
 			v接口s, v物理s, v协议s, v输入率s, v输出率s, v输入错误s, v输出错误s = 字符串.fe按位置分割(v行, *C接口表.ca列开始)
-			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
+			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
 			v状态 = "up" in v协议s
-			yield 接口.S接口表项(a接口 = v接口, a状态 = v状态)
+			yield 北向接口.S接口表项(a接口 = v接口, a状态 = v状态)
 class C网络接口表4:
 	"""敲"display ip interface brief"所显示的信息"""
 	c标题行 = "Interface                         IP Address/Mask      Physical   Protocol  "
@@ -49,10 +49,10 @@ class C网络接口表4:
 			if len(v行) != C接口表.c标题行长度:
 				continue	#中间可能有其它东西,跳过
 			v接口s, v地址s, v物理s, v协议s = 字符串.fe按位置分割(v行, *C网络接口表4.ca列开始)
-			v接口 = 接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
+			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
 			if "unassigned" in v地址s:
 				v地址 = None
 			else:
 				v地址 = 地址.S网络地址4.fc自动(v地址s)
 			v状态 = "up" in v协议s
-			yield 设备.S网络接口表项(a接口 = v接口, a地址 = v地址, a状态 = v状态)
+			yield 信息.S网络接口表项(a接口 = v接口, a地址 = v地址, a状态 = v状态)

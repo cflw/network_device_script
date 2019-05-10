@@ -1,6 +1,6 @@
 import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 信息
 from ..思科命令行 import 接口 as 思科接口
 from ..思科命令行 import 基本表信息 as 思科基本表信息
@@ -34,7 +34,7 @@ class C交换接口表:
 				continue
 			v接口s, v状态s, v连接s, v速率s, v双工s, v列5, v类型s, v虚拟局域网s, v描述s = 字符串.fe按位置分割(v行, *C交换接口表.ca列开始)
 			v虚拟局域网 = int(v虚拟局域网s)
-			v接口 = 接口.S接口.fc字符串(v接口s, 思科接口.ca接口缩写, False)
+			v接口 = 北向接口.S接口.fc字符串(v接口s, 思科接口.ca接口缩写, False)
 			v状态 = "Up" in v连接s
 			v速率 = 0 if "Unknown" in v速率s else int(v速率s)
 			v双工 = "Full" in v双工s
@@ -129,7 +129,7 @@ class C物理地址表:
 				continue
 			v虚拟局域网s, v物理地址s, v类型s, v接口s, v状态s, v标志s = 字符串.fe按位置分割(v行, *C物理地址表.ca列开始)
 			v地址 = 地址.S物理地址.fc字符串(v物理地址s)
-			v接口 = 接口.S接口.fc字符串(v接口s, 思科接口.ca接口缩写, False)
+			v接口 = 北向接口.S接口.fc字符串(v接口s, 思科接口.ca接口缩写, False)
 			v虚拟局域网 = int(v虚拟局域网s)
 			v类型 = 思科基本表信息.ca物理地址类型[v类型s]
 			yield 信息.S物理地址表项(a地址 = v地址, a接口 = v接口, a虚拟局域网 = v虚拟局域网, a类型 = v类型)

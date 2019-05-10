@@ -23,9 +23,9 @@ class I增强内部网关路由协议(I模式):
 		raise NotImplementedError()
 	def fs延迟(self, a延迟, a操作 = E操作.e设置):
 		raise NotImplementedError()
-class I增强内部网关路由协议接口(I接口配置模式基础):
+class I增强内部网关路由协议接口(I接口配置基础):
 	def __init__(self, a, a接口, a自制系统号):
-		I接口配置模式基础.__init__(self, a, a接口)
+		I接口配置基础.__init__(self, a, a接口)
 		self.m自制系统号 = a自制系统号
 	def fs通告接口(self, a操作 = E操作.e设置):
 		raise NotImplementedError()

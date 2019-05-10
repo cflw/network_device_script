@@ -1,8 +1,7 @@
 import time
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
-from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..命令行接口 import 命令
+from ..命令行接口 import 模式
 def f生成时间(a时间):
 	return time.strftime("%H:%M:%S %d %b %Y", a时间)
 class C钥匙链(模式.I模式):
@@ -15,7 +14,7 @@ class C钥匙链(模式.I模式):
 		v命令 = 命令.C命令("key chain")
 		v命令 += self.fg模式参数()
 		return v命令
-	def f模式_钥匙(self, a钥匙号: int):
+	def f模式_钥匙(self, a钥匙号: int, a操作 = 操作.E操作.e设置):
 		return C钥匙(self, a钥匙号)
 	def f显示_当前模式配置():
 		v命令 = 命令.C命令("show key chain")
@@ -31,7 +30,7 @@ class C钥匙(模式.I模式):
 		v命令 = 命令.C命令("key")
 		v命令 += self.fg模式参数()
 		return v命令
-	def fs密码(self, a密码):
+	def fs密码(self, a密码, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("key-string")
 		v命令 += a密码
 		self.f执行当前模式命令(v命令)

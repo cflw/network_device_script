@@ -1,5 +1,6 @@
 import time
 import random
+import re
 import cflw代码库py.cflw时间 as 时间
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 设备
@@ -8,6 +9,9 @@ from ..命令行接口 import 模式
 c等待 = 2
 c间隔 = c等待 / 10
 c网络终端换码 = "\x1b["	#vt100控制码
+#===============================================================================
+# 设备
+#===============================================================================
 class I设备(设备.I设备):
 	"命令行设备接口"
 	def __init__(self):
@@ -20,6 +24,8 @@ class I设备(设备.I设备):
 		self.m注释 = "#"
 		self.m自动提交 = 操作.E自动提交.e不提交
 		self.m连接 = None
+		self.m历史命令 = ""
+		self.m历史输出 = ""
 	def __del__(self):
 		if not self.m连接:
 			return
@@ -118,20 +124,30 @@ class I设备(设备.I设备):
 		raise NotImplementedError()
 	def f执行命令(self, a命令):
 		"输入一段字符按回车, 并返回输出结果"
+		#准备命令
 		v命令 = str(a命令)
+		if v命令 == self.m历史命令:
+			return self.m历史输出
+		self.m历史命令 = v命令
+		#执行
 		self.f刷新()
 		self.f输入(v命令)
 		self.f输入_回车()
-		v输出 = self.f输出()
-		return v输出
+		self.m历史输出 = self.f输出()
+		return self.m历史输出
 	def f执行配置命令(self, a命令, a自动提交 = True):
 		self.f执行命令(a命令)
 		if a自动提交:
 			self.f自动提交(E自动提交.e立即)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		"有自动换页功能"
-		self.f刷新()
+		#准备命令
 		v命令 = str(a命令)
+		if v命令 == self.m历史命令:
+			return self.m历史输出
+		self.m历史命令 = v命令
+		#执行
+		self.f刷新()
 		self.f输入(v命令)
 		self.f输入_回车()
 		v输出 = ''
@@ -148,8 +164,8 @@ class I设备(设备.I设备):
 			v输出 = self.f自动换页替换(v输出)
 		else:
 			v输出 = self.f输出(a等待 = True)
-		v输出 = v输出.replace("\r\n", "\n")
-		return v输出
+		self.m历史输出 = v输出.replace("\r\n", "\n")
+		return self.m历史输出
 	def f自动换页替换(self, a字符串: str):
 		v替换位置 = a字符串.find(self.m自动换页文本)
 		if v替换位置 < 0:
@@ -237,9 +253,7 @@ class I设备(设备.I设备):
 		raise NotImplementedError()	#实现示例: self.f执行命令("commit")
 	def f自动提交(self, a级别):
 		"""判断级别确定是否提交"""
-		if self.m自动提交 == E自动提交.e不提交:
-			return
-		if a级别 > self.m自动提交:
+		if not 操作.f自动提交(self.m自动提交, a级别):
 			return
 		v模式 = self.ma模式[-1]
 		if type(v模式).fg提交命令 != 模式.I模式.fg提交命令:
@@ -249,3 +263,67 @@ class I设备(设备.I设备):
 	#显示.当存在可以在任何模式使用的命令,直接重写这里的函数
 	def f显示_当前模式配置(self):
 		raise NotImplementedError()
+#===============================================================================
+# 设备函数
+#===============================================================================
+c匹配数字 = re.compile(r'(?<!\w)\d+\.?\d*(?!\w)')
+def f设备名_括号包围式(a文本):
+	return a文本[1:-1]
+def f设备名_前缀式(a文本):
+	return re.split(r'>#(', a文本)[0]
+def f时间(a周, a日, a时, a分):
+	return (((int(a周) * 7 + int(a日)) * 24 + int(a时)) * 60 + int(a分)) * 60
+def f取数字(a文本):
+	v结果 = c匹配数字.findall(a文本)
+	i = 0
+	while i < len(v结果):
+		if '.' in v结果[i]:
+			v结果[i] = float(v结果[i])
+		else:
+			v结果[i] = int(v结果[i])
+		i += 1
+	return v结果
+def f去头尾行(a文本, a头行 = 1, a尾行 = 1, a行分割符 = '\n', a转列表 = False):
+	if a转列表:
+		v文本 = a文本.split(a行分割符)
+		if a头行:
+			v文本 = v文本[a头行:]
+		if a尾行:
+			v文本 = v文本[:-a尾行]
+		return v文本
+	else:
+		v头行位置 = 0
+		for i in range(a头行):
+			v头行位置 = a文本.find(a行分割符, v头行位置)
+			if v头行位置 == -1:
+				return ""
+				#raise ValueError('头行位置超出范围')
+			v头行位置 += 1
+		v尾行位置 = len(a文本)
+		for i in range(a尾行):
+			v尾行位置 = a文本.rfind(a行分割符, v头行位置, v尾行位置)
+			if v尾行位置 == -1:
+				return ""
+				#raise ValueError('尾行位置超出范围')
+		return a文本[v头行位置 : v尾行位置]
+def f参数等级(a, a最高):
+	"不同厂商对于权限等级的定义不同。为了统一，参数限制为只能用[0,1]之间的值"
+	v类型 = type(a)
+	if v类型 == int:
+		return v类型 * a最高
+	elif v类型 == str:
+		if '/' in a:	#分数
+			v数字 = fractions.Fraction(a)
+		else:
+			v数字 = a
+	else:
+		v数字 = a
+	return math.floor(float(v数字) * a最高 + 0.5)
+#值
+def f解析速率(a速率):
+	if a速率[-1] == "M":
+		return int(a速率[:-1]) * 10 ** 6
+	elif a速率[-1] == "G":
+		return int(a速率[:-1]) * 10 ** 9
+	else:
+		return None

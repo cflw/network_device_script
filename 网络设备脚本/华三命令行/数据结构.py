@@ -1,4 +1,4 @@
-class C网络地址池(设备.I网络协议地址池, 设备.C同级模式):
+class C网络地址池(设备.I网络协议地址池, 模式.C同级模式):
 	def __init__(self, a, a名称):
 		设备.I网络协议地址池.__init__(self, a, a名称)
 	def fs地址范围(self, a开始, a结束 = None):

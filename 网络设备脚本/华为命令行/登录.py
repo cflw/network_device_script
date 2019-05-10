@@ -1,12 +1,13 @@
-from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
-from ..基础接口 import 协议
-from ..基础接口 import 接口
-import cflw工具_运算 as 运算
+import cflw代码库py.cflw工具_序列 as 序列
 import cflw代码库py.cflw字符串 as 字符串
-import cflw时间 as 时间
-from 网络设备.华为_常量 import *
-import 网络设备.通用_登录 as 通用登录
+import cflw代码库py.cflw时间 as 时间
+from ..基础接口 import 操作
+from ..命令行接口 import 命令
+from ..基础接口 import 协议
+from ..基础接口 import 接口 as 北向接口
+from .常量 import *
+from ..基础接口 import 登录 as 北向登录
+from ..命令行接口 import 登录 as 南向登录
 #===============================================================================
 # 常量
 #===============================================================================
@@ -14,14 +15,14 @@ c命令_登录配置 = "user-interface "
 c命令_访问控制列表 = "acl "
 c命令_登录协议 = "protocol inbound "
 ca登录方式 = {
-	设备.E登录方式.e控制台: "con",
-	设备.E登录方式.e虚拟终端: "vty"
+	北向登录.E登录方式.e控制台: "con",
+	北向登录.E登录方式.e虚拟终端: "vty"
 }
 ca登录认证方式 = {
-	设备.E登录认证方式.e无: "none",
-	设备.E登录认证方式.e密码: "password",
-	设备.E登录认证方式.e账号: "aaa",
-	设备.E登录认证方式.e认证授权记账: "aaa"
+	北向登录.E登录认证方式.e无: "none",
+	北向登录.E登录认证方式.e密码: "password",
+	北向登录.E登录认证方式.e账号: "aaa",
+	北向登录.E登录认证方式.e认证授权记账: "aaa"
 }
 #===============================================================================
 # 解析
@@ -32,7 +33,7 @@ class S登录配置:
 		v头行尾 = self.m文本.find("\n")
 		v头行 = self.m文本[:v头行尾]
 		v分割 = v头行.split(" ")
-		self.m方式 = 运算.f字典按值找键(ca登录方式, v分割[1])
+		self.m方式 = 序列.f字典按值找键(ca登录方式, v分割[1])
 		if len(v分割) == 4:	#是范围
 			self.m范围 = range(int(v分割[2]), int(v分割[3])+1)
 		else:	#不是范围
@@ -45,7 +46,7 @@ class S登录配置:
 		return self.m范围
 	def fg认证方式(self):
 		v方式s = 字符串.f提取字符串周围(self.m文本, "\n", "login", "\n").strip()
-		return 运算.f字典按值找键(ca登录认证方式, v方式s)
+		return 序列.f字典按值找键(ca登录认证方式, v方式s)
 	def fg访问控制列表(self):
 		v名称 = 字符串.f提取字符串之间(self.m文本, c命令_访问控制列表, " ")
 		if v名称:
@@ -55,10 +56,10 @@ class S登录配置:
 	def fg登录协议(self):
 		v协议s = 字符串.f提取字符串之间(self.m文本, c命令_登录协议, "\n")
 		if not v协议s:
-			return 设备.E登录协议.e全部
+			return 北向登录.E登录协议.e全部
 		v值 = 0
 		for v in v协议s.split(" "):
-			k = 运算.f字典按值找键(v)
+			k = 序列.f字典按值找键(v)
 			if k:
 				v值 |= k
 		return v值
@@ -86,9 +87,9 @@ class C登录配置表:
 #===============================================================================
 # 模式
 #===============================================================================
-class C登录(设备.I登录配置模式):
+class C登录(设备.I登录配置):
 	def __init__(self, a, a方式, a范围 = None):
-		设备.I登录配置模式.__init__(self, a)
+		设备.I登录配置.__init__(self, a)
 		self.m方式 = a方式
 		self.m范围 = a范围
 		self.m配置 = None
@@ -99,7 +100,7 @@ class C登录(设备.I登录配置模式):
 		return v命令
 	def fg模式参数(self):
 		v登录 = (ca登录方式[self.m方式],)
-		return v登录 + 通用登录.f生成范围元组(self.m方式, self.m范围)
+		return v登录 + 南向登录.f生成范围元组(self.m方式, self.m范围)
 	def f显示_当前模式配置(self):
 		if self.m配置:
 			return self.m配置

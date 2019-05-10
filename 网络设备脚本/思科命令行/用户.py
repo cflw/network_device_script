@@ -1,11 +1,11 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
+from ..基础接口 import 接口 as 北向接口
 from . import 密码 as 密码
 from .常量 import *
-from ..基础接口 import 模式 as 模式
-from ..基础接口 import 用户 as 用户
+from ..命令行接口 import 模式
+from ..命令行接口 import 用户
 #===============================================================================
 # 用户配置
 #===============================================================================

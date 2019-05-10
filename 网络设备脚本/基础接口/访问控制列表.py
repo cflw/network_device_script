@@ -1,4 +1,11 @@
-class E访问控制列表类型(enum.IntEnum):
+import enum
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw工具_运算 as 运算
+from . import 协议
+#===============================================================================
+# 枚举&结构
+#===============================================================================
+class E类型(enum.IntEnum):
 	e接口 = 0x1000
 	e物理 = 0x2000
 	mac = e物理
@@ -131,7 +138,7 @@ class S端口号:
 			return a接口.f不等于(self.m值)
 		else:
 			return ""
-class S访问控制列表规则:
+class S规则:
 	"""成员&参数:\n
 	允许: bool, 决定动作是permit还是deny\n
 	协议: int, 值来自E协议\n
@@ -143,7 +150,7 @@ class S访问控制列表规则:
 	def __init__(self, **a):
 		self.m序号 = -1	#添加规则时不使用该序号,解析规则时赋值
 		self.m允许 = None
-		self.m协议 = E协议.ip
+		self.m协议 = 协议.E协议.ip
 		self.m源地址 = None
 		self.m目的地址 = None
 		self.m源端口 = None
@@ -161,7 +168,7 @@ class S访问控制列表规则:
 		self.m源端口 = a规则.m源端口 if a规则.m源端口 else self.m源端口
 		self.m目的端口 = a规则.m目的端口 if a规则.m目的端口 else self.m目的端口
 	def f更新_字典(self, a字典):
-		for k, v in S访问控制列表规则.ca更新函数.items():
+		for k, v in S规则.ca更新函数.items():
 			if k in a字典:
 				v(self, a字典[k])
 	def __str__(self):
@@ -175,7 +182,7 @@ class S访问控制列表规则:
 		else:
 			v += "拒绝, "
 		#协议
-		v += S访问控制列表规则.ca协议到字符串[self.m协议] + ", "
+		v += S规则.ca协议到字符串[self.m协议] + ", "
 		#地址
 		if self.m源地址:
 			v += "源地址%s, " % (self.m源地址,)
@@ -233,35 +240,13 @@ class S访问控制列表规则:
 		"a目的端口": fs目的端口,
 	}
 	ca协议到字符串 = {
-		E协议.ip: "互联网协议第4版",
-		E协议.ipv6: "互联网协议第6版",
-		E协议.tcp: "传输控制协议",
-		E协议.udp: "用户数据报协议",
+		协议.E协议.ip: "互联网协议第4版",
+		协议.E协议.ipv6: "互联网协议第6版",
+		协议.E协议.tcp: "传输控制协议",
+		协议.E协议.udp: "用户数据报协议",
 	}
-class I访问控制列表(I模式):
-	c模式名 = "访问控制列表配置模式"
-	def __init__(self, a):
-		I模式.__init__(self, a)
-	def fs规则(self, a序号 = None, a规则 = None, a操作 = E操作.e设置):
-		raise NotImplementedError()
-	def fe规则(self):
-		raise NotImplementedError()
-	def fg规则(self, a序号):
-		raise NotImplementedError()
-	def f应用到(self, a模式, a方向 = E方向.e入, a操作 = E操作.e设置):
-		raise NotImplementedError()
-class I访问控制列表助手:
-	"用来计算到目标设备的访问控制列表序号, 原始参数的n从0开始"
-	@staticmethod
-	def ft特定序号(n, a类型):
-		return n
-	@staticmethod
-	def ft统一序号(n, a类型 = None):
-		return n
-	@staticmethod
-	def f判断类型(n):
-		"根据特定序号判断类型"
-		raise NotImplementedError()
+c空序号 = -1
+c空规则 = S规则(a允许 = False)	#拒绝所有
 class S统一序号:
 	def __init__(self, a统一, a特定 = None, a类型 = None):
 		self.m统一序号 = a统一
@@ -275,3 +260,28 @@ class S统一序号:
 	@staticmethod
 	def fc统一序号(n, a类型 = None):
 		return S统一序号(n, None, a类型)
+#===============================================================================
+# 接口
+#===============================================================================
+class I列表配置:
+	c模式名 = "访问控制列表配置模式"
+	def fs规则(self, a序号, a规则, a操作):
+		raise NotImplementedError()
+	def fe规则(self):
+		raise NotImplementedError()
+	def fg规则(self, a序号):
+		raise NotImplementedError()
+	def f应用到(self, a模式, a方向, a操作):
+		raise NotImplementedError()
+class I助手:
+	"用来计算到目标设备的访问控制列表序号, 原始参数的n从0开始"
+	@staticmethod
+	def ft特定序号(n, a类型):
+		return n
+	@staticmethod
+	def ft统一序号(n, a类型 = None):
+		return n
+	@staticmethod
+	def f判断类型(n):
+		"根据特定序号判断类型"
+		raise NotImplementedError()

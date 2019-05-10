@@ -1,13 +1,13 @@
 from ..基础接口 import 操作
-from ..命令行接口 import 命令 as 命令
+from ..命令行接口 import 命令
 from ..基础接口 import 协议
-from ..基础接口 import 接口
-class C服务器(设备.I网络时间协议服务器, 设备.C同级模式):
+from ..基础接口 import 接口 as 北向接口
+class C服务器(设备.I网络时间协议服务器, 模式.C同级模式):
 	def __init__(self, a):
 		设备.I网络时间协议服务器.__init__(self, a)
 	def f开关(self, a):
 		v命令 = 命令.C命令("ntp-server refclock-master")
-class C客户端(设备.I网络时间协议客户端, 设备.C同级模式):
+class C客户端(设备.I网络时间协议客户端, 模式.C同级模式):
 	def __init__(self, a):
 		设备.I网络时间协议客户端.__init__(self, a)
 	def f添加服务器地址(self, a地址):

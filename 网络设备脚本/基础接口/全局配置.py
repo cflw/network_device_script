@@ -15,7 +15,7 @@ class I全局配置:
 		raise NotImplementedError()
 	def f模式_地址解析协议(self):
 		raise NotImplementedError()
-	#模式_路由
+	#模式 路由
 	def f模式_静态路由(self, a版本, a虚拟路由转发):
 		raise NotImplementedError()
 	def f模式_路由信息协议(self, a进程号, a版本, a接口, a操作):	#rip
@@ -34,7 +34,7 @@ class I全局配置:
 		raise NotImplementedError()	
 	def f模式_网关负载均衡协议(self, a组号, a操作):	#glbp
 		raise NotImplementedError()
-	#模式_数据结构
+	#模式 数据结构
 	def f模式_访问控制列表(self, a名称, a类型, a操作):
 		raise NotImplementedError()
 	def f模式_前缀列表(self, a名称, a类型, a操作):

@@ -66,6 +66,32 @@ class C接口配置(南向虚网.I接口配置):
 		v输出 = self.f显示_当前模式配置()
 		v链路类型 = f提取链路类型(v输出)
 		if v链路类型 == 北向虚网.E链路类型.e中继:
+			self.f执行当前模式命令("port trunk allow-pass vlan 1")
+			self.f执行当前模式命令("undo port trunk allow-pass vlan 2 to 4094")
+			self.f执行当前模式命令("undo port trunk pvid vlan")
+		elif v链路类型 == 北向虚网.E链路类型.e接入:
+			self.f执行当前模式命令("undo port default vlan")
+		elif v链路类型 == 北向虚网.E链路类型.e混合:
+			self.f执行当前模式命令("port hybrid pvid vlan 1")
+			self.f执行当前模式命令("port hybrid vlan 1")
+			self.f执行当前模式命令("undo port hybrid untagged vlan 2 to 4094")
+			self.f执行当前模式命令("undo port hybrid tagged vlan all")
+	@南向接口.A接口自动展开
+	def f中继_s通过(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
+		v命令 = 命令.C命令("port trunk allow-pass vlan")
+		v命令 += 南向虚网.f生成一个(a虚拟局域网)
+		self.m设备.f执行命令(v命令)
+	@南向接口.A接口自动展开
+	def f接入_s绑定(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
+		v命令 = 命令.C命令("port default vlan")
+		v命令 += 南向虚网.f生成一个(a虚拟局域网)
+		self.f执行当前模式命令(v命令)
+class C接口配置s5700(C接口配置):
+	@南向接口.A接口自动展开
+	def f重置链路类型(self):
+		v输出 = self.f显示_当前模式配置()
+		v链路类型 = f提取链路类型(v输出)
+		if v链路类型 == 北向虚网.E链路类型.e中继:
 			#s5700(v5.110)不能直接删除2~4094,只能一个个删或全删. 现在先全部删,以后改进
 			self.f执行当前模式命令("undo port trunk allow-pass vlan all")
 			self.f执行当前模式命令("port trunk allow-pass vlan 1")
@@ -78,14 +104,3 @@ class C接口配置(南向虚网.I接口配置):
 			self.f执行当前模式命令("undo port hybrid tagged vlan all")
 			self.f执行当前模式命令("port hybrid pvid vlan 1")
 			self.f执行当前模式命令("port hybrid vlan 1")
-		self.f执行当前模式命令("undo port link-type")
-	@南向接口.A接口自动展开
-	def f中继_s通过(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("port trunk allow-pass vlan")
-		v命令 += 南向虚网.f生成一个(a虚拟局域网)
-		self.m设备.f执行命令(v命令)
-	@南向接口.A接口自动展开
-	def f接入_s绑定(self, a虚拟局域网, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("port default vlan")
-		v命令 += 南向虚网.f生成一个(a虚拟局域网)
-		self.f执行当前模式命令(v命令)

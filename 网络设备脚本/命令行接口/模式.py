@@ -30,7 +30,7 @@ class I模式:
 			self.m设备.f切换模式(va模式)
 	def f执行当前模式命令(self, a命令):
 		self.f切换到当前模式()
-		self.m设备.f执行命令(a命令)
+		return self.m设备.f执行命令(a命令)
 	def f显示_当前模式配置(self):	#当前模式的配置,在用户模式显示所有配置
 		self.f切换到当前模式()
 		return self.m设备.f显示_当前模式配置()

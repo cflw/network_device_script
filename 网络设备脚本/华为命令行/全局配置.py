@@ -2,6 +2,7 @@ from ..基础接口 import 操作
 from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 全局配置
+from .. import 华为
 from . import 实用 as 华为实用
 from . import 接口 as 实现接口
 class C系统视图(全局配置.I全局配置):
@@ -28,16 +29,21 @@ class C系统视图(全局配置.I全局配置):
 		return 登录.C登录(self, a方式, a范围)
 	def f模式_虚拟局域网(self, a序号 = 0, a接口 = None, a操作 = 操作.E操作.e设置):	#vlan
 		from . import 虚拟局域网 as 实现虚网
+		def fc接口配置(a接口):
+			if self.m设备.m版本 == 华为.E型号.s5700:
+				return 实现虚网.C接口配置s5700(self, a接口)
+			else:
+				return 实现虚网.C接口配置(self, a接口)
 		if a接口:
 			v接口 = 实现接口.f创建接口(a接口)
-			return 实现虚网.C接口配置(self, v接口)
+			return fc接口配置(self, v接口)
 		v类型 = type(a序号)
 		if v类型 == int:
 			return 实现虚网.C虚网配置(self, a序号)
 		elif v类型 == 北向接口.S接口:
-			return 实现虚网.C接口配置(self, a序号)
+			return fc接口配置(self, a序号)
 		elif isinstance(a序号, 南向接口.I接口配置基础):
-			return 实现虚网.C接口配置(self, a序号.m接口)
+			return fc接口配置(self, a序号.m接口)
 		else:
 			raise ValueError()
 	#路由
@@ -68,7 +74,7 @@ class C系统视图(全局配置.I全局配置):
 			raise NotImplementedError()
 		else:
 			raise ValueError()
-	#其它
+	#数据结构
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
@@ -91,6 +97,13 @@ class C系统视图(全局配置.I全局配置):
 			return 前缀列表.C前缀列表(self, a名称, 前缀列表.c版本6, 地址.S网络地址6)
 		else:
 			raise ValueError("错误的类型")
+	#服务
+	def f模式_网络终端(self):
+		from . import 登录协议
+		return 登录协议.C网络终端(self)
+	def f模式_安全外壳(self):
+		from . import 登录协议
+		return 登录协议.C安全外壳(self)
 	#配置
 	def fs设备名(self, a名称):
 		self.f执行当前模式命令("sysname " + str(a名称))

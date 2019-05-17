@@ -1,9 +1,6 @@
 import cflw代码库py.cflw网络连接 as 连接
 from ..基础接口 import 异常
-from ..基础接口 import 操作
 from ..命令行接口 import 设备 as 南向设备
-from ..命令行接口 import 命令
-from ..命令行接口 import 用户模式 as 用户模式
 from .. import 华三
 from .常量 import *
 ca错误文本与异常类 = [
@@ -28,10 +25,7 @@ class C设备(南向设备.I设备):
 		self.f输入(c结束符 + c回车符)
 	def f模式_用户(self):
 		from . import 用户模式
-		v用户模式 = 用户模式.C用户视图(self)
-		if not self.ma模式:
-			self.ma模式.append(v用户模式)
-		return v用户模式
+		return 用户模式.C用户视图(self)
 	def f模式_启动(self):
 		return 启动.C启动(self)
 	def f执行显示命令(self, a命令, a自动换页 = True):

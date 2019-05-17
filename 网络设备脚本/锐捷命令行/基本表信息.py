@@ -1,7 +1,6 @@
 import time
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-from ..基础接口 import 协议
 from ..基础接口 import 信息
 from ..思科命令行 import 接口 as 思科接口
 from ..思科命令行 import 基本表信息 as 思科基本表信息

@@ -48,7 +48,7 @@ class C用户视图(用户模式.I用户模式):
 		v字典["版权"] = v输出[2]
 		v第四行分段 = v输出[3].split(" ")
 		v字典["平台"] = v第四行分段[0] + " " + v第四行分段[1]
-		v字典["更新时间"] = 通用实用.f时间(v第四行分段[4], v第四行分段[6], v第四行分段[8], v第四行分段[10])
+		v字典["更新时间"] = 南向设备.f时间(v第四行分段[4], v第四行分段[6], v第四行分段[8], v第四行分段[10])
 		return v字典
 	def f显示_中央处理器使用率(self):
 		"返回字典，键=槽位，值=5分钟使用率"
@@ -66,7 +66,7 @@ class C用户视图(用户模式.I用户模式):
 	def f显示_内存使用率(self):
 		v输出 = self.f执行命令("display memory")
 		v输出 = 南向设备.f去头尾行(v输出, a转列表 = True)
-		return 通用实用.f取数字(v输出[3])[0]
+		return 南向设备.f取数字(v输出[3])[0]
 	def f显示_温度(self):
 		v输出 = self.f执行命令("display environment", a自动换页 = True)
 		v输出 = 南向设备.f去头尾行(v输出, p尾行 = 2, a转列表 = True)
@@ -118,7 +118,7 @@ class C用户视图(用户模式.I用户模式):
 		if "Error" in v输出:
 			raise RuntimeError(v输出)
 		elif "User privilege level is" in v输出:
-			v当前权限 = 通用实用.f取数字(v输出)[0]
+			v当前权限 = 南向设备.f取数字(v输出)[0]
 			return (v当前权限, 3)
 		else:
 			raise RuntimeError("无法提升权限")

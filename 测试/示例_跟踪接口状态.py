@@ -1,6 +1,6 @@
 import time
-import cflw网络连接 as 连接
-import cflw网络设备_华为 as 华为
+import cflw代码库py.cflw网络连接 as 连接
+import 网络设备脚本.华为 as 华为
 ca设备信息 = [
 	("ensp.localhost", 2000, 华为.E型号.ar201),
 	("ensp.localhost", 2001, 华为.E型号.ar201),

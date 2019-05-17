@@ -39,6 +39,7 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_登录(self, a方式, a范围 = 0, a操作 = 操作.E操作.e设置):
 		from . import 登录 as 登录
 		return 登录.C登录(self, a方式, a范围)
+	#数据结构
 	def f模式_时间范围(self, a, a操作 = 操作.E操作.e设置):
 		from . import 时间范围 as 时间范围
 		return 时间范围.C时间范围(self, a)
@@ -129,6 +130,12 @@ class C全局配置(全局配置.I全局配置):
 		from . import 边界网关协议
 		return 边界网关协议.C路由(self, a自治系统号)
 	#服务
+	def f模式_网络终端(self):
+		from . import 登录协议
+		return 登录协议.C网络终端(self)
+	def f模式_安全外壳(self):
+		from . import 登录协议
+		return 登录协议.C安全外壳(self)
 	def f模式_动态主机配置协议地址池(self, a名称):
 		from . import 动态主机配置协议
 		return 动态主机配置协议.C地址池4(self, a名称)
@@ -141,5 +148,5 @@ class C全局配置(全局配置.I全局配置):
 		self.f执行当前模式命令(v命令)
 	#其它
 	def fs域名(self, a名称 = "a"):
-		v命令 = "ip domain-name" + str(a名称)
+		v命令 = "ip domain-name " + str(a名称)
 		self.f执行当前模式命令(v命令)

@@ -1,5 +1,5 @@
-import cflw网络连接 as 连接
-import cflw网络设备_华为 as 华为
+import cflw代码库py.cflw网络连接 as 连接
+import 网络设备脚本.华为 as 华为
 def main():
 	#连接到设备,取配置
 	v连接 = 连接.C网络终端("ensp.localhost", 2000)

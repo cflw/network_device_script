@@ -1,6 +1,6 @@
-import cflw网络连接 as 连接
-import cflw网络设备 as 设备
-import cflw网络设备_中兴 as 中兴
+import cflw代码库py.cflw网络连接 as 连接
+import 网络设备脚本 as 设备
+import 网络设备脚本.中兴 as 中兴
 def main():
 	v连接 = 连接.C网络终端("*.*.*.*")
 	v设备 = 中兴.f创建设备(v连接, 中兴.E型号.zxr10_m6000)

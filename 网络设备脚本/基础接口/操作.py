@@ -5,14 +5,16 @@ import enum
 class E操作(enum.IntEnum):
 	e是 = 0	#设备默认设置操作,不检查配置.大部分情况跟e设置一样
 	e否 = 1	#设备默认删除操作,不检查配置
+	e重置 = 2	#恢复默认配置
 	e设置 = 10	#覆盖原有配置,不存在则创建
-	e重置 = 11	#恢复默认配置
+	e删除 = 11	#删除/恢复
 	e添加 = 12	#添加多个值
-	e删除 = 13	#删除/恢复
+	e清空 = 13	#清除所有值
 	e新建 = 14	#没有则创建,有则报错
 	e修改 = 15	#修改配置的部分选项
 	e开启 = 20
 	e关闭 = 21
+	e自动 = 22	#根据其它配置完成自动配置
 def f解析操作(a操作):
 	v类型 = type(a操作)
 	if v类型 == E操作:
@@ -32,10 +34,14 @@ def f解析操作(a操作):
 			return E操作.e添加
 		elif a操作 in ("set",):
 			return E操作.e设置
+		else a操作 in ("clr", "clear"):
+			return E操作.e清空
 		elif a操作 in ("enable", "on"):
 			return E操作.e开启
 		elif a操作 in ("disable", "off"):
 			return E操作.e关闭
+		elif a操作 in ("auto",):
+			return E操作.e自动
 		elif a操作 == "":
 			return E操作.e设置
 		else:

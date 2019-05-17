@@ -1,15 +1,15 @@
 import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 操作
 from ..基础接口 import 协议
-from ..基础接口 import 北向接口
+from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 命令
 from ..命令行接口 import 地址 as 南向地址
 from ..命令行接口 import 接口 as 南向接口
-from . import 常量 import *
-ca接口名称 = 接口.fc接口名称字典({
+from .常量 import *
+ca接口名称 = 北向接口.fc接口名称字典({
 	北向接口.E接口.e虚拟局域网: "Vlan-interface",
 })
-f创建接口 = 接口.F创建接口(ca接口名称)
+f创建接口 = 北向接口.F创建接口(ca接口名称)
 ca接口缩写 = {
 	"Eth": 北向接口.E接口.e百兆以太网,
 	"GE": 北向接口.E接口.e吉以太网,

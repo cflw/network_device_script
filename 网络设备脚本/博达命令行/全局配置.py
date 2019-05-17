@@ -12,3 +12,10 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_接口(self, a接口, a操作 = 操作.E操作.e设置):
 		v接口 = 接口.f创建接口(a接口)
 		return 接口.C接口(self, v接口)
+	#服务
+	def f模式_网络终端(self):
+		from . import 登录协议
+		return 登录协议.C网络终端(self)
+	def f模式_安全外壳(self):
+		from . import 登录协议
+		return 登录协议.C安全外壳(self)

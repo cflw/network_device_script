@@ -37,6 +37,9 @@ class E接口(enum.IntEnum):#为保证取接口全名有个优先级顺序，高
 	e无源光网络 = 0x00000800	#pon
 	e以无源光网络 = 0x00000801	#epon
 	e吉无源光网络 = 0x00000802	#gpon
+	e无线电 = 0x00000900
+	e局域网 = 0x00001010
+	e广域网 = 0x00001011
 class E接口分类(enum.IntEnum):
 	e空 = 0
 	e环回 = 1
@@ -54,8 +57,11 @@ ca接口名称 = {
 	E接口.e串行: "Serial",
 	E接口.e虚拟局域网: "Vlan",
 	E接口.e隧道: "Tunnel",
-	E接口.e以无源光网络: "epon",
-	E接口.e吉无源光网络: "gpon",
+	E接口.e以无源光网络: "EPON",
+	E接口.e吉无源光网络: "GPON",
+	E接口.e无线电: "Radio",
+	E接口.e局域网: "LAN",
+	E接口.e广域网: "WAN",
 }
 def fc接口名称字典(a字典 = None):
 	v字典 = copy.copy(ca接口名称)
@@ -295,7 +301,12 @@ class I接口配置:	#常见的接口配置
 		raise NotImplementedError()
 	def fe网络地址6(self):
 		raise NotImplementedError()
-	#串行
+	#主机接口
+	def fs域名服务器4(self, *a地址, a操作):
+		raise NotImplementedError()
+	def fs域名服务器6(self, *a地址, a操作):
+		raise NotImplementedError()
+	#串行口
 	def fs时钟频率(self, a频率, a操作):
 		raise NotImplementedError()
 	#流量控制

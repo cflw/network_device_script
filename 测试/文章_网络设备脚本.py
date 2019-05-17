@@ -1,9 +1,9 @@
-import cflw网络连接 as 连接
-import cflw网络地址 as 地址
-import cflw网络设备 as 设备
-import cflw网络设备_思科 as 思科
-import cflw网络设备_华为 as 华为
-import cflw网络设备_华三 as 华三
+import cflw代码库py.cflw网络连接 as 连接
+import cflw代码库py.cflw网络地址 as 地址
+import 网络设备脚本 as 设备
+import 网络设备脚本.思科 as 思科
+import 网络设备脚本.华为 as 华为
+import 网络设备脚本.华三 as 华三
 
 def main():
 	v连接 = 连接.C网络终端("gns3.localhost", 5000)

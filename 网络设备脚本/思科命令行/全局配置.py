@@ -100,23 +100,31 @@ class C全局配置(全局配置.I全局配置):
 		else:
 			raise ValueError("未知的版本")
 	def f模式_开放最短路径优先(self, a进程号 = 1, a版本 = 协议.E协议.e开放最短路径优先, a接口 = None, a操作 = 操作.E操作.e设置):
-		from . import 开放最短路径优先
+		from ..命令行接口 import 开放最短路径优先 as 南向路由
+		from . import 开放最短路径优先 as 实现路由
 		v版本 = 南向路由.f解析开放最短路径优先版本(a版本)
 		if a接口:	#有接口
 			v接口 = 实现接口.f创建接口(a接口)
 			if a版本 == 协议.E协议.e开放最短路径优先2:
-				return 开放最短路径优先.C接口4(self, a进程号, v接口)
+				return 实现路由.C接口4(self, a进程号, v接口)
 			elif a版本 == 协议.E协议.e开放最短路径优先3:
 				raise NotImplementedError()
 			else:
 				raise ValueError("未知的版本")
 		#没有接口
 		if a版本 == 协议.E协议.e开放最短路径优先2:
-			return 开放最短路径优先.C路由配置(self, a进程号)
+			return 实现路由.C进程配置(self, a进程号)
 		elif a版本 == 协议.E协议.e开放最短路径优先3:
 			raise NotImplementedError()
 		else:
 			raise ValueError("未知的版本")
+	def f模式_中间系统到中间系统(self, a进程号 = 1, a接口 = None, a操作 = 操作.E操作.e设置):	#isis
+		from . import 中间系统到中间系统 as 实现路由
+		if a接口:	#有接口
+			v接口 = 实现接口.f创建接口(a接口)
+			return 实现路由.C接口配置(self, a进程号, v接口)
+		#没有接口
+		return 实现路由.C进程配置(self, a进程号)
 	def f模式_增强内部网关路由协议(self, a, a版本 = 协议.E协议.e网络协议4, a接口 = None, a操作 = 操作.E操作.e设置):	#eigrp
 		from . import 增强内部网关路由协议
 		v版本 = 南向路由.f解析网络协议版本(a版本)

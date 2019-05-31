@@ -34,7 +34,7 @@ def f解析操作(a操作):
 			return E操作.e添加
 		elif a操作 in ("set",):
 			return E操作.e设置
-		else a操作 in ("clr", "clear"):
+		elif a操作 in ("clr", "clear"):
 			return E操作.e清空
 		elif a操作 in ("enable", "on"):
 			return E操作.e开启
@@ -49,7 +49,7 @@ def f解析操作(a操作):
 	else:
 		raise TypeError("无法解析的类型")
 ca加操作 = (E操作.e设置, E操作.e新建, E操作.e添加, E操作.e修改, E操作.e开启)
-ca减操作 = (E操作.e删除, E操作.e重置, E操作.e关闭)
+ca减操作 = (E操作.e删除, E操作.e重置, E操作.e清空, E操作.e关闭)
 def fi加操作(a操作):
 	"设置,添加,修改都是加操作"
 	return a操作 in ca加操作

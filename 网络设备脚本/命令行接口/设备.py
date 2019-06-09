@@ -14,7 +14,7 @@ c网络终端换码 = "\x1b["	#vt100控制码
 #===============================================================================
 class I设备(设备.I设备):
 	"命令行设备接口"
-	def __init__(self):
+	def __init__(self, a连接 = None):
 		self.m等待 = c等待
 		self.m间隔 = c间隔
 		self.m自动换页文本 = ''
@@ -23,7 +23,7 @@ class I设备(设备.I设备):
 		self.m异常开关 = True
 		self.m注释 = "#"
 		self.m自动提交 = 操作.E自动提交.e不提交
-		self.m连接 = None
+		self.m连接 = a连接
 		self.m历史命令 = ""
 		self.m历史输出 = ""
 	def __del__(self):
@@ -102,14 +102,14 @@ class I设备(设备.I设备):
 				if v输出:
 					break
 	def f输入_退格(self, a数量 = 1):
-		self.m连接.f写('\b' * a数量)
+		self.f输入('\b' * a数量)
 	def f输入_空格(self, a数量 = 1):
-		self.m连接.f写(' ' * a数量)
+		self.f输入(' ' * a数量)
 	def f输入_任意键(self, a数量 = 1):
 		v字符 = random.choice("qwertyuiopasdfghjklzxcvbnm")
-		self.m连接.f写(v字符)
+		self.f输入(v字符)
 	def f输入_注释(self):
-		self.m连接.f写(self.m注释)
+		self.f输入(self.m注释)
 	def f刷新(self):
 		"清除正在输入的命令, 清除输出缓存"
 		self.f设备_停顿()

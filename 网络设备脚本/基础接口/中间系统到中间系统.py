@@ -63,9 +63,11 @@ class I进程配置:
 		raise NotImplementedError()
 	def fs通告接口(self, a接口, a操作):
 		raise NotImplementedError()
+	def fs级别(self, a级别, a操作):
+		raise NotImplementedError()
 class I接口配置:
 	c模式名 = "中间系统到中间系统接口配置模式"
-	def fs通告接口(self, a进程号, a操作):
+	def fs通告接口(self, a操作):
 		raise NotImplementedError()
 	def fs被动接口(self, a操作):
 		raise NotImplementedError()

@@ -39,8 +39,7 @@ class C路由(南向路由协议.I进程配置):
 		v地址族类型 = a地址族[0]
 		if v地址族类型 == 北向路由协议.E地址族.e单播4:
 			return C单播地址族4(self)
-		else:
-			raise NotImplementedError()
+		raise NotImplementedError()
 	#显示
 	def f显示_路由表(self):
 		v命令 = "show ip route bgp"
@@ -74,15 +73,15 @@ class C单播地址族4(C地址族):
 		C地址族.__init__(self, a, a地址族)
 	def fg进入命令(self):
 		return "address-family ipv4 unicast"
-	def f模式_对等体(self, a对等体):
+	def f模式_对等体(self, a对等体, a操作 = 操作.E操作.e设置):
 		return C地址族对等体4(self, f生成对等体字符串(a对等体))
 class C地址族对等体4(C对等体):
 	def __init__(self, a, a对等体):
 		C对等体.__init__(self, a, a对等体)
-	def fs远端自治系统号(self, a自治系统号):
+	def fs远端自治系统号(self, a自治系统号, a操作 = 操作.E操作.e设置):
 		v命令 = self.fg前置命令() + "remote-as" + a自治系统号
 		self.f执行当前模式命令(v命令)
-	def f通告网络(self, a网络号):
+	def fs通告网络(self, a网络号, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("network")
 		v地址 = 地址.S网络地址4.fc自动(a网络号)
 		v命令.f添加(v地址.fg网络号s(), v地址.fg掩码s())

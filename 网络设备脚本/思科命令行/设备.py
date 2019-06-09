@@ -11,7 +11,7 @@ ca错误文本与异常类 = [
 	("% Multiple ports are allowed on named ACLs only", 异常.X执行),	#多端口号只允许在命名acl使用
 ]
 class C设备(南向设备.I设备):
-	def __init__(self, a连接):
+	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self)
 		self.fs自动换页("--More--")
 		if a连接.c连接特性 & 连接.E连接特性.e命令行:
@@ -19,6 +19,8 @@ class C设备(南向设备.I设备):
 			self.m连接.fs编码("ascii")
 		else:
 			raise TypeError("a连接 必须是 I连接 类型")
+		self.m型号 = a型号
+		self.m版本 = a版本
 		self.m异常 = True	#是否抛出异常
 	def f退出(self):
 		self.f执行命令("exit")

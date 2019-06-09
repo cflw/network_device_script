@@ -11,6 +11,8 @@ class I进程配置:
 	#模式
 	def f模式_对等体(self, a对等体, a操作):
 		raise NotImplementedError()
+	def f模式_对等体组(self, a名称, a操作):
+		raise NotImplementedError()
 	def f模式_地址族(self, *a地址族, a操作):
 		raise NotImplementedError()
 	#显示
@@ -25,6 +27,8 @@ class I地址族配置:
 	c模式名 = "边界网关协议地址族配置模式"
 	def f模式_对等体(self, a名称):
 		raise NotImplementedError()
+	def f模式_对等体组(self, a名称, a操作):
+		raise NotImplementedError()
 	def f显示_路由表(self):
 		raise NotImplementedError()
 	def fs通告网络(self, a网络号, a操作):
@@ -32,7 +36,7 @@ class I地址族配置:
 	def fs通告接口(self, a接口, a操作):
 		raise NotImplementedError()
 class I对等体配置:
-	c模式名 = "边界网关协议对等体配置模式"
+	c模式名 = "边界网关协议对等体(组)配置模式"
 	#操作
 	def fs激活(self, a操作):
 		raise NotImplementedError()
@@ -41,4 +45,6 @@ class I对等体配置:
 	def fs本端自治系统号(self, a自治系统号, a操作):
 		raise NotImplementedError()
 	def fs更新源地址(self, a源, a操作):
+		raise NotImplementedError()
+	def fs对等体组(self, a对等体组, a操作):
 		raise NotImplementedError()

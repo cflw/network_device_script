@@ -2,10 +2,12 @@ import enum
 class E模式(enum.IntEnum):
 	"""802.11标准"""
 	#单模式
-	b = 0x01
-	g = 0x02
-	n = 0x04
-	ac = 0x08
+	a = 0x0001
+	b = 0x0002
+	g = 0x0004
+	n = 0x0008
+	ac = 0x0010
+	ax = 0x0020
 	#混合
 	bg = b | g
 	bgn = b | g | n

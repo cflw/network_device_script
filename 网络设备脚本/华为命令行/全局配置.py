@@ -74,6 +74,17 @@ class C系统视图(全局配置.I全局配置):
 			raise NotImplementedError()
 		else:
 			raise ValueError()
+	def f模式_中间系统到中间系统(self, a进程号 = 1, a接口 = None, a操作 = 操作.E操作.e设置):
+		from . import 中间系统到中间系统 as 实现路由协议
+		#是接口
+		if a接口:
+			v接口 = 实现接口.f创建接口(a接口)
+			return 实现路由协议.C接口配置(self, a进程号, a接口)
+		#不是接口
+		return 实现路由协议.C进程配置(self, a进程号)
+	def f模式_边界网关协议(self, a自治系统号, a操作 = 操作.E操作.e设置):
+		from . import 边界网关协议
+		return 边界网关协议.C进程配置(self, a自治系统号)
 	#数据结构
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表

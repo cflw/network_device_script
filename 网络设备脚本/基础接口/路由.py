@@ -20,7 +20,7 @@ class E路由协议(enum.IntEnum):
 	e定位与身份分离协议 = 23	#lisp
 class S路由条目:
 	"表示一条路由条目"
-	def __init__(self, a网络号, a下一跳, a出接口, a路由协议, a优先级, a度量值, a路由类型 = None):
+	def __init__(self, a网络号, a下一跳, a出接口 = None, a路由协议 = None, a优先级 = None, a度量值 = None, a路由类型 = None):
 		self.m网络号 = a网络号
 		self.m下一跳 = a下一跳
 		self.m出接口 = a出接口

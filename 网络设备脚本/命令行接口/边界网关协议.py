@@ -10,7 +10,7 @@ class I进程配置(模式.I模式, 边界网关协议.I进程配置):
 	def fg自治系统号(self):
 		return self.m自治系统号
 class I地址族配置(模式.I模式, 边界网关协议.I地址族配置):
-	def __init__(self, a, a参数):
+	def __init__(self, a, *a参数):
 		模式.I模式.__init__(self, a)
 		self.m参数 = a参数
 class I对等体配置(模式.I模式, 边界网关协议.I对等体配置):
@@ -18,4 +18,6 @@ class I对等体配置(模式.I模式, 边界网关协议.I对等体配置):
 		模式.I模式.__init__(self, a)
 		self.m对等体 = a对等体
 	def __str__(self):
+		return str(self.m对等体)
+	def fg对等体名(self):
 		return str(self.m对等体)

@@ -77,6 +77,16 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_钥匙链(self, a名称, a操作 = 操作.E操作.e设置):
 		from . import 钥匙链
 		return 钥匙链.C钥匙链(self, a名称)
+	def f模式_虚拟路由转发(self, a名称 = "", a接口 = None, a操作 = 操作.E操作.e设置):
+		if not (bool(a名称) ^ bool(a接口)):
+			raise ValueError("a名称 和 a接口 必需选其一")
+		from . import 虚拟路由转发 as 实现虚拟路由转发
+		#接口
+		if a接口:
+			v接口 = 实现接口.f创建接口(a接口)
+			return 实现虚拟路由转发.C接口配置(self, a接口)
+		#资源
+		return 实现虚拟路由转发.C资源配置(self, a名称)
 	#路由
 	def f模式_静态路由(self, a版本 = 协议.E协议.e网络协议4, a虚拟路由转发 = None):
 		from . import 静态路由
@@ -150,6 +160,10 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_动态主机配置协议(self):
 		from . import 动态主机配置协议
 		return 动态主机配置协议.C服务4(self)
+	#链路层
+	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
+		from . import 链路层发现协议
+		return 链路层发现协议.C进程配置(self)
 	#全局配置
 	def fs设备名(self, a名称):
 		v命令 = "hostname " + str(a名称)

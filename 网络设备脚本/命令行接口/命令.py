@@ -37,17 +37,24 @@ class C命令:	#快速添加命令参数
 		return len(self.m字符串)
 	def f添加(self, *a):
 		for v in a:
+			if v == None:
+				continue
+			v命令 = str(v)
+			if not v命令:
+				continue
 			if self.m字符串 and self.m字符串[-1] != ' ':	#添加空格
 				self.m字符串 += " "
-			self.m字符串 += str(v)
+			self.m字符串 += v命令
 		return self
 	def f前面添加(self, *a):
 		if not a:
 			raise TypeError()
 		for v in a:
+			if v == None:
+				continue
 			v命令 = str(v)
 			if not v命令:
-				pass
+				continue
 			elif v命令[-1] == ' ':
 				self.m字符串 = v命令 + self.m字符串
 			else:

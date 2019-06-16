@@ -55,7 +55,7 @@ class I进程配置:
 	c模式名 = "中间系统到中间系统进程配置模式"
 	def f显示_路由表(self):
 		raise NotImplementedError()
-	def f显示_邻居(self):
+	def f显示_邻居表(self):
 		raise NotImplementedError()
 	def f模式_接口(self, a接口, a操作):
 		raise NotImplementedError()

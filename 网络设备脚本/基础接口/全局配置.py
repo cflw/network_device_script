@@ -39,6 +39,8 @@ class I全局配置:
 		raise NotImplementedError()
 	def f模式_前缀列表(self, a名称, a类型, a操作):
 		raise NotImplementedError()
+	def f模式_虚拟路由转发(self, a名称, a接口, a操作):
+		raise NotImplementedError()
 	#模式 服务
 	def f模式_端口安全(self):
 		raise NotImplementedError()

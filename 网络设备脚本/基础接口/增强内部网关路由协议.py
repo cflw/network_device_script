@@ -5,7 +5,7 @@ class I增强内部网关路由协议(I模式):
 	#显示
 	def f显示_路由表(self):
 		raise NotImplementedError()
-	def f显示_邻居(self):
+	def f显示_邻居表(self):
 		raise NotImplementedError()
 	#操作
 	def fs开关(self, a操作 = E操作.e设置):

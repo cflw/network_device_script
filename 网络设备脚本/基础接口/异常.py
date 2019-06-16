@@ -34,3 +34,7 @@ class X接口格式(X设备):
 	"""设备不支持接口格式,需要展开"""
 	def __init__(self, a接口):
 		X设备.__init__(self, "不支持接口格式 %s" % (a接口,))
+class X登录(X设备):
+	"""登录失败"""
+	def __init__(self, a):
+		X设备.__init__(self, a)

@@ -1,4 +1,5 @@
 import enum
+import cflw代码库py.cflw字符串 as 字符串
 class E模式(enum.IntEnum):
 	"""802.11标准"""
 	#单模式
@@ -11,8 +12,17 @@ class E模式(enum.IntEnum):
 	#混合
 	bg = b | g
 	bgn = b | g | n
+class S主机表项:
+	def __init__(self, a名称, a物理地址, a接口 = None):
+		self.m名称 = a名称
+		self.m物理地址 = a物理地址
+		self.m接口 = a接口
+	def __str__(self):
+		return 字符串.ft字符串(self.m名称, self.m物理地址, self.m接口)
 class I接口配置:
 	c模式名 = "无线局域网无线电接口配置模式"
+	def f显示_主机表(self):
+		raise NotImplementedError()
 	def fs开关(self, a操作):
 		"是否发射信号"
 		raise NotImplementedError()

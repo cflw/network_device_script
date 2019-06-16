@@ -1,5 +1,6 @@
 import time
 import cflw代码库py.cflw字符串 as 字符串
+from ..基础接口 import 异常
 from ..命令行接口 import 用户模式 as 用户模式
 class C用户视图(用户模式.I用户模式):
 	def __init__(self, a):
@@ -73,13 +74,23 @@ class C用户视图(用户模式.I用户模式):
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):
 		time.sleep(1)
-		v输出 = self.m设备.f输出()[-100:]
+		self.m设备.f输入_回车()
+		v输出 = self.m设备.f输出()
 		if "Username:" in v输出:
 			v输出 = self.m设备.f执行命令(a用户名)
 		if "Password:" in v输出:
-			self.m设备.f执行命令(a密码)
+			v输出 = self.m设备.f执行命令(a密码)
+		if "Error:" in v输出:
+			raise 异常.X登录(v输出)
 		self.f切换到当前模式()
+	def f提升权限(self, a密码, a级别 = 15):
+		self.m设备.f执行命令("super")
+		self.m设备.f执行命令(a密码)
 	def fs终端监视(self, a开关):
 		v命令 = 命令.C命令("terminal monitor")
 		v命令.f前置否定(a开关, c不)
 		self.f执行当前模式命令(v命令)
+	#连接
+	def f连接_网络终端(self, a地址, **a参数):
+		from . import 连接
+		return 连接.C网络终端(self, a地址, **a参数)

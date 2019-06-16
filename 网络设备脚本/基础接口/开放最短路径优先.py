@@ -64,7 +64,7 @@ class I进程配置:
 	#显示
 	def f显示_路由表(self):
 		raise NotImplementedError()
-	def f显示_邻居(self):
+	def f显示_邻居表(self):
 		raise NotImplementedError()
 	def f显示_数据库(self, a类型):
 		raise NotImplementedError()

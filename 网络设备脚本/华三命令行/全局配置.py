@@ -90,6 +90,13 @@ class C系统视图v7(C系统视图):
 			return 实现列表.C高级6v7(self, v名称)
 		else:
 			raise ValueError("错误的类型")
+	#链路层
+	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
+		from . import 链路层发现协议
+		if a接口:
+			v接口 = 实现接口.f创建接口(a接口)
+			return 链路层发现协议.C接口配置v7(self, v接口)
+		return 链路层发现协议.C进程配置v7(self)
 	#操作
 	def fs设备名(self, a名称, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("sysname")

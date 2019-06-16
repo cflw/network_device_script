@@ -30,12 +30,12 @@ class C元素:
 		return self.m元素.text
 #包装函数
 def f有包装(a元素):
-	return a元素 if type(a元素) == C元素 else C包装(a元素)
+	return a元素 if type(a元素) == C元素 else C元素(a元素)
 def f没包装(a元素):
 	return a元素.m元素 if type(a元素) == C元素 else a元素
 def F包装(a包装: bool):
 	return f有包装 if a包装 else f没包装
-def f包装(a包装: bool, a元素):
+def f包装(a元素, a包装: bool = True):
 	if type(a元素) == C元素:
 		return a元素 if a包装 else a元素.m元素
 	else:	#selenium的原始元素类型

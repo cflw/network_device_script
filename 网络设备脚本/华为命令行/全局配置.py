@@ -16,12 +16,12 @@ class C系统视图(全局配置.I全局配置):
 	def f模式_接口(self, a接口):
 		v接口 = 实现接口.f创建接口(a接口)
 		#检查值
-		if v接口.fi属于分类(北向接口.E接口分类.e以太网):
+		if v接口.fi属于分类(北向接口.E分类.e以太网):
 			if v接口.fg主序号数() != 3:
 				raise ValueError("在华为设备,接口序号有3段")
 			elif v接口.fi范围():
 				return C端口组(self, v接口)
-		if v接口.fi属于分类(北向接口.E接口分类.e环回):
+		if v接口.fi属于分类(北向接口.E分类.e环回):
 			if v接口.fg主序号数() != 1:
 				raise ValueError("环回口的序号只有1段")
 		return 实现接口.C接口视图(self, v接口)

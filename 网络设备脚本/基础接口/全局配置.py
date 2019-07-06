@@ -3,6 +3,8 @@ class I全局配置:
 	#模式
 	def f模式_时间(self):
 		raise NotImplementedError()
+	def f模式_日志(self):
+		raise NotImplementedError()
 	def f模式_接口(self, a接口, a操作):
 		raise NotImplementedError()
 	def f模式_用户(self, a用户名, a操作):

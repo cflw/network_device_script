@@ -6,10 +6,11 @@ import re
 # 接口基础
 #===============================================================================
 c接口正则 = re.compile(r"\w+\d+(\/\d+)*(\.\d+)?")	#字母加数字就是接口
-class E接口(enum.IntEnum):#为保证取接口全名有个优先级顺序，高位16位为优先级
+class E类型(enum.IntEnum):#为保证取接口全名有个优先级顺序，高位16位为优先级
 	e无 = 0x00000000	#没有接口名的无接口
 	e空 = 0x00000001	#只丢包的空接口
 	e管理 = 0x00000002
+	e堆叠 = 0x00000003
 	e环回 = 0x00000100
 	e内部 = 0x00000101	#inloop,在华三中出现
 	e十兆以太网 = 0x00000210	#10M=10'000'000
@@ -30,6 +31,7 @@ class E接口(enum.IntEnum):#为保证取接口全名有个优先级顺序，高
 	e拍以太网 = 0x00000290	#1P=1'000T
 	e串行 = 0x00000400
 	e虚拟局域网 = 0x00000500
+	e聚合 = 0x00000501
 	e隧道 = 0x00000600
 	e注册隧道 = 0x00000601	#在华三中出现
 	qx = 0x000f0700	#在中兴m6000中出现
@@ -40,7 +42,7 @@ class E接口(enum.IntEnum):#为保证取接口全名有个优先级顺序，高
 	e无线电 = 0x00000900
 	e局域网 = 0x00001010
 	e广域网 = 0x00001011
-class E接口分类(enum.IntEnum):
+class E分类(enum.IntEnum):
 	e空 = 0
 	e环回 = 1
 	e以太网 = 2
@@ -48,27 +50,29 @@ class E接口分类(enum.IntEnum):
 	e虚拟局域网 = 4
 	e隧道 = 5
 ca接口名称 = {
-	E接口.e空: "Null",
-	E接口.e环回: "Loopback",
-	E接口.e以太网: "Ethernet",
-	E接口.e快速以太网: "FastEthernet",
-	E接口.e吉以太网: "GigabitEthernet",
-	E接口.e十吉以太网: "TenGigabitEthernet",
-	E接口.e串行: "Serial",
-	E接口.e虚拟局域网: "Vlan",
-	E接口.e隧道: "Tunnel",
-	E接口.e以无源光网络: "EPON",
-	E接口.e吉无源光网络: "GPON",
-	E接口.e无线电: "Radio",
-	E接口.e局域网: "LAN",
-	E接口.e广域网: "WAN",
+	E类型.e空: "Null",
+	E类型.e环回: "Loopback",
+	E类型.e以太网: "Ethernet",
+	E类型.e快速以太网: "FastEthernet",
+	E类型.e吉以太网: "GigabitEthernet",
+	E类型.e十吉以太网: "TenGigabitEthernet",
+	E类型.e串行: "Serial",
+	E类型.e虚拟局域网: "Vlan",
+	E类型.e隧道: "Tunnel",
+	E类型.e以无源光网络: "EPON",
+	E类型.e吉无源光网络: "GPON",
+	E类型.e无线电: "Radio",
+	E类型.e局域网: "LAN",
+	E类型.e广域网: "WAN",
 }
 def fc接口名称字典(a字典 = None):
 	v字典 = copy.copy(ca接口名称)
 	if a字典:
 		v字典.update(a字典)
 	return v字典
-#接口结构
+#===============================================================================
+# 接口结构
+#===============================================================================
 class S接口:
 	"表示一个接口"
 	def __init__(self, a类型: int, a名称: str, aa序号: tuple, a子序号 = 0):
@@ -81,6 +85,8 @@ class S接口:
 			return self.m名称 + self.fg序号字符串()
 		else:
 			return self.ft字符串(ca接口名称)
+	def __repr__(self):
+		return f"<接口: {self.__str__()}>"
 	def __eq__(self, a):
 		if isinstance(a, S接口):
 			return (self.m类型 == a.m类型) and (self.ma序号 == a.ma序号)
@@ -127,7 +133,7 @@ class S接口:
 		v正则 = re.compile(r"^" + v名称, re.IGNORECASE)
 		v目标 = None
 		v优先级 = -1
-		for k, v in a字典.items():	#k=E接口,v=字符串
+		for k, v in a字典.items():	#k=E类型,v=字符串
 			if type(v) != str:
 				raise TypeError("元素类型必须是字符串")
 			if a == v:	#完全相等
@@ -246,8 +252,11 @@ class S接口:
 	def fg尾接口(self):
 		return self.fg指定序号接口(lambda a: (a.stop - 1) if type(a) == range else a)
 class F创建接口:
-	def __init__(self, a全称字典 = ca接口名称):
-		self.m全称字典 = a全称字典
+	def __init__(self, a全称字典 = ca接口名称, ai字典字符串在右 = True):
+		if ai字典字符串在右:
+			self.m全称字典 = a全称字典
+		else:
+			self.m全称字典 = 序列.f字典键值反转(a全称字典)	#字典左右对调
 	def __call__(self, a):
 		v类型 = type(a)
 		if v类型 == S接口:
@@ -291,6 +300,8 @@ class I接口配置:	#常见的接口配置
 		raise NotImplementedError()
 	def fs双工模式(self, a全双工, a操作):
 		raise NotImplementedError()
+	def fs巨帧(self, a操作):
+		raise NotImplementedError()
 	#三层
 	def fs网络地址4(self, a地址, a操作):
 		raise NotImplementedError()
@@ -302,6 +313,10 @@ class I接口配置:	#常见的接口配置
 	def fe网络地址6(self):
 		raise NotImplementedError()
 	#主机接口
+	def fs默认网关4(self, a地址, a操作):
+		raise NotImplementedError()
+	def fs默认网状6(self, a地址, a操作):
+		raise NotImplementedError()
 	def fs域名服务器4(self, *a地址, a操作):
 		raise NotImplementedError()
 	def fs域名服务器6(self, *a地址, a操作):

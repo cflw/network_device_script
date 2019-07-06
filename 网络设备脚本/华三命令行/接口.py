@@ -7,19 +7,19 @@ from ..命令行接口 import 地址 as 南向地址
 from ..命令行接口 import 接口 as 南向接口
 from .常量 import *
 ca接口名称 = 北向接口.fc接口名称字典({
-	北向接口.E接口.e虚拟局域网: "Vlan-interface",
+	北向接口.E类型.e虚拟局域网: "Vlan-interface",
 })
 f创建接口 = 北向接口.F创建接口(ca接口名称)
 ca接口缩写 = {
-	"Eth": 北向接口.E接口.e百兆以太网,
-	"GE": 北向接口.E接口.e吉以太网,
-	"XGE": 北向接口.E接口.e万兆以太网,
-	"FGE": 北向接口.E接口.e四万兆以太网,
-	"InLoop": 北向接口.E接口.e内部,
-	"Loop": 北向接口.E接口.e环回,
-	"NULL": 北向接口.E接口.e空,
-	"Ser": 北向接口.E接口.e串行,
-	"REG": 北向接口.E接口.e注册隧道,	#Register-Tunnel
+	"Eth": 北向接口.E类型.e百兆以太网,
+	"GE": 北向接口.E类型.e吉以太网,
+	"XGE": 北向接口.E类型.e万兆以太网,
+	"FGE": 北向接口.E类型.e四万兆以太网,
+	"InLoop": 北向接口.E类型.e内部,
+	"Loop": 北向接口.E类型.e环回,
+	"NULL": 北向接口.E类型.e空,
+	"Ser": 北向接口.E类型.e串行,
+	"REG": 北向接口.E类型.e注册隧道,	#Register-Tunnel
 }
 def f生成地址命令4(a地址, a肯定, a次):
 	v地址 = 地址.S网络地址4.fc自动(a地址)

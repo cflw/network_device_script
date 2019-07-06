@@ -12,6 +12,9 @@ class C全局配置(全局配置.I全局配置):
 	def fg进入命令(self):
 		return C全局配置.c进入命令
 	#基本模式
+	def f模式_日志(self):
+		from . import 日志
+		return 日志.C日志配置(self)
 	def f模式_接口(self, a接口, a操作 = 操作.E操作.e设置):
 		from ..命令行接口 import 接口 as 南向接口
 		if isinstance(a接口, 南向接口.I接口配置):

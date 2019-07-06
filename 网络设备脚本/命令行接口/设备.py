@@ -110,6 +110,11 @@ class I设备(设备.I设备):
 		self.f输入(v字符)
 	def f输入_注释(self):
 		self.f输入(self.m注释)
+	def f输入_结束符(self):
+		raise NotImplementedError()
+		#实现示例:
+		#self.f输入('\x1a')	#ctrl+z
+		#self.f输入('\x03')	#ctrl+c
 	def f刷新(self):
 		"清除正在输入的命令, 清除输出缓存"
 		self.f设备_停顿()

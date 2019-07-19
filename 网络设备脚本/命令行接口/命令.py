@@ -3,14 +3,19 @@ import copy
 # 命令类
 #===============================================================================
 class C命令:	#快速添加命令参数
-	def __init__(self, *t):
+	def __init__(self, *a文本):
 		self.m字符串 = ""
-		self.f添加(*t)
+		self.f添加(*a文本)
 	def __eq__(self, a):
-		if type(a) != C命令:
+		v类型 = type(a)
+		if v类型 == C命令:
+			return self.m字符串 == a.m字符串
+		elif v类型 == str:
+			return self.m字符串 == a
+		else:
 			return False
-		return self.m字符串 == a.m字符串
 	def __add__(self, a):
+		"添加"
 		v命令 = copy.copy(self)
 		v命令 += a
 		return v命令
@@ -29,8 +34,30 @@ class C命令:	#快速添加命令参数
 		else:
 			v命令.f前面添加(a)
 		return v命令
+	def __sub__(self, a):
+		"附(负)加"
+		v命令 = copy.copy(self)
+		v命令 -= a
+		return v命令
+	def __isub__(self, a):
+		v类型 = type(a)
+		if v类型 in (tuple, list):
+			self.f附加(*a)
+		else:
+			self.f附加(a)
+		return self
+	def __rsub__(self, a):
+		v命令 = copy.copy(self)
+		v类型 = type(a)
+		if v类型 in (tuple, list):
+			v命令.f前面附加(*a)
+		else:
+			v命令.f前面附加(a)
+		return v命令
 	def __str__(self):
 		return self.m字符串
+	def __repr__(self):
+		return f"\"{self.m字符串}\""
 	def __bool__(self):
 		return bool(self.m字符串)
 	def __len__(self):
@@ -55,10 +82,24 @@ class C命令:	#快速添加命令参数
 			v命令 = str(v)
 			if not v命令:
 				continue
-			elif v命令[-1] == ' ':
+			elif v命令[-1] == ' ' or self.m字符串[0] == ' ':
 				self.m字符串 = v命令 + self.m字符串
 			else:
 				self.m字符串 = v命令 + " " + self.m字符串
+		return self
+	def f附加(self, *a):
+		for v in a:
+			if v == None:
+				continue
+			self.m字符串 += str(v)
+		return self
+	def f前面附加(self, *a):
+		if not a:
+			raise TypeError()
+		for v in a:
+			if v == None:
+				continue
+			self.m字符串 = str(v) + self.m字符串
 		return self
 	def f前置肯定(self, a判断: bool, a命令):
 		"如果判断为真则添加命令"

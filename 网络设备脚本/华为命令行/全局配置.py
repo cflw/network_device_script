@@ -13,6 +13,9 @@ class C系统视图(全局配置.I全局配置):
 	def f事件_退出模式(self):
 		self.m设备.f自动提交(操作.E自动提交.e退出配置模式时)
 	#模式
+	def f模式_时间(self):
+		from . import 时间
+		return 时间.C时间(self.fg上级模式())
 	def f模式_接口(self, a接口):
 		v接口 = 实现接口.f创建接口(a接口)
 		#检查值
@@ -85,6 +88,17 @@ class C系统视图(全局配置.I全局配置):
 	def f模式_边界网关协议(self, a自治系统号, a操作 = 操作.E操作.e设置):
 		from . import 边界网关协议
 		return 边界网关协议.C进程配置(self, a自治系统号)
+	def f模式_生成树(self, a模式, a接口 = None, a操作 = 操作.E操作.e设置):
+		from ..基础接口 import 生成树 as 北向生成树
+		from . import 生成树 as 实现生成树
+		if a接口:
+			raise NotImplementedError()
+		if a操作 == 操作.E操作.e设置:
+			v命令 = f"stp mode {实现生成树.ca模式[a模式]}"
+			self.f执行当前模式命令(v命令)
+		if a模式 == 北向生成树.E模式.e多生成树:
+			return 实现生成树.C多生成树(self)
+		raise NotImplementedError()
 	#数据结构
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表

@@ -2,7 +2,7 @@ import cflw代码库py.cflw网络连接 as 连接
 from ..命令行接口 import 设备 as 南向设备
 from ..基础接口 import 异常 as 异常
 from ..命令行接口 import 命令
-from ..命令行接口 import 用户模式 as 用户模式
+from ..命令行接口 import 用户模式
 from .常量 import *
 ca错误文本与异常类 = [
 	("% Invalid input detected at '^' marker.", 异常.X命令),	#语法错误

@@ -24,6 +24,16 @@ def f提取链路类型(a文本):
 		return ca链路类型反[v文本]
 	else:
 		return 北向虚网.E链路类型.e混合
+def f生成虚拟局域网(a):
+	v类型 = type(a)
+	if v类型 == int:
+		return str(a)
+	elif v类型 == range:
+		return f"{a.start} to {a.stop - 1}"
+	elif v类型 in (tuple, list):
+		return ",".join(a)
+	else:
+		raise TypeError("无法解析的类型")
 #===============================================================================
 # 配置模式
 #===============================================================================

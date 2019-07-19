@@ -27,7 +27,7 @@ class C接口表r4:
 			if len(v行) < 50:
 				continue
 			v接口s, v链路s, v协议s, v地址s, v描述s = 字符串.fe按位置分割(v行, *C接口表r4.ca列开始)
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 实现接口.ca接口缩写, False)
+			v接口 = 实现接口.f创建接口缩写(v接口s)
 			v状态 = v协议s == "UP"
 			yield 信息.S接口表项(a接口 = v接口, a状态 = v状态, a描述 = v描述s)
 class C接口表s:
@@ -52,7 +52,7 @@ class C接口表s:
 			if len(v行) < 50:
 				continue
 			v接口s, v链路s, v速率s, v双工s, v类型s, v虚拟局域网s, v描述s = 字符串.fe按位置分割(v行, *C接口表s.ca列开始)
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 实现接口.ca接口缩写, False)
+			v接口 = 实现接口.f创建接口缩写(v接口s)
 			v状态 = v链路s == "UP"
 			v速率 = 南向设备.f解析速率(v速率s)
 			v双工 = v双工s == "F"
@@ -81,7 +81,7 @@ class C网络接口表4:
 			if len(v行) < 50:
 				continue
 			v接口s, v物理s, v协议s, v地址s, v描述s = 字符串.fe按位置分割(v行, *C网络接口表4.ca列开始)
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 实现接口.ca接口缩写, False)
+			v接口 = 实现接口.f创建接口缩写(v接口s)
 			if v地址s == "--":
 				v地址 = None
 			else:

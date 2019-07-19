@@ -6,6 +6,7 @@ import re
 # 接口基础
 #===============================================================================
 c接口正则 = re.compile(r"\w+\d+(\/\d+)*(\.\d+)?")	#字母加数字就是接口
+c数字正则 = re.compile(r"\d+.*")
 class E类型(enum.IntEnum):#为保证取接口全名有个优先级顺序，高位16位为优先级
 	e无 = 0x00000000	#没有接口名的无接口
 	e空 = 0x00000001	#只丢包的空接口
@@ -56,6 +57,7 @@ ca接口名称 = {
 	E类型.e快速以太网: "FastEthernet",
 	E类型.e吉以太网: "GigabitEthernet",
 	E类型.e十吉以太网: "TenGigabitEthernet",
+	E类型.e四万兆以太网: "FortyGigabitEthernet",
 	E类型.e串行: "Serial",
 	E类型.e虚拟局域网: "Vlan",
 	E类型.e隧道: "Tunnel",
@@ -71,112 +73,29 @@ def fc接口名称字典(a字典 = None):
 		v字典.update(a字典)
 	return v字典
 #===============================================================================
-# 接口结构
+# 接口结构&类
 #===============================================================================
 class S接口:
 	"表示一个接口"
-	def __init__(self, a类型: int, a名称: str, aa序号: tuple, a子序号 = 0):
+	def __init__(self, a类型: int, aa序号: tuple, a子序号 = 0):
 		self.m类型 = int(a类型)
-		self.m名称 = str(a名称)
 		self.ma序号 = tuple(aa序号)
 		self.m子序号 = int(a子序号)
 	def __str__(self):
-		if self.m名称:
-			return self.m名称 + self.fg序号字符串()
-		else:
-			return self.ft字符串(ca接口名称)
+		return f"""{self.m类型} {"/".join(self.ma序号)} .{self.m子序号}"""
 	def __repr__(self):
-		return f"<接口: {self.__str__()}>"
+		return f"S接口({self.m类型}, {self.ma序号}, {self.m子序号})"
 	def __eq__(self, a):
 		if isinstance(a, S接口):
 			return (self.m类型 == a.m类型) and (self.ma序号 == a.ma序号)
+		elif isinstance(a, C接口):
+			return self == a.m接口
 		else:
 			return False
-	@staticmethod
-	def fc字符串(a字符串, a全称字典 = ca接口名称, ai字典字符串在右 = True):
-		if ai字典字符串在右:
-			v字典 = a全称字典
-		else:
-			v字典 = 序列.f字典键值反转(a全称字典)	#字典左右对调
-		v类型, v名称 = S接口.f解析_取全称(a字符串, v字典)
-		v序号, v子序号 = S接口.f解析_取序号(a字符串)
-		return S接口(v类型, v名称, v序号, v子序号)
 	@staticmethod
 	def fc标准(a类型, *a序号, a子序号 = 0):
 		"(类型,*序号,子序号)"
 		return S接口(a类型, "", a序号, a子序号)
-	def fg序号字符串(self):
-		"包含子序号"
-		#转成字符串列表
-		v列表 = list(self.ma序号)
-		v子序号 = self.m子序号
-		for i in range(len(v列表)):
-			v = v列表[i]
-			if type(v) == range:
-				v列表[i] = str(v.start) + "-" + str(v.stop - 1)
-			else:
-				v列表[i] = str(v)
-		s = '/'.join(v列表)
-		if v子序号:
-			s += '.' + str(v子序号)
-		return s
-	@staticmethod
-	def f解析_取全称(a: str, a字典 = ca接口名称.items()):
-		"提取接口字符串的名称部分,根据字典取全称"
-		v类型 = type(a字典)
-		if hasattr(a字典, "__iter__"):
-			v列表 = a字典
-		else:
-			raise TypeError()
-		v名称 = S接口.f解析_取名称(a)
-		#找前面匹配, 无优先级版本见 cflw字符串.f找前面匹配
-		v正则 = re.compile(r"^" + v名称, re.IGNORECASE)
-		v目标 = None
-		v优先级 = -1
-		for k, v in a字典.items():	#k=E类型,v=字符串
-			if type(v) != str:
-				raise TypeError("元素类型必须是字符串")
-			if a == v:	#完全相等
-				return (k, v)
-			elif re.search(v正则, v):
-				v匹配优先级 = k // 0x10000
-				if v匹配优先级 > v优先级:
-					v优先级 = v匹配优先级
-					v目标 = (k, v)
-		if v目标:
-			return v目标
-		else:
-			raise RuntimeError("未找到")
-	@staticmethod
-	def f解析_取名称(a):
-		"提取接口字符串的名称部分"
-		return re.split(r"\d", a)[0].strip()
-	@staticmethod
-	def f解析_取序号(a):
-		"提取接口字符串的序号部分,返回列表,包含子序号"
-		c数字正则 = re.compile(r"\d+.*")
-		if not c数字正则.search(a):	#找不到数字,返回0
-			return [0], 0
-		v列表 = a.split("/")
-		#[0]去字符,保留数字
-		v列表[0] = c数字正则.findall(v列表[0])[0]
-		#[-1]判断子序号
-		if "." in v列表[-1]:
-			v分割 = v列表[-1].split(".")
-			v列表[-1] = v分割[0]
-			v子序号 = int(v分割[1])
-		else:
-			v子序号 = 0
-		#转成int,range
-		v长度 = len(v列表)
-		for i in range(v长度):
-			v = v列表[i]
-			if "-" in v:
-				v分割 = v.split("-")
-				v列表[i] = range(int(v分割[0]), int(v分割[1])+1)
-			else:
-				v列表[i] = int(v)
-		return v列表, v子序号
 	def fi范围(self):
 		for v序号 in self.ma序号:
 			if type(v序号) == range:
@@ -184,26 +103,12 @@ class S接口:
 		if type(self.m子序号) == range:
 			return True
 		return False
-	def fs名称(self, a):
-		v类型 = type(a)
-		if v类型 == str:
-			self.m名称 = a
-		elif v类型 == dict:
-			self.m名称 = a[self.m类型]
-		else:
-			raise TypeError("无法识别的参数")
-	def fg名称(self, a字典 = None):
-		"根据类型值查字典取名称"
-		if a字典:
-			return a字典[self.m类型]
-		elif self.m名称:
-			return self.m名称
-		else:
-			return ca接口名称[self.m类型]
-	def ft字符串(self, a字典 = ca接口名称):
-		return self.fg名称(a字典) + self.fg序号字符串()
-	def fg主序号数(self):
-		return len(self.ma序号) - 1
+	def fg序号数(self):
+		return len(self.ma序号)
+	def fg序号(self, i):
+		return self.ma序号[i]
+	def fg序号组(self):
+		return self.ma序号
 	def fg分类(self):
 		#取类型的16进制的低3,4位
 		return self.m类型 % 0x10000 // 0x10
@@ -224,7 +129,7 @@ class S接口:
 			v指定序号 = self.m子序号
 			if type(v指定序号) == range:
 				for j in v指定序号:
-					v接口0 = S接口(self.m类型, self.m名称, self.ma序号, j)
+					v接口0 = S接口(self.m类型, self.ma序号, j)
 					yield v接口0
 			else:
 				v接口0 = self
@@ -234,7 +139,7 @@ class S接口:
 			if type(v指定序号) == range:
 				for j in v指定序号:
 					va新序号 = self.ma序号[:i] + (j,) + self.ma序号[i+1:]
-					v接口0 = S接口(self.m类型, self.m名称, va新序号, self.m子序号)
+					v接口0 = S接口(self.m类型, va新序号, self.m子序号)
 					for v接口1 in v接口0.fe接口(i+1):
 						yield v接口1
 			else:
@@ -242,39 +147,192 @@ class S接口:
 				for v接口1 in v接口0.fe接口(i+1):
 					yield v接口1
 	def fg指定序号接口(self, af取值):
-		va序号 = []
-		for v in self.ma序号:
-			va序号.append(af取值(v))
+		va序号 = list(af取值(v) for v in self.ma序号)
 		v子序号 = af取值(self.m子序号)
-		return S接口(self.m类型, self.m名称, va序号, v子序号)
+		return S接口(self.m类型, va序号, v子序号)
 	def fg头接口(self):
-		return self.fg指定序号接口(lambda a: a.start if type(a) == range else a)
+		return self.fg指定序号接口(S接口.f头序号)
 	def fg尾接口(self):
-		return self.fg指定序号接口(lambda a: (a.stop - 1) if type(a) == range else a)
-class F创建接口:
-	def __init__(self, a全称字典 = ca接口名称, ai字典字符串在右 = True):
-		if ai字典字符串在右:
-			self.m全称字典 = a全称字典
+		return self.fg指定序号接口(S接口.f尾序号)
+	@staticmethod
+	def f头序号(a):
+		if type(a) == range:
+			return a.start
 		else:
-			self.m全称字典 = 序列.f字典键值反转(a全称字典)	#字典左右对调
+			return a
+	@staticmethod
+	def f尾序号(a):
+		if type(a) == range:
+			return a.stop - 1
+		else:
+			return a
+class C接口:
+	"""复杂接口类, 包含接口的各种详细信息"""
+	def __init__(self, a接口, a名称, af生成接口):
+		self.m接口 = a接口
+		if a名称:
+			self.m名称 = a名称
+		else:
+			self.m名称 = aa接口名称[a接口.m类型]
+		self.mf生成接口 = af生成接口
+	def __str__(self):
+		return self.mf生成接口(self.m接口)
+	def __eq__(self, a):
+		if isinstance(a, S接口):
+			return self.m接口 == a
+		elif isinstance(a, C接口):
+			return self.m接口 == a.m接口
+		else:
+			return False
+	def f新基(self, a基接口: S接口):
+		"""创建一个新的 C接口 对象, 其中只有 self.m接口 不同"""
+		return C接口(a基接口, self.m名称, self.mf生成接口)
+	def fe接口(self):
+		for v基接口 in self.m接口.fe接口():
+			yield self.f新基(v基接口)
+	def fg序号数(self):
+		return self.m接口.fg序号数()
+	def fg序号(self, i):
+		return self.m接口.fg序号(i)
+	def fg序号组(self):
+		return self.m接口.fg序号组()
+	def fi范围(self):
+		return self.m接口.fi范围()
+	def fi属于分类(self, *a分类):
+		return self.m接口.fi属于分类(*a分类)
+#===============================================================================
+# 处理接口字符串
+#===============================================================================
+class F创建接口:
+	"""把字符串转换成接口对象的类"""
+	def __init__(self, aa接口名称, af生成接口 = None):
+		self.ma接口名称 = aa接口名称
+		if af生成接口:
+			self.mf生成接口 = af生成接口
+		else:
+			self.mf生成接口 = F生成接口(aa接口名称)
 	def __call__(self, a):
 		v类型 = type(a)
 		if v类型 == S接口:
-			v = copy.copy(a)
-			v.m名称 = self.m全称字典[v.m类型]
-			return v
-		elif isinstance(a, I接口配置):
-			v = copy.copy(a.m接口)
-			v.m名称 = self.m全称字典[v.m类型]
-			return v
+			return C接口(a接口 = a, a名称 = None, aa接口名称 = self.ma接口名称)
+		elif isinstance(a, C接口):
+			return a
+		elif hasattr(a, "fg接口"):
+			return a.fg接口()
 		elif v类型 == str:
-			return S接口.fc字符串(a, self.m全称字典)
+			return self.f创建(a)
 		else:
 			raise TypeError("无法解析的类型")
+	def f创建(self, a字符串):
+		v名称s, v总序号s = self.f提取名称和序号(a字符串)
+		v类型, v名称 = self.f解析名称(v名称s)
+		va序号s = self.f分隔序号(v总序号s)
+		va序号s[-1], v子序号s = self.f提取尾序号和子序号(va序号s[-1])
+		va序号 = list(self.f解析序号(v) for v in va序号s)
+		v子序号 = self.f解析子序号(v子序号s)
+		v接口值 = S接口(v类型, va序号, v子序号)
+		v接口对象 = C接口(v接口值, v名称, self.mf生成接口)
+		return v接口对象
+	def f提取名称和序号(self, a字符串):
+		va数字 = c数字正则.findall(a字符串)
+		if not va数字:	#找不到数字
+			v名称 = a字符串
+			v序号 = ""
+		else:
+			v数字位置 = a字符串.find(va数字[0])
+			v名称 = a字符串[: v数字位置]
+			v序号 = a字符串[v数字位置 :]
+		return v名称.strip(), v序号
+	def f提取尾序号和子序号(self, a字符串):
+		v点位置 = a字符串.find(".")
+		if v点位置 < 0:
+			return a字符串, "0"
+		else:
+			return a字符串[: v点位置], a字符串[v点位置+1 :]
+	def f解析名称(self, a字符串):
+		v正则 = re.compile(r"^" + a字符串, re.IGNORECASE)
+		v目标 = None
+		v优先级 = -1
+		for k, v in self.ma接口名称.items():	#k=E类型,v=字符串
+			if type(v) != str:
+				raise TypeError("元素类型必须是字符串")
+			if a字符串 == v:	#完全相等
+				return (k, v)
+			elif re.search(v正则, v):
+				v匹配优先级 = k // 0x10000
+				if v匹配优先级 > v优先级:
+					v优先级 = v匹配优先级
+					v目标 = (k, v)
+		if v目标:
+			return v目标
+		else:
+			raise RuntimeError("找不到名称\"" + a字符串 + "\"")
+	def f分隔序号(self, a字符串):
+		if not a字符串:
+			return [0]
+		return a字符串.split(self.f分隔符())
+	def f解析序号(self, a字符串):
+		if "-" in a字符串:
+			v分割 = a字符串.split("-")
+			return range(int(v分割[0]), int(v分割[1])+1)
+		else:
+			return int(a字符串)
+	def f解析子序号(self, a字符串):
+		return self.f解析序号(a字符串)
+	def f分隔符(self):
+		return "/"
+class F生成接口:
+	"""把接口对象转换成字符串的类"""
+	def __init__(self, aa接口名称):
+		self.ma接口名称 = aa接口名称
+	def __call__(self, a):
+		v类型 = type(a)
+		if isinstance(a, S接口):
+			return self.f生成(a)
+		if isinstance(a, C接口):
+			return self.f生成(a.m接口)
+		elif hasattr(a, "fg接口"):
+			v接口 = a.fg接口()
+			return self.f生成(v接口.m接口)
+		else:
+			raise TypeError("无法解析的类型")
+	def f生成(self, a接口: S接口):
+		v名称 = self.f生成名称(a接口.m类型)
+		va序号 = list(self.fe生成序号组(a接口.ma序号))
+		if a接口.m子序号:
+			v子序号s = self.f生成子序号(a接口.m子序号)
+		else:
+			v子序号s = ""
+		return v名称 + self.f分隔符().join(va序号) + v子序号s
+	def f生成名称(self, a类型):
+		return self.ma接口名称[a类型]
+	def fe生成序号组(self, a序号组):
+		for v序号 in a序号组:
+			v序号类型 = type(v序号)
+			if v序号类型 == int:
+				v序号s = self.f生成序号(v序号)
+			elif v序号类型 == range:
+				v序号s = self.f生成范围(v序号)
+			else:
+				raise TypeError()
+			yield v序号s
+	def f生成序号(self, a序号):
+		return str(a序号)
+	def f生成范围(self, a范围):
+		return f"{a范围.start}-{a范围.stop - 1}"
+	def f生成子序号(self, a序号):
+		return "." + str(a序号)
+	def f分隔符(self):
+		return "/"
+f生成接口 = F生成接口(ca接口名称)
+f创建接口 = F创建接口(ca接口名称, f生成接口)
 #===============================================================================
 # 接口配置
 #===============================================================================
 class I接口配置:	#常见的接口配置
+	def fg接口(self):
+		"必需返回 C接口 对象"
+		raise NotImplementedError()
 	#模式
 	def f模式_虚拟局域网(self):
 		raise NotImplementedError()

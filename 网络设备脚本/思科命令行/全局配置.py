@@ -12,6 +12,9 @@ class C全局配置(全局配置.I全局配置):
 	def fg进入命令(self):
 		return C全局配置.c进入命令
 	#基本模式
+	def f模式_时间(self):
+		from . import 时间
+		return 时间.C时间(self)
 	def f模式_日志(self):
 		from . import 日志
 		return 日志.C日志配置(self)
@@ -150,6 +153,10 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_边界网关协议(self, a自治系统号, a操作 = 操作.E操作.e设置):
 		from . import 边界网关协议
 		return 边界网关协议.C路由(self, a自治系统号)
+	def f模式_热备份路由协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
+		from . import 热备份路由协议 as 实现协议
+		v接口 = 实现接口.f创建接口(a接口)
+		return 实现协议.C配置(self, v接口, a组号)
 	#服务
 	def f模式_网络终端(self):
 		from . import 登录协议

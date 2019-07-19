@@ -33,8 +33,8 @@ class I接口配置基础(模式.I模式):	#所有接口配置模式接口的基
 	c模式名 = "接口配置模式"
 	def __init__(self, a设备, a接口):
 		模式.I模式.__init__(self, a设备)
-		if not (isinstance(a接口, 北向接口.S接口) or type(a接口) == str):
-			raise TypeError("a接口 必须是一个 S接口 对象")
+		if not isinstance(a接口, 北向接口.C接口):
+			raise TypeError("a接口 必须是一个 C接口 对象")
 		self.m接口 = a接口
 	def __eq__(self, a):
 		if not isinstance(a, I接口配置基础):

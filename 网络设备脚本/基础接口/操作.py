@@ -90,3 +90,8 @@ class E方向(enum.IntEnum):
 	e入 = 0x01
 	e出 = 0x02
 	e双 = 0x03
+class E端(enum.IntEnum):
+	e本端 = 0
+	e对端 = 1
+	e服务器端 = 2
+	e客户端 = 3

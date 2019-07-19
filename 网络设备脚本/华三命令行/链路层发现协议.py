@@ -68,7 +68,7 @@ class C邻居表v7:
 			# PortID/subtype      : GigabitEthernet1/0/1/Interface name
 			if v键 == "PortID/subtype":
 				v接口s = 字符串.f提取字符串之间(v值, None, "/", a反向查找 = True)
-				v接口 = 北向接口.S接口.fc字符串(v接口s)
+				v接口 = 实现接口.f创建接口(v接口s)
 				v表项[数据表.E字段.e对端接口] = v接口
 			# Capabilities        : Bridge, Router, Customer Bridge
 		if v表项:

@@ -47,7 +47,7 @@ class C网络接口表4:
 			if len(v行) != C接口表.c标题行长度:
 				continue	#中间可能有其它东西,跳过
 			v接口s, v地址s, v物理s, v协议s = 字符串.fe按位置分割(v行, *C网络接口表4.ca列开始)
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
+			v接口 = 实现接口.f创建接口(v接口s)
 			if "unassigned" in v地址s:
 				v地址 = None
 			else:

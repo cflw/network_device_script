@@ -214,19 +214,19 @@ class I设备(设备.I设备):
 		"自动退出当前模式并进入新模式"
 		v现模式长度 = len(self.ma模式)
 		v新模式长度 = len(aa模式)
-		v最小长度 = min(v现模式长度, v新模式长度)
+		v最大长度 = max(v现模式长度, v新模式长度)
 		v进入位置 = 0
 		#判断模式是否一样,并退出现模式
-		for i in range(v最小长度):
+		for i in range(v最大长度):
 			#找不同模式的位置,然后退出到有相同模式的位置为止
 			#如果新模式是现模式的更深一层模式,不退出,直接进入新模式
-			if self.ma模式[i] != aa模式[i]:
+			if i >= v现模式长度:
+				break
+			if i >= v新模式长度 or self.ma模式[i] != aa模式[i]:
 				for i1 in range(v现模式长度 - i):
 					self.f退出模式()
-				v进入位置 = i
 				break
-			else:
-				v进入位置 = i + 1
+		v进入位置 = i
 		#进入模式
 		for i in range(v进入位置, v新模式长度):
 			self.f进入模式(aa模式[i])

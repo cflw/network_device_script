@@ -14,7 +14,7 @@ class C用户视图(用户模式.I用户模式):
 			self.m设备.f执行命令("n")
 	#模式
 	def f模式_全局配置(self):
-		from . import 全局配置 as 全局配置
+		from . import 全局配置
 		return 全局配置.C系统视图(self)
 	#显示
 	def f显示_版本(self):

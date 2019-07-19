@@ -1,11 +1,8 @@
-from ..基础接口 import 操作
-from ..命令行接口 import 命令
-from ..基础接口 import 协议
-from ..基础接口 import 接口 as 北向接口
-from ..基础接口 import 信息
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-from . import 接口 as 接口
+from ..基础接口 import 接口 as 北向接口
+from ..基础接口 import 信息
+from . import 接口 as 实现接口
 #===============================================================================
 # 物理地址表
 #===============================================================================
@@ -33,7 +30,7 @@ class C物理地址表:
 				continue
 			v虚拟局域网s, v地址s, v类型s, v接口s = 字符串.fe按位置分割(v行, *C物理地址表.ca列开始)
 			v虚拟局域网 = int(v虚拟局域网s)
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口缩写, False)
+			v接口 = 实现接口.f创建接口缩写(v接口s)
 			v地址 = 地址.S物理地址.fc字符串(v地址s)
 			v类型 = ca物理地址类型[str.strip(v类型s)]
 			yield 信息.S物理地址表项(a地址 = v地址, a接口 = v接口, a虚拟局域网 = v虚拟局域网, a类型 = v类型)
@@ -59,7 +56,7 @@ class C网络接口表4:
 				continue
 			#接口
 			v接口s = v行[C网络接口表4.c接口开始 : C网络接口表4.c地址开始]
-			v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
+			v接口 = 实现接口.f创建接口(v接口s)
 			#地址
 			v地址s = v行[C网络接口表4.c地址开始 : C网络接口表4.c好开始]
 			if "unassigned" in v地址s:
@@ -87,7 +84,7 @@ class C网络接口表6:
 				if v项:
 					yield v项
 				v接口s, v状态s, v协议s  = 字符串.fe按字符分割(v行, "[", "/", "]")
-				v接口 = 北向接口.S接口.fc字符串(v接口s, 接口.ca接口名称)
+				v接口 = 实现接口.f创建接口(v接口s)
 				v状态 = "up" in v状态s
 				v项 = 信息.S网络接口表项(a接口 = v接口, a地址 = [], a状态 = v状态)
 			elif v项:	#地址行

@@ -7,19 +7,22 @@ from .常量 import *
 from . import 实用 as 思科实用
 from ..命令行接口 import 命令
 ca接口名称 = 北向接口.fc接口名称字典({})
-f创建接口 = 北向接口.F创建接口(ca接口名称)
+f生成接口 = 北向接口.F生成接口(ca接口名称)
+f创建接口 = 北向接口.F创建接口(ca接口名称, f生成接口)
 ca接口缩写 = {
-	"Fa": 北向接口.E类型.e快速以太网,
-	"Gi": 北向接口.E类型.e吉以太网
+	北向接口.E类型.e快速以太网: "Fa",
+	北向接口.E类型.e吉以太网: "Gi",
 }
+f创建接口缩写 = 北向接口.F创建接口(ca接口缩写, f生成接口)
 c次 = "secondary"
 def f检查接口范围(self):
 	v展开 = False
-	if len(self.m接口.ma序号) > 1:
-		for v序号 in self.m接口.ma序号[:-1]:
+	va序号 = self.m接口.fg序号组()
+	if len(va序号) > 1:
+		for v序号 in va序号[:-1]:
 			if type(v序号) == range:
 				v展开 = True
-	self.mi范围 = type(self.m接口.ma序号[-1]) == range
+	self.mi范围 = type(va序号[-1]) == range
 	self.mi接口自动展开 = v展开
 #===============================================================================
 # 接口配置

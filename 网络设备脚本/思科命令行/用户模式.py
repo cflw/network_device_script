@@ -22,18 +22,10 @@ class C用户模式(用户模式.I用户模式):
 		v输出 = self.m设备.f执行显示命令("show running-config")
 		return v输出
 	def f显示_时间(self):
-		#由于时区名可以设置成奇怪的名字,为了避免奇怪的问题,解析时过滤掉时区
 		v命令 = "show clock"
-		v输出 = self.m设备.f执行显示命令(v命令)	#*09:09:36.935 UTC Thu Sep 29 2016
-		#解析
-		v空格位置 = 字符串.f全部找(v输出, " ")
-		v行结束 = v输出.find("\n")
-		if v行结束 > 0:	#如果有换行符,截取到行结束
-			v输出 = v输出[0 : v空格位置[0]] + v输出[v空格位置[1] : v行结束]
-		else:	#如果没有换行符,截取到字符串结束
-			v输出 = v输出[0 : v空格位置[0]] + v输出[v空格位置[1]:]	#*09:09:36.935 Thu Sep 29 2016
-		v时间 = time.strptime(v输出, "*%H:%M:%S.%f %a %b %d %Y")
-		return v时间
+		v输出 = self.m设备.f执行显示命令(v命令)
+		from . import 时间
+		return 时间.f解析时间(v输出)
 	def f显示_设备版本(self):
 		return self.fg版本信息()
 	#连接

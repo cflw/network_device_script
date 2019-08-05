@@ -16,7 +16,7 @@ class I模式:
 		if isinstance(a, I模式):
 			if self is a:
 				return True
-			elif self.fg进入命令 != a.fg进入命令:
+			elif type(self).fg进入命令 != type(a).fg进入命令:
 				return False
 			else:
 				return self.fg进入命令() == a.fg进入命令()

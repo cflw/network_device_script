@@ -13,6 +13,9 @@ class C系统视图(全局配置.I全局配置):
 	def f事件_退出模式(self):
 		self.m设备.f自动提交(操作.E自动提交.e退出配置模式时)
 	#模式
+	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
+		from . import 用户
+		return 用户.C用户配置(self, a用户名)
 	def f模式_时间(self):
 		from . import 时间
 		return 时间.C时间(self.fg上级模式())

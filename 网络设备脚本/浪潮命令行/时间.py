@@ -69,12 +69,11 @@ class C时间cnv7(模式.C同级模式, 南向时间.I时间配置):
 	def fs时区(self, a时区):
 		v时区 = 北向时间.f解析时区(a时区)
 		v时区名, v符号, v时, v分 = 北向时间.f拆分时区(v时区)
+		if len(v时区名) > 8:
+			raise ValueError("时区名太长")
 		v命令 = 命令.C命令("clock timezone")
 		v命令 += v时区名
 		v命令 += "+" if v符号 else "-"
 		v命令 -= v时
 		v命令 += v分
 		self.f执行当前模式命令(v命令)
-	# @staticmethod
-	# def f解析显示时间(a文本):
-		#15:12:04.631 UTC Sat Jul 06 2002

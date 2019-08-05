@@ -1,4 +1,5 @@
 import enum
+import cflw代码库py.cflw工具 as 工具
 class E型号(enum.IntEnum):
 	c路由器 = 0x10000000
 	c交换机 = 0x20000000
@@ -16,17 +17,21 @@ class E型号(enum.IntEnum):
 	s6650l = c交换机 + c思科 + 6651
 	s6850 = c交换机 + 6850
 def f创建设备(a连接, a型号, a版本):
+	v版本 = 工具.S版本号.fc自动(a版本)
 	if a型号 & E型号.c思科:
 		from .思科命令行 import 设备
-		return 设备.C设备(a连接, a型号, a版本)
+		return 设备.C设备(a连接, a型号, v版本)
 	if a型号 & E型号.c云:
 		from .浪潮命令行 import 设备
-		if a版本 >= 7:
-			return 设备.C设备cnv7(a连接, a型号, a版本)
-		if a版本 >= 6:
-			return 设备.C设备cnv6(a连接, a型号, a版本)
+		if v版本 >= 7:
+			return 设备.C设备cnv7(a连接, a型号, v版本)
+		if v版本 >= 6:
+			return 设备.C设备cnv6(a连接, a型号, v版本)
 		raise ValueError("不支持的版本")
 	if a型号 == E型号.s6550:
 		from .浪潮命令行 import 设备
-		return 设备.C设备sv3(a连接, a型号, a版本)
+		if v版本 < (3,60):
+			return 设备.C设备sv3_50(a连接, a型号, v版本)
+		else:
+			return 设备.C设备sv3_60(a连接, a型号, v版本)
 	raise ValueError("不支持的型号")

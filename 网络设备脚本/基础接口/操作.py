@@ -93,5 +93,6 @@ class E方向(enum.IntEnum):
 class E端(enum.IntEnum):
 	e本端 = 0
 	e对端 = 1
-	e服务器端 = 2
+	e服务器 = 2
 	e客户端 = 3
+	e对等体 = 4

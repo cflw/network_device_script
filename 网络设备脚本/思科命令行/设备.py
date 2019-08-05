@@ -53,6 +53,8 @@ class C设备(南向设备.I设备):
 			self.f检测命令异常(v输出)
 		return v输出
 	def f检测命令异常(self, a输出):
+		if not self.m检测异常:
+			return
 		def f返回异常(ax):
 			if type(ax) == type:
 				v异常 = ax(a输出)

@@ -170,6 +170,14 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_动态主机配置协议(self):
 		from . import 动态主机配置协议
 		return 动态主机配置协议.C服务4(self)
+	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
+		from . import 网络时间协议
+		if a端 == 操作.E端.e服务器:
+			return 网络时间协议.C服务器(self)
+		elif a端 == 操作.E端.e客户端:
+			return 网络时间协议.C客户端(self)
+		else:
+			raise ValueError("a端 必需是服务器或客户端")
 	#链路层
 	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
 		from . import 链路层发现协议

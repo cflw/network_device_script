@@ -15,11 +15,11 @@ c网络终端换码 = "\x1b["	#vt100控制码
 class I设备(设备.I设备):
 	"命令行设备接口"
 	def __init__(self, a连接 = None):
+		设备.I设备.__init__(self)
 		self.m等待 = c等待
 		self.m间隔 = c间隔
 		self.m自动换页文本 = ''
 		self.ma模式 = []
-		self.fs回显(False, False)
 		self.m异常开关 = True
 		self.m注释 = "#"
 		self.m自动提交 = 操作.E自动提交.e不提交

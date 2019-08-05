@@ -8,7 +8,7 @@ from ..命令行接口 import 命令
 def f解析时间(a文本):
 	#由于时区名可以设置成奇怪的名字,为了避免奇怪的问题,解析时过滤掉时区
 	#*09:09:36.935 UTC Thu Sep 29 2016
-	v文本 = 字符串.f提取字符串之间(a文本, "*", "\n", a结束严谨 = False)
+	v文本 = 字符串.f提取字符串之间(a文本, "*" if "*" in a文本 else None, "\n", a结束严谨 = False)
 	v文本 = 字符串.f去词(v文本, 1)
 	return time.strptime(v文本, "%H:%M:%S.%f %a %b %d %Y")
 class C时间(模式.C同级模式, 南向时间.I时间配置):

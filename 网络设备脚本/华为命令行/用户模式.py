@@ -81,7 +81,8 @@ class C用户视图(用户模式.I用户模式):
 		if "Password:" in v输出:
 			v输出 = self.m设备.f执行命令(a密码)
 		if "Error:" in v输出:
-			raise 异常.X登录(v输出)
+			if self.m设备.m检测异常:
+				raise 异常.X登录(v输出)
 		self.f切换到当前模式()
 	def f提升权限(self, a密码, a级别 = 15):
 		self.m设备.f执行命令("super")

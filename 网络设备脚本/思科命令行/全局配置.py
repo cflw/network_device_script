@@ -98,7 +98,7 @@ class C全局配置(全局配置.I全局配置):
 		from . import 静态路由
 		v版本 = 南向路由.f解析网络协议版本(a版本)
 		if v版本 == 协议.E协议.e网络协议4:
-			return 静态路由.C静态路由4(self)
+			return 静态路由.C静态路由4(self, a虚拟路由转发)
 		elif v版本 == 协议.E协议.e网络协议6:
 			raise NotImplementedError()
 		else:
@@ -178,6 +178,14 @@ class C全局配置(全局配置.I全局配置):
 			return 网络时间协议.C客户端(self)
 		else:
 			raise ValueError("a端 必需是服务器或客户端")
+	def f模式_简单网络管理协议(self, a端, a操作 = 操作.E操作.e设置):
+		from . import 简单网络管理协议
+		if a端 == 操作.E端.e代理:
+			return 简单网络管理协议.C代理配置(self)
+		elif a端 == 操作.E端.e陷阱:
+			return 简单网络管理协议.C陷阱配置(self)
+		else:
+			raise ValueError("a端 必需是代理或陷阱")
 	#链路层
 	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
 		from . import 链路层发现协议

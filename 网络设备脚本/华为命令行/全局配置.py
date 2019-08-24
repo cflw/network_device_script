@@ -58,7 +58,7 @@ class C系统视图(全局配置.I全局配置):
 		from . import 静态路由 as 实现静态路由
 		v版本 = 南向路由.f解析网络协议版本(a版本)
 		if v版本 == 协议.E协议.e网络协议4:
-			return 实现静态路由.C静态路由4(self)
+			return 实现静态路由.C静态路由4(self, a虚拟路由转发 = a虚拟路由转发)
 		elif v版本 == 协议.E协议.e网络协议6:
 			raise NotImplementedError()
 		else:
@@ -91,6 +91,7 @@ class C系统视图(全局配置.I全局配置):
 	def f模式_边界网关协议(self, a自治系统号, a操作 = 操作.E操作.e设置):
 		from . import 边界网关协议
 		return 边界网关协议.C进程配置(self, a自治系统号)
+	#交换
 	def f模式_生成树(self, a模式, a接口 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 生成树 as 北向生成树
 		from . import 生成树 as 实现生成树
@@ -125,6 +126,13 @@ class C系统视图(全局配置.I全局配置):
 			return 前缀列表.C前缀列表(self, a名称, 前缀列表.c版本6, 地址.S网络地址6)
 		else:
 			raise ValueError("错误的类型")
+	def f模式_虚拟路由转发(self, a名称 = "", a接口 = None, a操作 = 操作.E操作.e设置):
+		from . import 虚拟路由转发
+		if a接口:
+			v模式 = 虚拟路由转发.C接口配置(self, a接口)
+		else:
+			v模式 = 虚拟路由转发.C资源配置(self, a名称)
+		return v模式
 	#服务
 	def f模式_网络终端(self):
 		from . import 登录协议
@@ -132,6 +140,22 @@ class C系统视图(全局配置.I全局配置):
 	def f模式_安全外壳(self):
 		from . import 登录协议
 		return 登录协议.C安全外壳(self)
+	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
+		from . import 网络时间协议
+		if a端 == 操作.E端.e服务器:
+			return 网络时间协议.C服务器(self)
+		elif a端 == 操作.E端.e客户端:
+			return 网络时间协议.C客户端(self)
+		else:
+			raise ValueError("a端 必需是服务器或客户端")
+	def f模式_简单网络管理协议(self, a端 = 操作.E端.e代理, a操作 = 操作.E操作.e设置):
+		from . import 简单网络管理协议
+		if a端 == 操作.E端.e代理:
+			return 简单网络管理协议.C代理(self)
+		elif a端 == 操作.E端.e陷阱:
+			return 简单网络管理协议.C陷阱(self)
+		else:
+			raise ValueError("a端 必需是代理或陷阱")
 	#配置
 	def fs设备名(self, a名称):
 		self.f执行当前模式命令("sysname " + str(a名称))

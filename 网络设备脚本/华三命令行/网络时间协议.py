@@ -52,7 +52,7 @@ class C远端(模式.C同级模式, 南向协议.I远端配置):
 		self.f执行当前模式命令(v命令)
 	def fs优先(self, a操作 = 操作.E操作.e设置):
 		v命令 = self.fg命令前缀()
-		v命令 += "preference"
+		v命令 += "priority"
 		self.f执行当前模式命令(v命令)
 	def fs认证(self, a钥匙 = 0, a操作 = 操作.E操作.e设置):
 		v命令 = self.fg命令前缀()
@@ -62,5 +62,5 @@ class C远端(模式.C同级模式, 南向协议.I远端配置):
 		from . import 接口 as 实现接口
 		v命令 = self.fg命令前缀()
 		v接口 = 实现接口.f创建接口(a源)
-		v命令 += "source-interface", v接口
+		v命令 += "source", v接口
 		self.f执行当前模式命令(v命令)

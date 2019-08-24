@@ -1,7 +1,14 @@
-class I简单网络管理协议(I模式):
-	def __init__(self, a):
-		I模式.__init__(self, a)
-	def fs读字符串(self, a字符串):
+class I代理配置:
+	def fs开关(self, a操作 = None):
 		raise NotImplementedError()
-	def fs写字符串(self, a字符串):
+	def fs团体字符串(self, a字符串, a权限 = None, a操作 = None):
+		raise NotImplementedError()
+class I陷阱配置:
+	def fs开关(self, a操作 = None):
+		raise NotImplementedError()
+	def fs服务器(self, a地址, a操作 = None):
+		"""主动往服务器发消息"""
+		raise NotImplementedError()
+	def fs源(self, a源, a字符串, a操作 = None):
+		"""发包源地址"""
 		raise NotImplementedError()

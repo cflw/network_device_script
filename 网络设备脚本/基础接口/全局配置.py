@@ -63,7 +63,7 @@ class I全局配置:
 		raise NotImplementedError()
 	def f模式_网络时间协议(self, a端, a操作):	#ntp
 		raise NotImplementedError()
-	def f模式_简单网络管理协议(self):	#snmp
+	def f模式_简单网络管理协议(self, a端, a操作):	#snmp
 		raise NotImplementedError()
 	def f模式_以太网上的点对点协议(self):	#pppoe
 		raise NotImplementedError()

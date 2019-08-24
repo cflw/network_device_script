@@ -90,6 +90,23 @@ class C系统视图v7(C系统视图):
 			return 实现列表.C高级6v7(self, v名称)
 		else:
 			raise ValueError("错误的类型")
+	#服务
+	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
+		from . import 网络时间协议
+		if a端 == 操作.E端.e服务器:
+			return 网络时间协议.C服务器(self)
+		elif a端 == 操作.E端.e客户端:
+			return 网络时间协议.C客户端(self)
+		else:
+			raise ValueError("a端 必需是服务器或客户端")
+	def f模式_简单网络管理协议(self, a端 = 操作.E端.e代理, a操作 = 操作.E操作.e设置):
+		from ..华为命令行 import 简单网络管理协议
+		if a端 == 操作.E端.e代理:
+			return 简单网络管理协议.C代理(self)
+		elif a端 == 操作.E端.e陷阱:
+			return 简单网络管理协议.C陷阱(self)
+		else:
+			raise ValueError("a端 必需是代理或陷阱")
 	#链路层
 	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
 		from . import 链路层发现协议

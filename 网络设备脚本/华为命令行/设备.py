@@ -12,12 +12,8 @@ ca错误文本与异常类 = [
 ]
 class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
-		南向设备.I设备.__init__(self)
-		if a连接.c连接特性 & 连接.E连接特性.e命令行:
-			self.m连接 = a连接
-			self.m连接.fs编码("gb2312")
-		else:
-			raise TypeError("a连接 必须是 I连接 类型")
+		南向设备.I设备.__init__(self, a连接)
+		self.m连接.fs编码("gb2312")
 		self.m型号 = a型号
 		self.m版本 = a版本
 		self.fs自动换页("  ---- More ----")

@@ -54,6 +54,11 @@ class C命令:	#快速添加命令参数
 		else:
 			v命令.f前面附加(a)
 		return v命令
+	def __ior__(self, a: tuple):
+		"""添加参数(或加,有实参才添加)
+		用法: v命令 |= "-l", v用户名"""
+		self.f添加参数(*a)
+		return self
 	def __str__(self):
 		return self.m字符串
 	def __repr__(self):
@@ -72,6 +77,11 @@ class C命令:	#快速添加命令参数
 			if self.m字符串 and self.m字符串[-1] != ' ':	#添加空格
 				self.m字符串 += " "
 			self.m字符串 += v命令
+		return self
+	def f添加参数(self, *a):
+		"有实参则添加"
+		if a[-1]:
+			self.f添加(*a)
 		return self
 	def f前面添加(self, *a):
 		if not a:

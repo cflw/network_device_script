@@ -25,6 +25,7 @@ class I模式:
 	def fi当前模式(self):
 		return self == self.m设备.fg当前模式()
 	def f切换到当前模式(self):
+		self.m设备.f切换到当前连接()
 		if not self.fi当前模式():
 			va模式 = [(r() if type(r) == weakref.ref else r) for r in self.m模式栈]
 			self.m设备.f切换模式(va模式)

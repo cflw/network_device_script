@@ -1,10 +1,19 @@
 import cflw代码库py.cflw网络连接 as 连接
-#下面的接口全是连接包装
-class I命令行连接:
+#===============================================================================
+# 连接包装
+#===============================================================================
+class I连接包装:
+	def __init__(self, a模式):
+		self.m模式 = a模式
+		self.m设备 = a模式.m设备
+		self.m连接 = a模式.m设备.m连接
+	def f连接(self):
+		raise NotImplementedError()
+	def f关闭(self):
+		pass
+class I命令行连接(I连接包装):
 	"一台设备连接到其它设备时使用"
 	c连接特性 = 连接.I命令行连接.c连接特性
-	def __init__(self, a模式):
-		self.m连接 = a模式.m设备.m连接
 	def f读_最新(self):
 		return self.m连接.f读_最新()
 	def f读_最近(self, a数量):

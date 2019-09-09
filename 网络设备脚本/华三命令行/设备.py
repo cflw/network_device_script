@@ -9,13 +9,9 @@ ca错误文本与异常类 = [
 ]
 class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
-		南向设备.I设备.__init__(self)
+		南向设备.I设备.__init__(self, a连接)
 		self.fs自动换页("  ---- More ----")
-		if a连接.c连接特性 & 连接.E连接特性.e命令行:
-			self.m连接 = a连接
-			self.m连接.fs编码("gb2312")
-		else:
-			raise TypeError("a连接 必须是 I连接 类型")
+		self.m连接.fs编码("gb2312")
 		self.m型号 = a型号
 		self.m版本 = a版本
 	def f退出(self):
@@ -27,6 +23,7 @@ class C设备(南向设备.I设备):
 		from . import 用户模式
 		return 用户模式.C用户视图(self)
 	def f模式_启动(self):
+		from . import 启动
 		return 启动.C启动(self)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v命令 = str(a命令)

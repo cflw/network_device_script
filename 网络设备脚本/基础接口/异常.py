@@ -38,3 +38,7 @@ class X登录(X设备):
 	"""登录失败"""
 	def __init__(self, a):
 		X设备.__init__(self, a)
+class X连接(X设备):
+	"""连接失败"""
+	def __init__(self, a):
+		X设备.__init__(self, a)

@@ -1,31 +1,51 @@
 import time
 import random
 import re
+import weakref
 import cflw代码库py.cflw时间 as 时间
 import cflw代码库py.cflw字符串 as 字符串
+from ..基础接口 import 连接
 from ..基础接口 import 设备
 from ..基础接口 import 操作
+from ..基础接口 import 异常
 from ..命令行接口 import 模式
+#===============================================================================
+# 准备
+#===============================================================================
 c等待 = 2
 c间隔 = c等待 / 10
 c网络终端换码 = "\x1b["	#vt100控制码
+class S连接栈元素:	#连接栈的元素
+	def __init__(self, a连接, a设备):
+		self.m连接 = weakref.proxy(a连接)
+		self.m设备 = weakref.proxy(a设备)
 #===============================================================================
 # 设备
 #===============================================================================
 class I设备(设备.I设备):
 	"命令行设备接口"
-	def __init__(self, a连接 = None):
+	def __init__(self, a连接):
 		设备.I设备.__init__(self)
+		#设备设置
 		self.m等待 = c等待
 		self.m间隔 = c间隔
-		self.m自动换页文本 = ''
-		self.ma模式 = []
-		self.m异常开关 = True
 		self.m注释 = "#"
 		self.m自动提交 = 操作.E自动提交.e不提交
-		self.m连接 = a连接
-		self.m历史命令 = ""
-		self.m历史输出 = ""
+		#连接状态
+		self.m连接 = a连接	#当前连接
+		v连接栈元素 = S连接栈元素(a连接, self)
+		if isinstance(a连接, 连接.I连接包装):	#跳板
+			self.m公共连接栈 = a连接.m设备.m公共连接栈	#同一个连接栈中的所有设备共同控制的栈
+			self.m当前连接栈 = a连接.m设备.m当前连接栈 + (v连接栈元素,)	#当前连接在连接栈的位置
+		else:	#新连接
+			self.m公共连接栈 = []
+			self.m当前连接栈 = (v连接栈元素,)
+		#设备状态
+		self.ma模式 = []
+		self.m自动换页文本 = ''
+		self.m历史命令 = ""	#防止连续执行相同命令
+		self.m历史输出 = ""	#如果执行了相同的命令,则返回相同的输出
+		self.mf自动登录 = None	#
 	def __del__(self):
 		if not self.m连接:
 			return
@@ -44,9 +64,12 @@ class I设备(设备.I设备):
 		self.m自动换页替换 = None
 	def f关闭(self):
 		"执行清理操作, 然后关闭连接. f关闭 只能调用一次"
+		assert(self.fi当前连接())
 		while self.ma模式:
 			self.f退出模式()
-		self.m连接 = None
+		self.f退出()
+		self.m连接.f关闭()
+		self.m公共连接栈.pop()
 	def f设备_回显(self, a内容):
 		"输出时自动调用"
 		if self.m回显:
@@ -58,6 +81,8 @@ class I设备(设备.I设备):
 			print(".", end = '', flush = True)
 	def f设备_停顿(self, a倍数 = 1):
 		time.sleep(self.m间隔 * a倍数)
+	def fs已登录(self):
+		self.mi登录 = True
 	#输入输出
 	def f输入(self, a文本):
 		self.f设备_停顿()
@@ -131,8 +156,6 @@ class I设备(设备.I设备):
 		"输入一段字符按回车, 并返回输出结果"
 		#准备命令
 		v命令 = str(a命令)
-		if v命令 == self.m历史命令:
-			return self.m历史输出
 		self.m历史命令 = v命令
 		#执行
 		self.f刷新()
@@ -143,7 +166,7 @@ class I设备(设备.I设备):
 	def f执行配置命令(self, a命令, a自动提交 = True):
 		self.f执行命令(a命令)
 		if a自动提交:
-			self.f自动提交(E自动提交.e立即)
+			self.f自动提交(操作.E自动提交.e立即)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		"有自动换页功能"
 		#准备命令
@@ -223,7 +246,7 @@ class I设备(设备.I设备):
 			if i >= v现模式长度:
 				break
 			if i >= v新模式长度 or self.ma模式[i] != aa模式[i]:
-				for i1 in range(v现模式长度 - i):
+				for j in range(v现模式长度 - i):
 					self.f退出模式()
 				break
 		v进入位置 = i
@@ -231,7 +254,34 @@ class I设备(设备.I设备):
 		for i in range(v进入位置, v新模式长度):
 			self.f进入模式(aa模式[i])
 	def f抛出模式异常(self):
-		raise X模式(self.fg当前模式())
+		raise 异常.X模式(self.fg当前模式())
+	#连接操作
+	def f切换到当前连接(self):
+		#切换连接的过程类似切换模式
+		if self.fi当前连接():
+			return
+		v现连接长度 = len(self.m公共连接栈)
+		v新连接长度 = len(self.m当前连接栈)
+		v最大长度 = max(v现连接长度, v新连接长度)
+		v进入位置 = 0
+		for i in range(v最大长度):
+			if i >= v现连接长度:
+				break
+			if i >= v新连接长度 or self.m公共连接栈[i] != self.m当前连接栈[i]:
+				for j in range(v现连接长度 - i):
+					self.m公共连接栈[-1].m设备.f关闭()
+				break
+		v进入位置 = i
+		for i in range(v进入位置, v新连接长度):
+			v当前连接 = self.m当前连接栈[i]
+			v当前连接.m连接.f连接()
+			self.m公共连接栈.append(v当前连接)
+			if v当前连接.m设备.mf自动登录:	#自动登录
+				v当前连接.m设备.mf自动登录()
+	def fi当前连接(self):
+		if not self.m公共连接栈:	#没有连接
+			return False
+		return self.m当前连接栈[-1] == self.m公共连接栈[-1]	#偷懒,直接比较最后一个
 	#动作&命令
 	def f自动适应延迟(self, a测试字符: str = '#'):
 		"发送字符测试延迟,根据响应时间确定间隔"

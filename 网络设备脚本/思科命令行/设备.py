@@ -12,16 +12,11 @@ ca错误文本与异常类 = [
 ]
 class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
-		南向设备.I设备.__init__(self)
+		南向设备.I设备.__init__(self, a连接)
+		self.m连接.fs编码("ascii")
 		self.fs自动换页("--More--")
-		if a连接.c连接特性 & 连接.E连接特性.e命令行:
-			self.m连接 = a连接
-			self.m连接.fs编码("ascii")
-		else:
-			raise TypeError("a连接 必须是 I连接 类型")
 		self.m型号 = a型号
 		self.m版本 = a版本
-		self.m异常 = True	#是否抛出异常
 	def f退出(self):
 		self.f执行命令("exit")
 	def f输入_结束符(self):	#ctrl+c
@@ -60,7 +55,7 @@ class C设备(南向设备.I设备):
 				v异常 = ax(a输出)
 			else:
 				v异常 = ax
-			if self.m异常:
+			if self.m检测异常:
 				raise v异常
 			return v异常
 		for v文本, vt异常 in ca错误文本与异常类:

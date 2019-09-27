@@ -15,23 +15,12 @@ class C用户模式(用户模式.I用户模式):
 		self.f登录()
 		self.f提升权限()
 	def f模式_全局配置(self):
-		from . import 全局配置 as 全局配置
+		from . import 全局配置
 		self.f切换到当前模式()
 		return 全局配置.C全局配置(self)
-	#显示
-	def f显示_启动配置(self):
-		v输出 = self.m设备.f执行显示命令("show startup-config")
-		return v输出
-	def f显示_当前配置(self):
-		v输出 = self.m设备.f执行显示命令("show running-config")
-		return v输出
-	def f显示_时间(self):
-		v命令 = "show clock"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		from . import 时间
-		return 时间.f解析时间(v输出)
-	def f显示_设备版本(self):
-		return self.fg版本信息()
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示(self)
 	#连接
 	def f连接_网络终端(self, a地址, **a参数):
 		from . import 连接 as 连接

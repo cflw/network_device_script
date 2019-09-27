@@ -48,29 +48,6 @@ class F生成接口sv3(北向接口.F生成接口):
 f生成接口sv3 = F生成接口sv3(ca接口名称sv3)
 f创建接口sv3 = 北向接口.F创建接口(ca接口名称sv3, f生成接口sv3)
 f创建接口缩写sv3 = 北向接口.F创建接口(ca接口缩写sv3, f生成接口sv3)
-#c6000系列v6
-ca接口名称cnv6 = {
-	北向接口.E类型.e以太网: "eth-",
-	北向接口.E类型.e聚合: "agg",
-	北向接口.E类型.e空: "null",
-	北向接口.E类型.e虚拟局域网: "vlan",
-}
-f生成接口cnv6 = 北向接口.F生成接口(ca接口名称cnv6)
-f创建接口cnv6 = 北向接口.F创建接口(ca接口名称cnv6, f生成接口cnv6)
-#接口
-class C管理cnv6(模式.C同级模式, 南向接口.I接口配置):
-	def __init__(self, a, a接口):
-		南向接口.I接口配置.__init__(self, a, a接口)
-	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
-		v地址 = 地址.S网络地址4.fc自动(a地址)
-		v命令 = 命令.C命令("management ip address")
-		v命令 += str(v地址)
-		self.f执行当前模式命令(v命令)
-	def fs默认网关4(self, a地址, a操作 = 操作.E操作.e设置):
-		v地址 = 地址.S网络地址4.fc自动(a地址)
-		v命令 = 命令.C命令("management route add gateway")
-		v命令 += v地址.fg地址s()
-		self.f执行当前模式命令(v命令)
 class C管理cnv7(南向接口.I接口配置):
 	def __init__(self, a, a接口):
 		南向接口.I接口配置.__init__(self, a, a接口)

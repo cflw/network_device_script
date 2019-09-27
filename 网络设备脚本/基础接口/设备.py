@@ -17,6 +17,9 @@ class I设备:
 	def f模式_配置(self):
 		"直接进入配置模式, 用于不需要用户名密码登录, 没有状态的连接方式"
 		raise NotImplementedError()
+	def f模式_显示(self):
+		"直接进入显示模式"
+		raise NotImplementedError()
 	def f助手_访问控制列表(self):
 		raise NotImplementedError()
 	def f助手_密码(self):

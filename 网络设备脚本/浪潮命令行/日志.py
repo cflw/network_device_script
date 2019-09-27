@@ -20,20 +20,6 @@ class C日志cnv7(模式.C同级模式, 南向日志.I日志配置):
 		v命令 = self.f生成服务器地址()
 		v命令 += int(a级别)
 		self.f执行当前模式命令(v命令)
-#cnv6
-class C日志cnv6(模式.C同级模式, 南向日志.I日志配置):
-	def __init__(self, a):
-		南向日志.I日志配置.__init__(self, a)
-	def fs服务器开关(self, a操作 = 操作.E操作.e开启):
-		v操作 = 操作.f解析操作(a操作)
-		if 操作.fi开操作(v操作):
-			self.f执行当前模式命令("logging server enable")
-		else:
-			self.f执行当前模式命令("logging server disable")
-	def fs服务器地址(self, a地址, a操作 = 操作.E操作.e添加):
-		self.f执行当前模式命令(f"logging server address {a地址}")
-	def fs服务器严重级别(self, a级别, a操作 = 操作.E操作.e设置):
-		self.f执行当前模式命令(f"logging server severity {int(a级别)}")
 #sv3
 class C日志sv3(模式.C同级模式, 南向日志.I日志配置):
 	def __init__(self, a):

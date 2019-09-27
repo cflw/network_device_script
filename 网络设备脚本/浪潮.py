@@ -5,11 +5,13 @@ class E型号(enum.IntEnum):
 	c交换机 = 0x20000000
 	c思科 = 0x40000000
 	c云 = 0x80000000
+	c盛科 = 0x01000000
 	cn8000 = c交换机 + c云 + 8000
 	cn8672 = c交换机 + c云 + 8672
 	cn8696 = c交换机 + c云 + 8696
-	cn6000 = c交换机 + c云 + 6000
-	cn61108 = c交换机 + c云 + 6118
+	cn61108pcv = c交换机 + c云 + 6118
+	cn61108pcvh = c交换机 + c盛科 + 6118
+	s5350 = c交换机 + c盛科 + 5350
 	s5960 = c交换机 + c思科 + 5960
 	s5960l = c交换机 + c思科 + 5961
 	s6550 = c交换机 + 6550
@@ -25,8 +27,11 @@ def f创建设备(a连接, a型号, a版本):
 		from .浪潮命令行 import 设备
 		if v版本 >= 7:
 			return 设备.C设备cnv7(a连接, a型号, v版本)
+		raise ValueError("不支持的版本")
+	if a型号 & E型号.c盛科:
+		from .盛科命令行 import 设备
 		if v版本 >= 6:
-			return 设备.C设备cnv6(a连接, a型号, v版本)
+			return 设备.C设备ev6(a连接, a型号, v版本)
 		raise ValueError("不支持的版本")
 	if a型号 == E型号.s6550:
 		from .浪潮命令行 import 设备

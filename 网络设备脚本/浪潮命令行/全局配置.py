@@ -58,37 +58,6 @@ class C全局配置cnv7_3(C全局配置cnv7_0):
 		from . import 网络时间协议 as 实现协议
 		return 实现协议.f模式(self, a端, 实现协议.C客户端cnv7_3, None, a操作)
 #===============================================================================
-# cn系列(v6.x)
-#===============================================================================
-class C全局配置cnv6(全局配置.I全局配置):
-	"""适用于: cn61108(v6.x)"""
-	def __init__(self, a):
-		全局配置.I全局配置.__init__(self, a)
-	def fg进入命令(self):
-		return "configure terminal"
-	#模式
-	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
-		from . import 用户
-		return 用户.C用户cnv6(self, a用户名)
-	def f模式_时间(self):
-		from . import 时间
-		return 时间.C时间cnv6(self)
-	def f模式_日志(self):
-		from . import 日志
-		return 日志.C日志cnv6(self)
-	#服务
-	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
-		from . import 网络时间协议 as 实现协议
-		return 实现协议.f模式(self, a端, 实现协议.C客户端cnv6, None, a操作)
-	def f模式_简单网络管理协议(self, a端, a操作 = 操作.E操作.e设置):
-		from . import 简单网络管理协议
-		if a端 == 操作.E端.e代理:
-			return 简单网络管理协议.C代理配置cnv6(self)
-		elif a端 == 操作.E端.e陷阱:
-			return 简单网络管理协议.C陷阱配置cnv6(self)
-		else:
-			raise ValueError("a端 必需是代理或陷阱")
-#===============================================================================
 # s系列(v3.x)
 #===============================================================================
 class C全局配置sv3(全局配置.I全局配置):

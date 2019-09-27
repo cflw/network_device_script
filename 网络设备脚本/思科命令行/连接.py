@@ -13,8 +13,11 @@ class C网络终端(连接.I命令行连接):
 		v命令 = self.fg进入命令()
 		v输出 = self.m模式.f执行当前模式命令(v命令)
 		# % Destination unreachable; gateway or host down
-		if "Destination unreachable" in v输出:
-			raise 异常.X连接()
+		if "Destination unreachable" in v输出:	#没路由
+			raise 异常.X连接(v输出)
+		# % Connection timed out; remote host not responding
+		if "Connection timed out" in v输出:	#连接超时
+			raise 异常.X连接(v输出)
 class C安全外壳(连接.I命令行连接):
 	def __init__(self, a模式, a地址, **a参数):
 		连接.I命令行连接.__init__(self, a模式)

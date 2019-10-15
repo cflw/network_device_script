@@ -4,12 +4,12 @@ class E型号(enum.IntEnum):
 	c路由器 = 0x10000000
 	c交换机 = 0x20000000
 	c思科 = 0x40000000
-	c云 = 0x80000000
-	c盛科 = 0x01000000
-	cn8000 = c交换机 + c云 + 8000
-	cn8672 = c交换机 + c云 + 8672
-	cn8696 = c交换机 + c云 + 8696
-	cn61108pcv = c交换机 + c云 + 6118
+	c盛科 = 0x80000000
+	c枢纽 = 0x01000000
+	cn8000 = c交换机 + c枢纽 + 8000
+	cn8672 = c交换机 + c枢纽 + 8672
+	cn8696 = c交换机 + c枢纽 + 8696
+	cn61108pcv = c交换机 + c枢纽 + 6118
 	cn61108pcvh = c交换机 + c盛科 + 6118
 	s5350 = c交换机 + c盛科 + 5350
 	s5960 = c交换机 + c思科 + 5960
@@ -23,10 +23,10 @@ def f创建设备(a连接, a型号, a版本):
 	if a型号 & E型号.c思科:
 		from .思科命令行 import 设备
 		return 设备.C设备(a连接, a型号, v版本)
-	if a型号 & E型号.c云:
-		from .浪潮命令行 import 设备
+	if a型号 & E型号.c枢纽:
+		from .思科枢纽命令行 import 设备
 		if v版本 >= 7:
-			return 设备.C设备cnv7(a连接, a型号, v版本)
+			return 设备.C设备nv7(a连接, a型号, v版本)
 		raise ValueError("不支持的版本")
 	if a型号 & E型号.c盛科:
 		from .盛科命令行 import 设备

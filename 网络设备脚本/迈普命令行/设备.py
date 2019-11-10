@@ -17,10 +17,10 @@ class C设备(南向设备.I设备):
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v命令 = str(a命令)
 		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
-		v输出 = v输出.replace("\r\n", "\n")
+		return self.f处理显示结果(v输出)
+	def f处理显示结果(self, a输出):
+		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)
-		# if v输出.count("\n") < 10:	#输出行数太少,检测是否有异常
-		# 	self.f检测命令异常(v输出)
 		return v输出
 	#动作
 	def f退出(self):

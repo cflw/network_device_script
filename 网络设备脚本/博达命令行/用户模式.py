@@ -13,34 +13,9 @@ class C用户模式(用户模式.I用户模式):
 	def f模式_全局配置(self):
 		from . import 全局配置
 		return 全局配置.C全局配置(self)
-	#显示
-	def f显示_版本(self):
-		v输出 = self.m设备.f执行显示命令("show version")
-		return 系统信息.C版本(v输出)
-	def f显示_启动配置(self):
-		v输出 = self.m设备.f执行显示命令("show configuration")
-		return v输出
-	def f显示_当前配置(self):
-		v输出 = self.m设备.f执行显示命令("show running-config")
-		return v输出
-	def f显示_时间(self):
-		v版本 = self.f显示_版本()
-		return v版本.fg当前时间()
-	def f显示_设备名称(self):
-		v命令 = "show running-config | include hostname"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		v位置 = v输出.find("hostname")
-		v行结束 = v输出.find("\n", v位置)
-		return v输出[v位置 + 9 : v行结束]
-	#显示具体
-	def f显示_接口表(self):
-		v命令 = "show interface brief"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C接口表(v输出)
-	def f显示_网络接口表4(self):
-		v命令 = "show ip interface brief"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C网络接口表4(v输出)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示(self)
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):
 		time.sleep(1)

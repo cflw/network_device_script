@@ -178,7 +178,10 @@ class I设备(设备.I设备):
 		self.f刷新()
 		self.f输入(v命令)
 		self.f输入_回车()
+		return self.f输出显示结果(a自动换页)
+	def f输出显示结果(self, a自动换页 = True, a最小等待 = 1):
 		v输出 = ''
+		v计时 = 时间.C秒表()
 		if a自动换页 and self.m自动换页文本:
 			while True:
 				v读 = self.f输出(a等待 = True)
@@ -187,13 +190,19 @@ class I设备(设备.I设备):
 					self.f输入_空格()
 					self.f设备_等待回显()
 					continue
-				else:
-					break
+				else:	#没有更多
+					if v计时.f滴答() < a最小等待:
+						continue
+					else:
+						break
 			v输出 = self.f自动换页替换(v输出)
 		else:
 			v输出 = self.f输出(a等待 = True)
 		self.m历史输出 = v输出.replace("\r\n", "\n")
 		return self.m历史输出
+	def f处理显示结果(self, a输出):
+		"""根据具体设备对显示结果进行处理"""
+		return a输出	# 默认不处理,原样返回
 	def f自动换页替换(self, a字符串: str):
 		v替换位置 = a字符串.find(self.m自动换页文本)
 		if v替换位置 < 0:

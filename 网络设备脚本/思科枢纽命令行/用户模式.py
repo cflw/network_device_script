@@ -21,6 +21,9 @@ class C用户模式nv7_0(用户模式.I用户模式):
 	def f模式_全局配置(self):
 		from . import 全局配置
 		return 全局配置.C全局配置nv7_0(self)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示nv7_0(self)
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):
 		self.m设备.f切换到当前连接()

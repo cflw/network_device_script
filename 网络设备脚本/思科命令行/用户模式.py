@@ -30,6 +30,7 @@ class C用户模式(用户模式.I用户模式):
 		return 连接.C安全外壳(self, a地址, **a参数)
 	#操作
 	def f登录(self, a用户名 = "", a密码 = ""):
+		self.m设备.f切换到当前连接()
 		time.sleep(0.2)
 		self.f记住登录(a用户名, a密码)
 		self.m设备.f输入_结束符()	#登录中按ctrl+c可以刷出"Username:"

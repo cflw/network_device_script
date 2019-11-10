@@ -11,6 +11,7 @@ class C设备sv3_50(南向设备.I设备):
 		南向设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
 		self.m版本 = a版本
+		self.fs自动换页("--More--")
 	#输入输出
 	def f输入_结束符(self):
 		self.f输入('\x1a')	#ctrl+z
@@ -30,7 +31,9 @@ class C设备sv3_50(南向设备.I设备):
 		#退到用户模式执行
 		self.ma模式[0].f切换到当前模式()
 		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
-		v输出 = v输出.replace("\r\n", "\n")
+		return self.m处理显示结果(v输出)
+	def f处理显示结果(self, a输出):
+		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)
 		return v输出
 	def f退出(self, a关闭 = False):

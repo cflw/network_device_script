@@ -20,23 +20,28 @@ class E型号(enum.IntEnum):
 	s6850 = c交换机 + 6850
 def f创建设备(a连接, a型号, a版本):
 	v版本 = 工具.S版本号.fc自动(a版本)
-	if a型号 & E型号.c思科:
-		from .思科命令行 import 设备
-		return 设备.C设备(a连接, a型号, v版本)
-	if a型号 & E型号.c枢纽:
-		from .思科枢纽命令行 import 设备
-		if v版本 >= 7:
-			return 设备.C设备nv7(a连接, a型号, v版本)
-		raise ValueError("不支持的版本")
-	if a型号 & E型号.c盛科:
-		from .盛科命令行 import 设备
-		if v版本 >= 6:
-			return 设备.C设备ev6(a连接, a型号, v版本)
-		raise ValueError("不支持的版本")
-	if a型号 == E型号.s6550:
-		from .浪潮命令行 import 设备
-		if v版本 < (3,60):
-			return 设备.C设备sv3_50(a连接, a型号, v版本)
-		else:
-			return 设备.C设备sv3_60(a连接, a型号, v版本)
+	if hasattr(a连接, "c连接特性") and a连接.c连接特性 & 连接.E连接特性.e命令行:	#命令行
+		if a型号 & E型号.c思科:
+			from .思科命令行 import 设备
+			return 设备.C设备(a连接, a型号, v版本)
+		if a型号 & E型号.c枢纽:
+			from .思科枢纽命令行 import 设备
+			if v版本 >= 7:
+				return 设备.C设备nv7(a连接, a型号, v版本)
+			raise ValueError("不支持的版本")
+		if a型号 & E型号.c盛科:
+			from .盛科命令行 import 设备
+			if v版本 >= 6:
+				return 设备.C设备ev6(a连接, a型号, v版本)
+			raise ValueError("不支持的版本")
+		if a型号 == E型号.s6550:
+			from .浪潮命令行 import 设备
+			if v版本 < (3,60):
+				return 设备.C设备sv3_50(a连接, a型号, v版本)
+			else:
+				return 设备.C设备sv3_60(a连接, a型号, v版本)
+	elif "selenium" in str(a连接.__class__):	#网页
+		if a型号 & E型号.c盛科:
+			from .盛科网页 import 设备
+			return 设备.C设备ev6(a连接, a型号, a版本)
 	raise ValueError("不支持的型号")

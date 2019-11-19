@@ -43,16 +43,12 @@ class I全局显示:
 	def f显示_默认路由4(self):
 		raise NotImplementedError()
 	def f显示_链路层发现协议(self):
-		"返回列表，列表包含邻居字典"
 		raise NotImplementedError()
 	def f显示_接口表(self):
-		"返回接口表,应能迭代出 S接口表项"
 		raise NotImplementedError()
 	def f显示_网络接口表4(self):
-		"返回网络接口表,应能迭代出 S网络接口表项"
 		raise NotImplementedError()
 	def f显示_网络接口表6(self):
-		"返回网络接口表,应能迭代出 S网络接口表项"	
 		raise NotImplementedError()
 	def f显示_接口详细(self, a接口 = None):
 		raise NotImplementedError()

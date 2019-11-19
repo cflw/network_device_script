@@ -27,7 +27,15 @@ class C元素:
 		s.select_by_index(a索引)
 		time.sleep(0.1)
 	def fg文本(self):
+		if self.m元素.tag_name in ("input",):	#表单控件从值属性取文本
+			return self.m元素.get_attribute("value")
 		return self.m元素.text
+	def fg属性(self, a属性名):
+		return self.m元素.get_attribute(a属性名)
+	def fg标识(self):
+		return self.m元素.get_attribute("id")
+	def fg类名(self):
+		return self.m元素.get_attribute("class")
 #包装函数
 def f有包装(a元素):
 	return a元素 if type(a元素) == C元素 else C元素(a元素)

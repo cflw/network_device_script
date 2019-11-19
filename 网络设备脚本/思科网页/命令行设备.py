@@ -16,11 +16,11 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 		self.ma模式栈 = []
 	#网页
 	def fg命令框(self, a包装 = True):
-		w命令框 = self.f查找("/html/body/pre/form/dt/input[2]", a包装)
+		w命令框 = self.f网页_查找("/html/body/pre/form/dt/input[2]", a包装)
 		return w命令框
 	#适配
 	def f输出(self):
-		w输出框 = self.f查找("/html/body/pre/form/dt/pre", False)
+		w输出框 = self.f网页_查找("/html/body/pre/form/dt/pre", False)
 		return w输出框.text
 	def f输入(self):
 		w命令框 = self.fg命令框(False)
@@ -32,12 +32,12 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 			w命令框.send_keys(selenium.webdriver.common.keys.Keys.ENTER)
 			time.sleep(v间隔)
 	def f输入_结束符(self):
-		v地址 = self.m连接.current_url	#http://192.168.1.10/level/15/exec/-
+		v地址 = self.m连接.f网页_g地址()	#http://192.168.1.10/level/15/exec/-
 		if "exec/-" in v地址:	#命令页
-			v元素 = self.f查找("/html/body/pre/a[2]")
+			v元素 = self.f网页_查找("/html/body/pre/a[2]")
 			v元素.f点击()
 		else:	#主页
-			v元素 = self.f查找("/html/body/menu/dl/dt[2]/a[1]")
+			v元素 = self.f网页_查找("/html/body/menu/dl/dt[2]/a[1]")
 			v元素.f点击()
 	def f刷新(self):
 		w命令框 = self.fg命令框(False)

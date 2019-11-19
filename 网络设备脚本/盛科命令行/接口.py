@@ -11,13 +11,16 @@ ca接口名称ev6 = {
 	北向接口.E类型.e空: "null",
 	北向接口.E类型.e虚拟局域网: "vlan",
 }
+class F创建接口ev6(北向接口.F创建接口):
+	def f分隔符(self):	#分隔符和范围都是横杠, 无法解析范围
+		return "-"
 class F生成接口ev6(北向接口.F生成接口):
 	def f分隔符(self):
 		return "-"
 	def f生成范围(self, a范围):
 		return f"{a范围.start} - {a范围.stop - 1}"
 f生成接口ev6 = F生成接口ev6(ca接口名称ev6)
-f创建接口ev6 = 北向接口.F创建接口(ca接口名称ev6, f生成接口ev6)
+f创建接口ev6 = F创建接口ev6(ca接口名称ev6, f生成接口ev6)
 #接口
 class C管理ev6(模式.C同级模式, 南向接口.I接口配置):
 	"""适用于: 盛科e580(v6.x), 浪潮cn61108pcvh(v6.x), 浪潮s5350(v6.x)"""

@@ -28,10 +28,10 @@ class C设备(设备.I设备):
 			e = self.m连接.find_element_by_xpath(a框架)
 			self.m连接.switch_to.frame(e)
 		self.m当前框架 = a框架
-	def f查找(self, a找):
+	def f网页_查找(self, a找):
 		if self.mi登录:
 			self.f切换框架(C设备.c主体框架)
-		return 设备.I设备.f查找(self, a找)
+		return 设备.I设备.f网页_查找(self, a找)
 	def f模式_用户(self):
 		from . import 用户模式
 		return 用户模式.C用户模式(self)

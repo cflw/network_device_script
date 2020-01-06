@@ -26,6 +26,10 @@ class C元素:
 		s = selenium.webdriver.support.select.Select(self.m元素)
 		s.select_by_index(a索引)
 		time.sleep(0.1)
+	def f聚焦(self):
+		"先用点击代替"
+		self.m元素.click()
+	#取属性
 	def fg文本(self):
 		if self.m元素.tag_name in ("input",):	#表单控件从值属性取文本
 			return self.m元素.get_attribute("value")
@@ -36,6 +40,12 @@ class C元素:
 		return self.m元素.get_attribute("id")
 	def fg类名(self):
 		return self.m元素.get_attribute("class")
+	def fg矩形(self):
+		x = self.m元素.localtion["x"]
+		y = self.m元素.localtion["y"]
+		v宽 = self.m元素.localtion["width"]
+		v高 = self.m元素.localtion["height"]
+		return x, y, x + v宽, y + v高
 #包装函数
 def f有包装(a元素):
 	return a元素 if type(a元素) == C元素 else C元素(a元素)

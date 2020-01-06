@@ -11,6 +11,11 @@
 
 项目依赖项：
 * [乘风龙王的代码库(python)](https://github.com/cflw/cflw_py)
+* paramiko（安全外壳连接到网络设备时需要）
+* pyserial（串口连接到网络设备时需要）
+* pywin32（命名管道连接到网络设备时需要）
+* selenium（网页控制网络设备时需要）
+* pillow（网页控制网络设备时需要）
 
 ### 文章
 * [用python编写控制网络设备的自动化脚本1：框架设计](https://zhuanlan.zhihu.com/p/53641620) \[知乎\]

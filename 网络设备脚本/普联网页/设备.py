@@ -16,7 +16,7 @@ class C设备(网页设备.I设备):
 			return
 		time.sleep(0.2)
 		for v模式 in aa模式:
-			v元素 = self.f网页_查找(f"//*[@id='{v模式}']")
+			v元素 = self.f查找(f"//*[@id='{v模式}']")
 			v元素.f点击()
 			time.sleep(0.2)
 		self.ma模式 == aa模式

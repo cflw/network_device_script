@@ -5,7 +5,7 @@ from ..命令行接口 import 命令
 from ..命令行接口 import 用户 as 南向用户
 class C用户sv3(模式.C同级模式, 南向用户.I用户配置):
 	"""命令: #user name 用户名 password 密码
-	适用于: s6550(v3)"""
+	适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a, a用户名):
 		南向用户.I用户配置.__init__(self, a, a用户名)
 	def fg命令前缀(self):

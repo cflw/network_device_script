@@ -13,7 +13,7 @@ class C接口表ev6:
 		return self.fe行()
 	def fe行(self):
 		self.m设备.f切换模式(模式.C模式ev6.c端口_端口状态)
-		w表格 = self.m设备.f网页_查找(C接口表ev6.c表格路径)
+		w表格 = self.m设备.f查找(C接口表ev6.c表格路径)
 		for w行 in w表格.fe查找("tr"):
 			if w行.fg属性("class") == "tableheader":	#标题行
 				continue

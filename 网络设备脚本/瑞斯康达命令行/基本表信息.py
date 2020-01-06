@@ -7,7 +7,7 @@ from ..基础接口 import 信息
 from . import 接口 as 实现接口
 class C接口表sv3:
 	"""show interface brief
-	适用于: s6550"""
+	适用于: 浪潮s6550(v3.x)"""
 	c接口 = 0
 	c管理 = 16
 	c操作 = 26

@@ -16,3 +16,7 @@ class C全局显示sv3(全局显示.I全局显示):
 	def f显示_启动配置(self):
 		v输出 = self.m设备.f执行显示命令("show startup-config")
 		return v输出
+	def f显示_时间(self):
+		v输出 = self.m设备.f执行显示命令("show clock")
+		from . import 时间
+		return 时间.f解析时间sv3(v输出)

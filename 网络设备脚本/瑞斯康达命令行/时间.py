@@ -11,7 +11,7 @@ def f解析时间sv3(a文本):
 	v文本 = 字符串.f提取字符串之间(a文本, "Current system time  :  ", "\n", a结束严谨 = False)
 	return time.strptime(v文本, "%Y-%m-%d,%H:%M:%S.%f")
 class C时间sv3(模式.C同级模式, 南向时间.I时间配置):
-	"""适用于: s6550(v3)"""
+	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):
 		南向时间.I时间配置.__init__(self, a)
 	def fs日期时间(self, a日期时间):

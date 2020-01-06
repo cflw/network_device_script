@@ -16,7 +16,7 @@ class C设备ev6(网页设备.I设备):
 	def f解析登录后地址(self):
 		"""登录后调用
 		解析"http://x.x.x.x/web_index.cgi?sessionId=1573646679&lang=cn" """
-		v链接 = self.f网页_g地址()
+		v链接 = self.fg地址()
 		self.m主机 = 字符串.f提取字符串之间(v链接, "//", "/")
 		self.m会话 = 字符串.f提取字符串之间(v链接, "sessionId=", "&")
 	#模式
@@ -24,7 +24,7 @@ class C设备ev6(网页设备.I设备):
 		if self.m当前模式 == a模式:
 			return
 		v地址 = self.fg模式地址(a模式)
-		self.f网页_s地址(v地址)
+		self.fs地址(v地址)
 		self.m当前模式 = a模式
 	def fg模式地址(self, a模式):
 		return f"http://{self.m主机}/{a模式}?sessionId={self.m会话}&lang=cn"

@@ -17,9 +17,9 @@ class I全局显示:
 	def f显示_设备版本(self):
 		"返回字符串"
 		raise NotImplementedError()
-	def f显示_中央处理器使用率(self):
+	def f显示_中央处理器利用率(self):
 		raise NotImplementedError()
-	def f显示_内存使用率(self):
+	def f显示_内存利用率(self):
 		"返回数字"
 		raise NotImplementedError()
 	def f显示_温度(self):

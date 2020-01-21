@@ -11,6 +11,7 @@ class E型号(enum.IntEnum):
 	cn8000 = c交换机 + c思科枢纽 + 8000
 	cn8672 = c交换机 + c思科枢纽 + 8672
 	cn8696 = c交换机 + c思科枢纽 + 8696
+	cn12710 = c交换机 + c思科枢纽 + 12710
 	cn61108pcv = c交换机 + c思科枢纽 + 6118
 	cn61108pcvh = c交换机 + c盛科 + 6118
 	s5350 = c交换机 + c盛科 + 5350
@@ -36,7 +37,7 @@ def f创建设备(a连接, a型号, a版本):
 			if v版本 >= 6:
 				return 设备.C设备ev6(a连接, a型号, v版本)
 			raise ValueError("不支持的版本")
-		if a型号 == E型号.s6550:
+		if a型号 & E型号.c瑞斯康达:
 			from .瑞斯康达命令行 import 设备
 			if v版本 < (3,60):
 				return 设备.C设备sv3_50(a连接, a型号, v版本)

@@ -13,7 +13,7 @@ ca错误文本与异常类 = [
 class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
-		self.m连接.fs编码("ascii")
+		self.m连接.fs编码("utf-8")
 		self.fs自动换页("--More--")
 		self.m型号 = a型号
 		self.m版本 = a版本

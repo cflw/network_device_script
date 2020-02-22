@@ -1,6 +1,6 @@
 import enum
-import cflw代码库py.cflw网络连接 as 连接
 import cflw代码库py.cflw工具 as 工具
+from .基础接口 import 连接层
 class E型号(enum.IntEnum):
 	c路由器 = 0x10000000
 	c交换机 = 0x20000000
@@ -23,7 +23,7 @@ class E型号(enum.IntEnum):
 	s6850 = c交换机 + 6850
 def f创建设备(a连接, a型号, a版本):
 	v版本 = 工具.S版本号.fc自动(a版本)
-	if hasattr(a连接, "c连接特性") and a连接.c连接特性 & 连接.E连接特性.e命令行:	#命令行
+	if 连接层.fi命令行(a连接):	#命令行
 		if a型号 & E型号.c思科:
 			from .思科命令行 import 设备
 			return 设备.C设备(a连接, a型号, v版本)
@@ -43,8 +43,12 @@ def f创建设备(a连接, a型号, a版本):
 				return 设备.C设备sv3_50(a连接, a型号, v版本)
 			else:
 				return 设备.C设备sv3_60(a连接, a型号, v版本)
-	elif "selenium" in str(a连接.__class__):	#网页
+	elif 连接层.fi网页(a连接):	#网页
 		if a型号 & E型号.c盛科:
 			from .盛科网页 import 设备
 			return 设备.C设备ev6(a连接, a型号, a版本)
-	raise ValueError("不支持的型号")
+	elif 连接层.fi简单网管(a连接):	#简单网络管理协议
+		if a型号 & E型号.c思科:
+			from .思科简单网管 import 设备
+			return 设备.C设备(a连接, a型号, a版本)
+	raise ValueError("不支持的连接,型号")

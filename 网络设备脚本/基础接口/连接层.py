@@ -10,6 +10,12 @@ def fi命令行(a连接):
 def fi网页(a连接):
 	if fi连接特性(a连接, 0x0002):
 		return True
-	if "selenium" in str(a连接.__class__):	#selenium
+	elif "selenium" in str(a连接.__class__):	#selenium
+		return True
+	return False
+def fi简单网管(a连接):
+	if fi连接特性(a连接, 0x0004):
+		return True
+	if "简单网管" in str(a连接.__class__):
 		return True
 	return False

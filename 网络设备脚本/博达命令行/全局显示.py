@@ -15,7 +15,7 @@ class C全局显示(全局显示.I全局显示):
 	def f显示_时间(self):
 		v版本 = self.f显示_版本()
 		return v版本.fg当前时间()
-	def f显示_设备名称(self):
+	def f显示_设备名(self):
 		v命令 = "show running-config | include hostname"
 		v输出 = self.m设备.f执行显示命令(v命令)
 		v位置 = v输出.find("hostname")

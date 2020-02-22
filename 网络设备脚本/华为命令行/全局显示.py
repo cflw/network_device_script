@@ -30,7 +30,7 @@ class C全局显示(全局显示.I全局显示):
 			v输出 = v输出[:v时区位置]
 		v时间 = time.strptime(v输出, "%Y-%m-%d %H:%M:%S")
 		return v时间
-	def f显示_设备名称(self):
+	def f显示_设备名(self):
 		v命令 = "display current-configuration | include sysname"
 		v输出 = self.m设备.f执行显示命令(v命令)
 		return C输出分析.f从配置取设备名称(v输出)

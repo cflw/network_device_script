@@ -20,7 +20,7 @@ class C全局显示(全局显示.I全局显示):
 			v输出 = v输出[0 : v空格位置[0]] + v输出[v空格位置[1]:]	#09:22:03 Thu, Apr  4, 2019
 		v时间 = time.strptime(v输出, "%H:%M:%S %a, %b %d, %Y")
 		return v时间
-	def f显示_设备名称(self):
+	def f显示_设备名(self):
 		v命令 = "show running-config | include hostname"
 		v输出 = self.m设备.f执行显示命令(v命令)
 		return v输出[9:]

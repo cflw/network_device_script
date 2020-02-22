@@ -9,7 +9,7 @@ class I全局显示:
 		raise NotImplementedError()
 	def f显示_当前配置(self):
 		raise NotImplementedError()
-	def f显示_设备名称(self):
+	def f显示_设备名(self):
 		"返回字符串"
 		raise NotImplementedError()
 	def f显示_日志(self):

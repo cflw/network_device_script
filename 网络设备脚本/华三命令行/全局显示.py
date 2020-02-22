@@ -19,7 +19,7 @@ class C全局显示(全局显示.I全局显示):
 		v输出 = self.f执行命令("display current-configuration", a自动换页 = True)
 		v输出 = 南向设备.f去头尾行(v输出)
 		return C配置信息(v输出)
-	def f显示_设备名称(self):
+	def f显示_设备名(self):
 		v输出 = self.f执行命令("display current-configuration | include sysname", a等待 = 5)
 		return C输出分析.f从配置取设备名称(v输出)
 	def f显示_设备版本(self):	#需要重写

@@ -69,13 +69,13 @@ class C全局显示(全局显示.I全局显示):
 	def f显示_出厂日期(self):
 		raise NotImplementedError()
 	#显示程序状态
-	def f显示_路由表(self):
+	def f显示_路由表(self):	#未完成
 		v输出 = self.f执行命令("display ip routing-table", a自动换页 = True)
 		v输出 = 南向设备.f去头尾行(v输出, a转列表 = True)
-	def f显示_默认路由(self):
+	def f显示_默认路由(self):	#需重写
 		v输出 = self.f执行命令("display ip routing-table 0.0.0.0")
 		v输出 = 南向设备.f去头尾行(v输出, a转列表 = True)
 		v输出 = v输出[5]
 		return (ipaddress.IPv4Network("0.0.0.0/0"), v输出[20:25], int(v输出[27:30]), int(v输出[32:42]), ipaddress.IPv4Address(v输出[45:61]), v输出[61:70])
-	def f显示_链路层发现协议(self):
+	def f显示_链路层发现协议(self):	#未完成
 		v输出 = self.f执行命令("display lldp neighbor-information", a自动换页 = True)

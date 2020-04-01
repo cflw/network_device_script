@@ -331,17 +331,17 @@ class C规则解析器:
 			v掩码 = 地址.S网络地址4.c全f - 地址.S网络地址4.f地址字符串转整数(v词1)
 			return 地址.S网络地址4.fc地址掩码(v词0, v掩码)
 		else:	#主机地址
-			return 地址.S网络地址4.fc地址字符串(v词0)
+			return 地址.S网络地址4.fc主机地址字符串(v词0)
 	def f地址扩展4(self):	#扩展4
 		v词0 = self.m取词.f取词推进()
 		if v词0 == "any":
 			return None
 		elif v词0 == "host":
 			v词1 = self.m取词.f取词推进()
-			return 地址.S网络地址4.fc地址字符串(v词)
+			return 地址.S网络地址4.fc主机地址字符串(v词)
 		v词1 = self.m取词.f取词()	#通配符
 		if not v词1:
-			return 地址.S网络地址4.fc地址字符串(v词0)
+			return 地址.S网络地址4.fc主机地址字符串(v词0)
 		self.m取词.f推进()
 		v掩码 = 地址.S网络地址4.c全f - 地址.S网络地址4.f地址字符串转整数(v词1)
 		return 地址.S网络地址4.fc地址掩码(v词0, v掩码)

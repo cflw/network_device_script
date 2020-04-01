@@ -268,8 +268,8 @@ class F创建接口:
 		else:
 			raise RuntimeError("找不到名称\"" + a字符串 + "\"")
 	def f分隔序号(self, a字符串):
-		if not a字符串:
-			return [0]
+		if not a字符串:	#无序号时,字符串为空
+			return ["0"]
 		return a字符串.split(self.f分隔符())
 	def f解析序号(self, a字符串):
 		if "-" in a字符串:

@@ -1,74 +1,72 @@
+import functools
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
+import cflw代码库py.cflw工具_序列 as 序列
+from ..基础接口 import 数据表
 from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 信息
 from . import 接口 as 实现接口
 #===============================================================================
 # 物理地址表
 #===============================================================================
-ca物理地址类型 = {
-	"STATIC": 信息.E物理地址类型.e静态,
-	"DYNAMIC": 信息.E物理地址类型.e动态,
-}
-class C物理地址表:
-	"""show mac address-table"""
-	c虚拟局域网开始 = 0
-	c物理地址开始 = 8
-	c物理地址结束 = 22
-	c类型开始 = 26
-	c端口开始 = 38
-	ca列开始 = (c虚拟局域网开始, c物理地址开始, c类型开始, c端口开始)
-	def __init__(self, a):
-		self.m字符串 = str(a)
-	def __iter__(self):
-		return self.fe行()
-	def fe行(self):	#把字符串转成数据
-		for v行 in 字符串.fe分割(self.m字符串, '\n'):
-			if "CPU" in v行:
-				continue
-			if not "." in v行:	#物理地址用.分隔
-				continue
-			v虚拟局域网s, v地址s, v类型s, v接口s = 字符串.fe按位置分割(v行, *C物理地址表.ca列开始)
-			v虚拟局域网 = int(v虚拟局域网s)
-			v接口 = 实现接口.f创建接口缩写(v接口s)
-			v地址 = 地址.S物理地址.fc字符串(v地址s)
-			v类型 = ca物理地址类型[str.strip(v类型s)]
-			yield 信息.S物理地址表项(a地址 = v地址, a接口 = v接口, a虚拟局域网 = v虚拟局域网, a类型 = v类型)
+class F物理地址表(数据表.I解析表格管线):
+	"""show mac address-table
+	适用于: 思科c3560(v15.0)"""
+	c虚拟局域网 = 0
+	c物理地址 = 8
+	c类型 = 26
+	c端口 = 38
+	ca列 = 序列.C切片组(c虚拟局域网, c物理地址, c类型, c端口)
+	c标题行0 = "Vlan    Mac Address       Type        Ports"
+	c标题行1 = "----    -----------       --------    -----"
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, F物理地址表.ca列.F切片(0), int)
+		self.f添加字段(数据表.E字段.e对端物理地址, F物理地址表.ca列.F切片(1), 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端物理地址类型, F物理地址表.ca列.F切片(2), 信息.ca物理地址类型.get)
+		self.f添加字段(数据表.E字段.e本端接口, F物理地址表.ca列.F切片(3), 实现接口.f创建接口缩写)
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行0, c标题行1))
+	@staticmethod
+	def fi有效行(a行):
+		if "CPU" in a行:
+			return False
+		if not "." in a行:	#物理地址用.分隔
+			return False
+		return True
+f物理地址表 = F物理地址表()
 #===============================================================================
-# 网络接口表
+# 网络接口表4
 #===============================================================================
-class C网络接口表4:
+def f解析网络地址4(a地址s):
+	if "unassigned" in a地址s:
+		return None
+	else:
+		return 地址.S网络地址4.fc地址前缀长度(a地址s, 32)
+class F网络接口表4(数据表.I解析表格管线):
 	"""show ip interface brief"""
-	c接口开始 = 0
-	c地址开始 = 23
-	c好开始 = 39
-	c方法开始 = 43
-	c状态开始 = 50
-	c协议开始 = 72
-	ca列开始 = (c接口开始, c地址开始, c好开始, c方法开始, c状态开始, c协议开始)
-	def __init__(self, a):
-		self.m字符串 = str(a)
-	def __iter__(self):
-		return self.fe行()
-	def fe行(self):
-		for v行 in 字符串.fe分割(self.m字符串, "\n"):
-			if not "YES" in v行:
-				continue
-			#接口
-			v接口s = v行[C网络接口表4.c接口开始 : C网络接口表4.c地址开始]
-			v接口 = 实现接口.f创建接口(v接口s)
-			#地址
-			v地址s = v行[C网络接口表4.c地址开始 : C网络接口表4.c好开始]
-			if "unassigned" in v地址s:
-				v地址 = None
-			else:
-				v地址 = 地址.S网络地址4.fc地址前缀长度(v地址s, 32)
-			#状态
-			v状态s = v行[C网络接口表4.c状态开始 : C网络接口表4.c协议开始]
-			v状态 = "up" in v状态s
-			#退回
-			yield 信息.S网络接口表项(a接口 = v接口, a地址 = v地址, a状态 = v状态)
-class C网络接口表6:
+	c接口 = 0	#Interface
+	c地址 = 23	#IP-Address
+	c好 = 39	#OK?
+	c方法 = 43	#Method
+	c状态 = 50	#Status
+	c协议 = 72	#Protocol
+	ca列 = 序列.C切片组(c接口, c地址, c好, c方法, c状态, c协议)
+	c标题行0 = "Interface              IP-Address      OK? Method Status                Protocol"
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e本端接口, F网络接口表4.ca列.F切片(0), 实现接口.f创建接口)
+		self.f添加字段(数据表.E字段.e本端网络地址4, F网络接口表4.ca列.F切片(1), f解析网络地址4)
+		self.f添加字段(数据表.E字段.e本端链路状态, F网络接口表4.ca列.F切片(4), 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端协议状态, F网络接口表4.ca列.F切片(5), 信息.f解析起宕状态)
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
+	@staticmethod
+	def fi有效行(a行):
+		return "YES" in a行
+f网络接口表4 = F网络接口表4()
+#===============================================================================
+# 网络接口表6
+#===============================================================================
+class C网络接口表6:	#需重写
 	"""show ipv6 interface brief"""
 	c接口开始 = 0
 	c状态开始 = 23

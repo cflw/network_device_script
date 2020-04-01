@@ -1,5 +1,5 @@
 import enum
-class E链路类型(enum.IntEnum):
+class E链路类型(enum.Enum):
 	e接入 = 0
 	e中继 = 1
 	e混合 = 2

@@ -1,15 +1,17 @@
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
+import cflw代码库py.cflw工具_序列 as 序列
 from ..基础接口 import 路由 as 北向路由
+from ..基础接口 import 数据表
 from . import 接口 as 实现接口
-ca类型 = {
+ca路由类型 = {
 	"Direct": 北向路由.E路由类型.e直连,
 	"Static": 北向路由.E路由类型.e静态,
-	"RIP": 北向路由.E路由类型.e路由信息类型,
+	"RIP": 北向路由.E路由类型.e路由信息协议,
 	"OSPF": 北向路由.E路由类型.e开放最短路径优先,
-	"BGP": 北向路由.E路由类型.e边界网关类型,
+	"BGP": 北向路由.E路由类型.e边界网关协议,
 }
-class C路由表4:
+class C路由表4:	#需重写
 	"""display ip routing-table"""
 	c网络号 = 0
 	c类型 = 20

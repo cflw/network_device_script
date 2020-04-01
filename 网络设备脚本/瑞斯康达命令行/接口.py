@@ -8,10 +8,13 @@ ca接口名称 = 北向接口.fc接口名称字典({})
 f创建接口 = 北向接口.F创建接口(ca接口名称)
 #s交换机v3
 ca接口名称sv3 = {
+	北向接口.E类型.e空: "null",
+	北向接口.E类型.e环回: "loopback",
 	北向接口.E类型.e快速以太网: "fastethernet",
 	北向接口.E类型.e聚合: "port-channel",
 	北向接口.E类型.e吉以太网: "gigaethernet",
 	北向接口.E类型.e十吉以太网: "tengigabitethernet",
+	北向接口.E类型.e虚拟局域网: "vlan",
 	北向接口.E类型.e堆叠: "isf-port",
 }
 ca接口缩写sv3 = {

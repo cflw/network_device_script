@@ -279,7 +279,7 @@ class C规则解析器:
 		if v词1.isdigit():
 			v前缀长度 = int(v词1)
 			if v前缀长度 == 0:	#主机地址
-				return 地址.S网络地址4.fc地址字符串(v词0)
+				return 地址.S网络地址4.fc主机地址字符串(v词0)
 			else:	#真前缀长度
 				return 地址.S网络地址4.fc地址前缀长度(v词0, v前缀长度)
 		elif v词1.count(".") == 3:	#通配符

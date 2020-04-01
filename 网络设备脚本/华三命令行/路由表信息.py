@@ -6,11 +6,11 @@ from . import 接口 as 实现接口
 ca类型 = {
 	"Direct": 北向路由.E路由类型.e直连,
 	"Static": 北向路由.E路由类型.e静态,
-	"RIP": 北向路由.E路由类型.e路由信息类型,
+	"RIP": 北向路由.E路由类型.e路由信息协议,
 	"OSPF": 北向路由.E路由类型.e开放最短路径优先,
-	"BGP": 北向路由.E路由类型.e边界网关类型,
+	"BGP": 北向路由.E路由类型.e边界网关协议,
 }
-class C路由表4:
+class C路由表4:	#需重写
 	"""display ip routing-table
 	适用于: msr36系列"""
 	c网络号 = 0

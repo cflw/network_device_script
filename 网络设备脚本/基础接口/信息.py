@@ -16,16 +16,52 @@ class I版本信息:
 	def fg开机日期(self):
 		"""返回time.struct_time对象"""
 		raise NotImplementedError()
-class E物理地址类型(enum.IntEnum):
+class E物理地址类型(enum.Enum):
 	e动态 = 0
 	e静态 = 1
 	e安全 = 2
+#===============================================================================
+# 解析
+#===============================================================================
 def f解析起宕状态(a状态: str):
 	"up为真"
 	return "up" in a状态.lower()
 def f解析双工模式(a双工: str):
 	"full为真"
-	return "full" in a双工.lower()
+	v双工 = a双工.lower()
+	if "full" in v双工:
+		return True
+	elif "half" in v双工:
+		return False
+	return None	#未知
+def f解析速率(a速率: str):
+	"解析带单位的速率"
+	v单位 = a速率[-1]
+	if v单位 == "G":
+		return int(a速率[:-1]) * 10 ** 9
+	elif v单位 == "M":
+		return int(a速率[:-1]) * 10 ** 6
+	elif v单位 == "k":
+		return int(a速率[:-1]) * 10 ** 3
+	else:
+		return int(a速率)
+def f解析链路类型(a类型: str):
+	from . import 虚拟局域网
+	v类型 = a类型.lower()
+	if "access" in v类型:
+		return 虚拟局域网.E链路类型.e接入
+	elif "trunk" in v类型:
+		return 虚拟局域网.E链路类型.e中继
+	elif "hybrid" in v类型:
+		return 虚拟局域网.E链路类型.e混合
+	raise ValueError()
+ca物理地址类型 = {
+	"STATIC": E物理地址类型.e静态,
+	"DYNAMIC": E物理地址类型.e动态,
+	"SECURITY": E物理地址类型.e安全,
+}
+def f解析物理地址类型(a类型: str):
+	return ca物理地址类型.get(a类型, None)
 #===============================================================================
 # 表项(废弃)
 #===============================================================================

@@ -383,11 +383,3 @@ def f参数等级(a, a最高):
 	else:
 		v数字 = a
 	return math.floor(float(v数字) * a最高 + 0.5)
-#值
-def f解析速率(a速率):
-	if a速率[-1] == "M":
-		return int(a速率[:-1]) * 10 ** 6
-	elif a速率[-1] == "G":
-		return int(a速率[:-1]) * 10 ** 9
-	else:
-		return None

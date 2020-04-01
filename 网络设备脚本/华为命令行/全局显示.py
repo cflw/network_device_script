@@ -47,19 +47,19 @@ class C全局显示(全局显示.I全局显示):
 	def f显示_物理地址表(self):
 		v命令 = "display mac-address"
 		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C物理地址表(v输出)
+		return 基本表信息.f物理地址表(v输出)
 	def f显示_地址解析表(self):
 		v命令 = "display arp"
 		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C地址解析表(v输出)
+		return 基本表信息.f地址解析表(v输出)
 	def f显示_接口表(self):
 		v命令 = "display interface brief"
 		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C接口表(v输出)
+		return 基本表信息.f接口表(v输出)
 	def f显示_网络接口表4(self):
 		v命令 = "display ip interface brief"
 		v输出 = self.m设备.f执行显示命令(v命令)
-		return 基本表信息.C网络接口表4(v输出)
+		return 基本表信息.f网络接口表4(v输出)
 #===============================================================================
 # 工具
 #===============================================================================

@@ -21,9 +21,13 @@ def f创建设备(a连接, a型号: int = 0, a版本 = 0):
 	if 连接层.fi命令行(a连接):	#命令行
 		if a型号 & E型号.c枢纽:
 			from .思科枢纽命令行 import 设备
-			if a版本 >= 7 and a版本 < 9:
+			if a版本 < 7:
+				raise ValueError("不支持的版本")
+			elif a版本 < 9:
 				return 设备.C设备nv7(a连接, a型号, a版本)
-			raise ValueError("不支持的型号")
+			elif a版本 < 10:
+				return 设备.C设备nv9(a连接, a型号, a版本)
+			raise ValueError("不支持的版本")
 		else:
 			from .思科命令行 import 设备
 			return 设备.C设备(a连接, a型号, a版本)

@@ -5,28 +5,30 @@ class X设备(RuntimeError):
 	def __str__(self):
 		return self.m消息
 class X命令(X设备):
-	"无法解析的命令"
-	def __init__(self, a):
-		X设备.__init__(self, a)
+	"""无法解析的命令,一般是命令写错"""
+	def __init__(self, a消息):
+		X设备.__init__(self, a消息)
 class X执行(X设备):
 	"无法正确执行的命令"
-	def __init__(self, a):
-		X设备.__init__(self, a)
+	def __init__(self, a消息):
+		X设备.__init__(self, a消息)
 class X模式(X设备):
 	"在错误的模式执行命令"
-	def __init__(self, a):
-		if hasattr(a, c模式名):
-			X设备.__init__(self, "无法在%s执行命令" % (a.c模式名,))
-		elif type(a) == str:
-			X设备.__init__(self, a)
+	def __init__(self, a消息):
+		if hasattr(a消息, c模式名):
+			X设备.__init__(self, "无法在%s执行命令" % (a消息.c模式名,))
+		elif type(a消息) == str:
+			X设备.__init__(self, a消息)
 		else:
 			X设备.__init__(self, "无法执行命令")
 class X输出(X设备):
 	"无法解析设备输出信息"
-	def __init__(self, a):
-		X设备.__init__(self, a)
+	def __init__(self, a消息):
+		X设备.__init__(self, a消息)
 class X操作(X设备):
-	"操作无效, 设备不支持的操作也用这个"
+	"""操作无效
+	设备不支持的操作
+	设备没有可以实现相关操作的命令"""
 	def __init__(self, a操作, a消息 = ""):
 		X设备.__init__(self, "操作 %s 无效: %s" % (a操作, a消息))
 		self.m操作 = a操作
@@ -36,9 +38,9 @@ class X接口格式(X设备):
 		X设备.__init__(self, "不支持接口格式 %s" % (a接口,))
 class X登录(X设备):
 	"""登录失败"""
-	def __init__(self, a):
-		X设备.__init__(self, a)
+	def __init__(self, a消息):
+		X设备.__init__(self, a消息)
 class X连接(X设备):
 	"""连接失败"""
-	def __init__(self, a):
-		X设备.__init__(self, a)
+	def __init__(self, a消息):
+		X设备.__init__(self, a消息)

@@ -32,6 +32,27 @@ class C全局配置nv7_0(全局配置.I全局配置):
 			v模式 = 旧实现接口.C接口配置(self, v接口)
 		思科实用.f执行模式操作命令(self, v模式, a操作)
 		return v模式
+	#数据结构
+	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		from ..基础接口 import 访问控制列表 as 北向列表
+		from ..命令行接口 import 访问控制列表 as 南向列表
+		from ..思科命令行 import 访问控制列表 as 旧列表
+		from . import 访问控制列表 as 实现列表
+		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 旧列表.C助手)
+		#创建访问控制列表对象
+		if v类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4):
+			v模式 = 实现列表.C四(self, v名称)
+		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
+			v模式 = 旧列表.C六(self, v名称)
+		else:
+			raise ValueError("未知的访问控制列表类型")
+		if a操作 == 操作.E操作.e删除:
+			v命令 = c不 + v模式.fg进入命令()
+			self.f执行当前模式命令(v命令)
+		elif a操作 == 操作.E操作.e重置:
+			v命令 = c默认 + v模式.fg进入命令()
+			self.f执行当前模式命令(v命令)
+		return v模式
 	#路由
 	def f模式_静态路由(self, a版本 = 协议.E协议.e网络协议4, a虚拟路由转发 = None):
 		from . import 静态路由
@@ -68,3 +89,5 @@ class C全局配置nv7_3(C全局配置nv7_0):
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议 as 实现协议
 		return 实现协议.f模式(self, a端, 实现协议.C客户端nv7_3, None, a操作)
+class C全局配置nv9_2(C全局配置nv7_3):
+	"""适用于: 浪潮cn61108pcv(v9.2.3)"""

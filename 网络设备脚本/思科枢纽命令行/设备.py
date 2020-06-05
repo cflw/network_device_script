@@ -33,3 +33,6 @@ class C设备nv7(南向设备.I设备):
 		return v输出
 	def f退出(self, a关闭 = False):
 		self.f执行命令("exit")
+class C设备nv9(C设备nv7):
+	"""适用于: 浪潮cn61108pcv(v9.2.3)"""
+	

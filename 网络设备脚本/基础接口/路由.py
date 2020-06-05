@@ -1,7 +1,7 @@
 import enum
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw工具_运算 as 运算
-class E路由类型(enum.IntEnum):
+class E路由类型(enum.Enum):
 	e无 = 0
 	#网络层
 	e本地 = 1
@@ -17,9 +17,9 @@ class E路由类型(enum.IntEnum):
 	#其它
 	e按需路由 = 20	#odr
 	e下一跳解析协议 = 21	#nhrp
-	e移动 = 22
+	e移动 = 22	#nemo
 	e定位与身份分离协议 = 23	#lisp
-class S路由条目:
+class S路由条目:	#废弃
 	"表示一条路由条目"
 	def __init__(self, a网络号, a下一跳, a出接口 = None, a路由类型 = None, a优先级 = None, a度量值 = None):
 		self.m网络号 = a网络号

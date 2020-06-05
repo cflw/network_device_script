@@ -22,9 +22,9 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 	def f输出(self):
 		w输出框 = self.f查找("/html/body/pre/form/dt/pre", False)
 		return w输出框.text
-	def f输入(self):
+	def f输入(self, a文本):
 		w命令框 = self.fg命令框(False)
-		w命令框.send_keys(str(a命令))
+		w命令框.send_keys(str(a文本))
 	def f输入_回车(self, a数量 = 1, a等待 = 1):
 		w命令框 = self.fg命令框(False)
 		v间隔 = a等待 / a数量
@@ -43,6 +43,8 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 		w命令框 = self.fg命令框(False)
 		w命令框.clear()
 		w命令框.send_keys(selenium.webdriver.common.keys.Keys.ENTER)
+	def f切换到当前连接(self):
+		pass
 	#模式
 	def f模式_用户(self):
 		return 实现用户模式.C用户模式(self)
@@ -56,6 +58,7 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 		w命令框 = self.fg命令框(False)
 		w命令框.send_keys(str(a命令))
 		w命令框.send_keys(selenium.webdriver.common.keys.Keys.ENTER)
+		time.sleep(0.2)
 		return self.f输出()
 	def f执行用户命令(self, a命令):
 		v命令 = 命令.C命令(a命令)

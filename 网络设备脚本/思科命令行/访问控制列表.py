@@ -3,6 +3,7 @@ import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 操作
 from ..基础接口 import 协议
+from ..基础接口 import 异常
 from ..基础接口 import 访问控制列表 as 北向列表
 from ..命令行接口 import 命令
 from ..命令行接口 import 访问控制列表 as 南向列表
@@ -102,11 +103,11 @@ class I访问控制列表(南向列表.I列表配置):
 	def fg模式参数(self):
 		return (self.m类型, self.m名称)
 	def fg进入命令(self):
-		return "%s access-list %s %s" % (self.m协议, self.m类型, self.m名称)
+		return f"{self.m协议} access-list {self.m类型} {self.m名称}"
 	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令("show %s access-list %s" % (self.m协议, self.m名称))
+		v命令 = 命令.C命令(f"show {self.m协议} access-list {self.m名称}")
 		if a序号 != None:
-			v命令 += "| include ^____%d_" % (a序号,)
+			v命令 += f"| include ^____{a序号}_"
 		return v命令
 	def f添加规则(self, a序号, a规则):
 		raise NotImplementedError()
@@ -114,9 +115,7 @@ class I访问控制列表(南向列表.I列表配置):
 		self.f执行当前模式命令(c不 + str(a序号))
 	def fs规则(self, a序号 = 北向列表.c空序号, a规则 = 北向列表.c空规则, a操作 = 操作.E操作.e设置):
 		v操作 = 操作.f解析操作(a操作)
-		if v操作 == 操作.E操作.e设置:
-			self.f添加规则(a序号, a规则)
-		elif v操作 == 操作.E操作.e新建:
+		if v操作 in (操作.E操作.e设置, 操作.E操作.e新建, 操作.E操作.e添加):
 			self.f添加规则(a序号, a规则)
 		elif v操作 == 操作.E操作.e修改:
 			v序号 = a序号 if a序号 >= 0 else a规则.m序号
@@ -126,6 +125,8 @@ class I访问控制列表(南向列表.I列表配置):
 			self.f添加规则(v序号, v规则)
 		elif v操作 == 操作.E操作.e删除:
 			self.f删除规则(a序号)
+		else:
+			raise 异常.X操作()
 	def fe规则0(self, af解析):
 		v命令 = self.fg显示命令()
 		v输出 = self.m设备.f执行显示命令(v命令)
@@ -152,7 +153,7 @@ class C标准4(I访问控制列表):
 		v序号 = f生成规则序号4(a序号)
 		v允许 = f生成允许(a规则.m允许)
 		v源地址 = f生成地址标准4(a规则.m源地址)
-		v命令 = "%s %s %s" % (v序号, v允许, v源地址)
+		v命令 = f"{v序号} {v允许} {v源地址}"
 		self.f执行当前模式命令(v命令)
 	@staticmethod
 	def f解析规则(a规则: str):
@@ -203,9 +204,9 @@ class C六(I访问控制列表):
 	def __init__(self, a, a名称):
 		I访问控制列表.__init__(self, a, a名称, a协议 = "ipv6")
 	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令("show %s access-list %s" % (self.m协议, self.m名称))
+		v命令 = 命令.C命令(f"show {self.m协议} access-list {self.m名称}")
 		if a序号 != None:
-			v命令 += "| include sequence_%d$" % (a序号,)
+			v命令 += f"| include sequence_{a序号}$"
 		return v命令
 	def f添加规则(self, a序号, a规则):
 		v命令 = 命令.C命令()

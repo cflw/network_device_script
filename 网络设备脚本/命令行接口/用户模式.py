@@ -15,6 +15,16 @@ class I用户模式(模式.I模式, 用户模式.I用户模式):
 		return ""
 	def fg退出命令(self):	#用户模式不需要命令
 		return ""
+	#动作
+	def f导出配置(self, a目录 = "", a文件名 = ""):
+		import pathlib
+		if not a文件名:
+			raise ValueError("文件名不能为空")
+		v全局显示 = self.f模式_全局显示()
+		v输出 = v全局显示.f显示_当前配置()
+		v路径 = pathlib.PurePath(a目录) / a文件名
+		v文件 = open(str(v路径), "w")
+		v文件.write(v输出)
 	#其它
 	def f记住登录(self, a用户名 = None, a密码 = None):
 		if a用户名:

@@ -20,3 +20,5 @@ class C全局显示nv7_0(全局显示.I全局显示):
 	def f显示_内存利用率(self):
 		v输出 = self.m设备.f执行显示命令("show system resources")
 		return 系统信息.f解析内存利用率(v输出)
+class C全局显示nv9_2(C全局显示nv7_0):
+	"""适用于: 浪潮cn61108pcv(v9.2.3)"""

@@ -4,7 +4,7 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
-c启动字符 = '\x02'
+c启动字符 = '\x02'	#ctrl+b
 class C启动(设备.I启动模式):
 	def __init__(self, a):
 		设备.I启动模式.__init__(self, a)

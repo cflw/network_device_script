@@ -1,9 +1,9 @@
 import time
-from ..网页接口 import 设备 as 网页设备
-class C设备(网页设备.I设备):
-	"""适用于: wdr5620"""
+from ..网页接口 import 设备
+class C设备(设备.I设备):
+	"""适用于: 普联wdr5620"""
 	def __init__(self, a连接, a型号, a版本):
-		网页设备.I设备.__init__(self, a连接)
+		设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
 		self.m版本 = a版本
 		self.ma模式 = []

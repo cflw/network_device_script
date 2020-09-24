@@ -1,6 +1,8 @@
+import pandas	#pandas
 import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 协议
 from ..基础接口 import 路由
+from ..基础接口 import 数据表
 from . import 模式
 ca路由类型 = {
 	"静态路由": 路由.E路由类型.e静态,
@@ -17,7 +19,12 @@ def f解析路由条目4(a元素):	#<tr>
 	v网络号 = 地址.S网络地址4.fc地址掩码(v目的s, v掩码s)
 	v下一跳 = 地址.S网络地址4.fc地址前缀长度(v下一跳s, 32)
 	v度量值 = int(v度量值s)
-	return 路由.S路由条目(a网络号 = v网络号, a下一跳 = v下一跳)
+	return {
+		数据表.E字段.e目标路由类型: ca路由类型[v类型s],
+		数据表.E字段.e目标网络号: 地址.S网络地址4.fc地址掩码(v目的s, v掩码s),
+		数据表.E字段.e目标下一跳: 地址.S网络地址4.fc地址前缀长度(v下一跳s, 32),
+		数据表.E字段.e目标度量值: int(v度量值s),
+	}
 class C查看路由:
 	c表格路径 = '/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div[3]/div'
 	def __init__(self, a设备):
@@ -26,5 +33,7 @@ class C查看路由:
 		#未完成,现在只能取一页,不支持自动换页
 		self.m设备.f切换模式(模式.C模式af8.c网络_路由_查看路由, C查看路由.c表格路径)
 		w表格 = self.m设备.f查找(C查看路由.c表格路径)
-		for w行 in map(lambda x: x.f查找("table/tbody/tr"), w表格.fe查找("div")):
-			yield f解析路由条目4(w行)
+		def fe行():
+			for w行 in map(lambda x: x.f查找("table/tbody/tr"), w表格.fe查找("div")):
+				yield f解析路由条目4(w行)
+		return pandas.DataFrame(fe行())

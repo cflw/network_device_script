@@ -29,6 +29,12 @@ class C元素:
 	def f聚焦(self):
 		"先用点击代替"
 		self.m元素.click()
+	def f选中(self, a选中 = True):
+		"""选中复选框,单选框"""
+		vi选中 = self.m元素.is_selected()
+		if vi选中 != a选中:
+			self.m元素.click()
+		time.sleep(0.1)
 	#取属性
 	def fg文本(self):
 		if self.m元素.tag_name in ("input",):	#表单控件从值属性取文本
@@ -46,6 +52,8 @@ class C元素:
 		v宽 = self.m元素.localtion["width"]
 		v高 = self.m元素.localtion["height"]
 		return x, y, x + v宽, y + v高
+	def fi选中(self):
+		return self.m元素.is_selected()
 #包装函数
 def f有包装(a元素):
 	return a元素 if type(a元素) == C元素 else C元素(a元素)

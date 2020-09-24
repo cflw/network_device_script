@@ -103,9 +103,9 @@ class I访问控制列表(南向列表.I列表配置):
 	def fg模式参数(self):
 		return (self.m类型, self.m名称)
 	def fg进入命令(self):
-		return f"{self.m协议} access-list {self.m类型} {self.m名称}"
+		return 命令.C命令(self.m协议, "access-list", self.m类型, self.m名称)
 	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令(f"show {self.m协议} access-list {self.m名称}")
+		v命令 = 命令.C命令("show", self.m协议, "access-list", self.m名称)
 		if a序号 != None:
 			v命令 += f"| include ^____{a序号}_"
 		return v命令
@@ -204,7 +204,7 @@ class C六(I访问控制列表):
 	def __init__(self, a, a名称):
 		I访问控制列表.__init__(self, a, a名称, a协议 = "ipv6")
 	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令(f"show {self.m协议} access-list {self.m名称}")
+		v命令 = 命令.C命令("show", self.m协议, "access-list", self.m名称)
 		if a序号 != None:
 			v命令 += f"| include sequence_{a序号}$"
 		return v命令

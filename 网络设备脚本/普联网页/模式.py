@@ -1,6 +1,6 @@
 import enum
 class C模式wdr5620:
-	"""适用于: wdr5620"""
+	"""适用于: 普联wdr5620"""
 	c网络状态 = ("netStateMbtn",)
 	c设备管理 = ("routeMgtMbtn",)
 	c设备管理_主人网络 = ("routeMgtMbtn", "linkedEpt_rsMenu")

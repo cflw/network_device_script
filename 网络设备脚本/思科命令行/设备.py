@@ -74,3 +74,6 @@ class C设备(南向设备.I设备):
 			return 密码.C强密码助手()
 		else:
 			return 密码.C弱密码助手()
+	def f助手_服务质量策略(self, a策略名称: str, a分类名称: str, a行为名称: str, ai自动绑定: bool = True):
+		from . import 服务质量
+		return 服务质量.C助手(a策略名称, a分类名称, a行为名称)

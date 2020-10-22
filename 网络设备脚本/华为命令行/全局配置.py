@@ -10,7 +10,7 @@ class C系统视图(全局配置.I全局配置):
 		全局配置.I全局配置.__init__(self, a)
 	def fg进入命令(self):
 		return "system-view"
-	def f事件_退出模式(self):
+	def f事件_退出模式前(self):
 		self.m设备.f自动提交(操作.E自动提交.e退出配置模式时)
 	#模式
 	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
@@ -91,6 +91,9 @@ class C系统视图(全局配置.I全局配置):
 	def f模式_边界网关协议(self, a自治系统号, a操作 = 操作.E操作.e设置):
 		from . import 边界网关协议
 		return 边界网关协议.C进程配置(self, a自治系统号)
+	def f模式_路由策略(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 路由策略
+		return 路由策略.C组(self, a名称)
 	#交换
 	def f模式_生成树(self, a模式, a接口 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 生成树 as 北向生成树
@@ -156,6 +159,70 @@ class C系统视图(全局配置.I全局配置):
 			return 简单网络管理协议.C陷阱(self)
 		else:
 			raise ValueError("a端 必需是代理或陷阱")
+	#服务质量
+	def f模式_流量分类(self, a名称, ai匹配全部 = False, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		v类型 = type(a名称)
+		if v类型 == 服务质量.C助手:
+			self.f自动绑定流量策略(a名称)
+			v模式 = self.f模式_流量分类1(a名称, ai匹配全部)
+		elif v类型 == str:
+			v模式 = self.f模式_流量分类0(a名称, ai匹配全部)
+		else:
+			raise TypeError()
+		return v模式
+	def f模式_流量分类0(self, a名称: str, ai匹配全部):
+		from . import 服务质量
+		return 服务质量.C分类(self, a名称, ai匹配全部)
+	def f模式_流量分类1(self, a助手, ai匹配全部):
+		if not a助手.m分类模式:
+			a助手.m分类模式 = self.f模式_流量分类0(a助手.m分类名称, ai匹配全部)
+		return a助手.m分类模式
+	def f模式_流量行为(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		v类型 = type(a名称)
+		if v类型 == 服务质量.C助手:
+			self.f自动绑定流量策略(a名称)
+			v模式 = self.f模式_流量行为1(a名称)
+		elif v类型 == str:
+			v模式 = self.f模式_流量行为0(a名称)
+		else:
+			raise TypeError()
+		return v模式
+	def f模式_流量行为0(self, a名称: str):
+		from . import 服务质量
+		return 服务质量.C行为(self, a名称)
+	def f模式_流量行为1(self, a助手):
+		if not a助手.m行为模式:
+			a助手.m行为模式 = self.f模式_流量行为0(a助手.m行为名称)
+		return a助手.m行为模式
+	def f模式_流量策略(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		v类型 == type(a名称)
+		if v类型 == 服务质量.C助手(a名称):
+			v模式 = self.f模式_流量策略1(a名称)
+		elif v类型 == str:
+			v模式 = self.f模式_流量策略0(a名称)
+		else:
+			raise TypeError()
+		return v模式
+	def f模式_流量策略0(self, a名称: str):
+		from . import 服务质量
+		return 服务质量.C策略(self, a名称)
+	def f模式_流量策略1(self, a助手):
+		if not a助手.m策略模式:
+			a助手.m策略模式 = self.f模式_流量策略0(a助手.m策略名称)
+		return a助手.m策略模式
+	def f自动绑定流量策略(self, a助手):
+		if not a助手.mi自动绑定 or a助手.mi已绑定:
+			return
+		v分类 = self.f模式_流量分类1(a助手, False)
+		v分类.f切换到当前模式()
+		v行为 = self.f模式_流量行为1(a助手)
+		v行为.f切换到当前模式()
+		v策略 = self.f模式_流量策略1(a助手)
+		v策略.fs绑定(a助手.m分类名称, a助手.m行为名称)
+		a助手.mi已绑定 = True
 	#配置
 	def fs设备名(self, a名称):
 		self.f执行当前模式命令("sysname " + str(a名称))

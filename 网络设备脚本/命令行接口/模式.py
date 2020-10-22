@@ -55,12 +55,18 @@ class I模式:
 	def fg提交命令(self):
 		"使配置生效所使用的完整命令"
 		raise NotImplementedError()
-	def f事件_进入模式(self):
+	def f事件_进入模式前(self):
+		"进入当前模式[前]做的事情"
+		pass
+	def f事件_进入模式后(self):
 		"进入当前模式[后]做的事情"
 		pass
-	def f事件_退出模式(self):
+	def f事件_退出模式前(self):
 		"退出当前模式[前]做的事情"
 		self.m设备.f自动提交(操作.E自动提交.e退出当前模式时)
+	def f事件_退出模式后(self):
+		"退出当前模式[后]做的事情"
+		pass
 class C同级模式(I模式):	#和上一层模式是同一级别的，不需要进入命令也不需要退出命令
 	def fg模式参数(self):
 		return ""

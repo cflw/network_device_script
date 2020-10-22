@@ -10,7 +10,7 @@ class C用户模式ev6(用户模式.I用户模式):
 	def f自动登录(self):
 		self.f登录()
 	#事件
-	def f事件_进入模式(self):
+	def f事件_进入模式后(self):
 		self.m设备.f刷新()
 		self.m设备.f输入_结束符()
 		self.m设备.f输入_回车(-1, 5)

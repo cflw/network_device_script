@@ -1,11 +1,14 @@
-class I流量类(I模式):
-	def __init__(self, a):
-		I模式.__init__(self, a)
-class I流量行为(I模式):
-	def __init__(self, a):
-		I模式.__init__(self, a)
-class I流量策略(I模式):
-	def __init__(self, a):
-		I模式.__init__(self, a)
-	def fs绑定(self, a类, a行为, a操作 = E操作.e设置):
+from . import 策略
+class I流量分类(策略.I匹配):
+	pass
+class I流量行为(策略.I设置):
+	def fs允许(self, a允许: bool):
+		raise NotImplementedError()
+class I助手:
+	"""服务质量助手包含设备和策略名称,在设备中自动绑定类和行为,统一不同设备的操作"""
+	def fg分类名称(self):
+		raise NotImplementedError()
+	def fg行为名称(self):
+		raise NotImplementedError()
+	def fg策略名称(self):
 		raise NotImplementedError()

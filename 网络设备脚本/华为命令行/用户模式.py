@@ -4,7 +4,7 @@ from ..命令行接口 import 用户模式 as 用户模式
 class C用户视图(用户模式.I用户模式):
 	def __init__(self, a):
 		用户模式.I用户模式.__init__(self, a)
-	def f事件_进入模式(self):
+	def f事件_进入模式后(self):
 		self.m设备.f刷新()
 		self.m设备.f输入_结束符()
 		self.m设备.f输入_回车()

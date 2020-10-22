@@ -46,6 +46,9 @@ class C设备(南向设备.I设备):
 		return v输出
 	#助手
 	def f助手_访问控制列表(self):
-		return 访问控制列表.C助手
+		return 访问控制列表.C助手()
+	def f助手_服务质量策略(self, a策略名称, a分类名称, a行为名称, ai自动绑定 = True):
+		from . import 服务质量
+		return 服务质量.C助手(a策略名称, a分类名称, a行为名称, ai自动绑定)
 	#其它
 	f检测命令异常 = 命令.F检测命令异常(ca错误文本与异常类)

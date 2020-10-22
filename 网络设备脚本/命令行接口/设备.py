@@ -229,19 +229,22 @@ class I设备(设备.I设备):
 	def f进入模式(self, a模式):
 		if not isinstance(a模式, 模式.I模式):
 			raise TypeError("a模式 必须是一个 模式.I模式 对象")
+		a模式.f事件_进入模式前()
 		v命令 = a模式.fg进入命令()
+		assert(v命令 != None)	#没有命令也要返回"",不能不返回
 		if v命令:
 			self.f执行命令(v命令)
 		self.ma模式.append(a模式)
-		a模式.f事件_进入模式()
+		a模式.f事件_进入模式后()
 	def f退出模式(self):
 		v模式 = self.ma模式[-1]
-		v模式.f事件_退出模式()
+		v模式.f事件_退出模式前()
 		if type(v模式).fg退出命令 != 模式.I模式.fg退出命令:
 			self.f执行命令(v模式.fg退出命令())
 		else:
 			self.f退出()
 		self.ma模式.pop()
+		v模式.f事件_退出模式后()
 	def f切换模式(self, aa模式):	#aa模式 必需是强引用, 而 模式.I模式.m模式栈 全是弱引用需要转换
 		"自动退出当前模式并进入新模式"
 		v现模式长度 = len(self.ma模式)

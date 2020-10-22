@@ -48,7 +48,16 @@ class I全局配置:
 		raise NotImplementedError()
 	def f模式_虚拟路由转发(self, a名称, a接口, a操作):
 		raise NotImplementedError()
-	def f模式_策略路由(self, a名称, a动作, a序号, a操作):
+	def f模式_策略路由(self, a名称, a操作):
+		raise NotImplementedError()
+	def f模式_路由策略(self, a名称, a操作):
+		raise NotImplementedError()
+	#模式 服务质量
+	def f模式_流量分类(self, a名称, ai匹配全部, a操作):
+		raise NotImplementedError()
+	def f模式_流量行为(self, a名称, a操作):
+		raise NotImplementedError()
+	def f模式_流量策略(self, a名称, a操作):
 		raise NotImplementedError()
 	#模式 服务
 	def f模式_网络终端(self):	#telnet

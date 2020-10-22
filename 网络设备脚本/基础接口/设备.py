@@ -24,3 +24,5 @@ class I设备:
 		raise NotImplementedError()
 	def f助手_密码(self):
 		raise NotImplementedError()
+	def f助手_服务质量策略(self, a策略名称: str, a分类名称: str, a行为名称: str, ai自动绑定: bool):
+		raise NotImplementedError()

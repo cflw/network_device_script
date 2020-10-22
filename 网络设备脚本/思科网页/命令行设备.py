@@ -58,7 +58,7 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 		w命令框 = self.fg命令框(False)
 		w命令框.send_keys(str(a命令))
 		w命令框.send_keys(selenium.webdriver.common.keys.Keys.ENTER)
-		time.sleep(0.2)
+		time.sleep(0.5)
 		return self.f输出()
 	def f执行用户命令(self, a命令):
 		v命令 = 命令.C命令(a命令)

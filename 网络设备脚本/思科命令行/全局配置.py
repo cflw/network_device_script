@@ -93,6 +93,13 @@ class C全局配置(全局配置.I全局配置):
 			return 实现虚拟路由转发.C接口配置(self, a接口)
 		#资源
 		return 实现虚拟路由转发.C资源配置(self, a名称)
+	def f模式_路由映射(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 路由映射
+		return 路由映射.C路由映射组(self, a名称)
+	def f模式_路由策略(self, a名称, a操作 = 操作.E操作.e设置):
+		return self.f模式_路由映射(a名称, a操作)
+	def f模式_策略路由(self, a名称, a操作 = 操作.E操作.e设置):
+		return self.f模式_路由映射(a名称, a操作)
 	#路由
 	def f模式_静态路由(self, a版本 = 协议.E协议.e网络协议4, a虚拟路由转发 = None):
 		from . import 静态路由
@@ -186,6 +193,41 @@ class C全局配置(全局配置.I全局配置):
 			return 简单网络管理协议.C陷阱配置(self)
 		else:
 			raise ValueError("a端 必需是代理或陷阱")
+	#服务质量
+	def f模式_类映射(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		vt名称 = type(a名称)
+		if vt名称 == str:
+			v名称 = a名称
+		elif issubclass(vt名称, 服务质量.C助手):
+			v名称 = a名称.fg分类名称()
+		else:
+			v名称 = str(a名称)
+		v模式 = 服务质量.C类映射(self, v名称)
+		return v模式
+	def f模式_策略映射(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		vt名称 = type(a名称)
+		if vt名称 == str:
+			v名称 = a名称
+		elif issubclass(vt名称, 服务质量.C助手):
+			v名称 = a名称.fg行为名称()
+		else:
+			v名称 = str(a名称)
+		v模式 = 服务质量.C策略映射(self, v名称)
+		return v模式
+	def f模式_流量分类(self, a名称, a操作 = 操作.E操作.e设置):
+		return self.f模式_类映射(a名称, a操作)
+	def f模式_流量行为(self, a名称, a操作 = 操作.E操作.e设置):
+		from . import 服务质量
+		vt名称 = type(a名称)
+		if issubclass(vt名称, 服务质量.C助手):
+			v名称 = a名称.fg行为名称()
+		else:
+			raise ValueError("必需是 服务质量.C助手 对象")
+		v策略 = 服务质量.C策略映射(self, v名称)
+		v行为 = v策略.f模式_绑定类(a名称.fg分类名称())
+		return v行为
 	#链路层
 	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
 		from . import 链路层发现协议

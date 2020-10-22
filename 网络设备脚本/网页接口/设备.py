@@ -15,6 +15,7 @@ class I设备(设备.I设备):
 		"返回统一资源定位符"
 		return self.m连接.current_url
 	def f查找(self, a找: str, a包装 = True):
+		time.sleep(0.1)
 		try:
 			v元素 = self.m连接.find_element_by_xpath(a找)
 			return 元素.f包装(v元素, a包装)

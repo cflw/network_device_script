@@ -4,7 +4,7 @@ from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 命令
 from ..命令行接口 import 模式
 from ..命令行接口 import 接口 as 南向接口
-ca接口名称 = 北向接口.fc接口名称字典({})
+ca接口名称 = 北向接口.ca接口名称
 f创建接口 = 北向接口.F创建接口(ca接口名称)
 #s交换机v3
 ca接口名称sv3 = {

@@ -25,6 +25,7 @@
 * [用python编写控制网络设备的自动化脚本5：访问控制列表](https://zhuanlan.zhihu.com/p/63076652) \[知乎\]
 * [用python编写控制网络设备的自动化脚本6：框架设计2](https://zhuanlan.zhihu.com/p/67650697) \[知乎\]
 * [用python编写控制网络设备的自动化脚本7：跳板（远程登录）](https://zhuanlan.zhihu.com/p/83475460) \[知乎\]
+* [用python编写控制网络设备的自动化脚本8：网页](https://zhuanlan.zhihu.com/p/259894429) \[知乎\]
 
 ## 内容包含
 《网络设备脚本》支持的可以控制的**网络设备**的品牌有：

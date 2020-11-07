@@ -51,7 +51,7 @@ def A自动策略():
 	def f装饰(a类):
 		def f并入(aa字典, a成员, a属性名):
 			if hasattr(v成员, a属性名):
-				aa字典.update({getattr(v成员, a属性名) : v成员})
+				aa字典 |= {getattr(v成员, a属性名) : v成员}
 				delattr(v成员, a属性名)
 		#遍历成员
 		va匹配 = {}

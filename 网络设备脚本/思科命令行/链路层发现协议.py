@@ -15,7 +15,7 @@ from . import 接口 as 实现接口
 #===============================================================================
 class F邻居表(数据表.I解析表格管线):
 	"""show lldp neighbors
-	适用于: 浪潮S5960-48TD-L(v12.2(5)I4)"""
+	适用于: 浪潮s5960(v12.2.*), 浪潮s6650(v11.12.*)"""
 	c设备 = 0	#Device ID
 	c本端接口 = 20	#Local Intf
 	c保持时间 = 35	#Hold-time
@@ -35,6 +35,9 @@ class F邻居表(数据表.I解析表格管线):
 		if a行[F邻居表.c保持时间 : F邻居表.c能力].strip().isdigit():	#保持时间
 			return True
 		return False
+	@staticmethod
+	def fi结束(a行: str):
+		return "Total entries displayed:" in a行
 f邻居表 = F邻居表()
 #===============================================================================
 # 配置

@@ -2,9 +2,9 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令
 from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
-ca接口名称 = 北向接口.fc接口名称字典({
+ca接口名称 = 北向接口.ca接口名称 | {
 	北向接口.E类型.e虚拟局域网: "VLAN",
-})
+}
 ca接口缩写 = {
 	北向接口.E类型.e快速以太网: "f",
 	北向接口.E类型.e吉以太网: "g",

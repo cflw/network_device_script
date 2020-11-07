@@ -6,9 +6,10 @@ from ..命令行接口 import 命令
 from ..命令行接口 import 地址 as 南向地址
 from ..命令行接口 import 接口 as 南向接口
 from .常量 import *
-ca接口名称 = 北向接口.fc接口名称字典({
+#接口名称
+ca接口名称 = 北向接口.ca接口名称 | {
 	北向接口.E类型.e虚拟局域网: "Vlan-interface",
-	北向接口.E类型.e以太网: "Ethernet",
+	北向接口.E类型.e百兆以太网: "Ethernet",
 	北向接口.E类型.e千兆以太网: "GigabitEthernet",
 	北向接口.E类型.e万兆以太网: "TenGigabitEthernet",
 	北向接口.E类型.e四万兆以太网: "FortyGigabitEthernet",
@@ -16,22 +17,43 @@ ca接口名称 = 北向接口.fc接口名称字典({
 	北向接口.E类型.e环回: "Loopback",
 	北向接口.E类型.e空: "NULL",
 	北向接口.E类型.e串行: "Serial",
+	北向接口.E类型.e控制: "Aux",
+	北向接口.E类型.e管理: "M-Ethernet",
 	北向接口.E类型.e注册隧道: "Register-Tunnel",
-})
+}
 f生成接口 = 北向接口.F生成接口(ca接口名称)
 f创建接口 = 北向接口.F创建接口(ca接口名称, f生成接口)
+#接口名称v7
+ca接口名称v7 = ca接口名称 | {
+	北向接口.E类型.e万兆以太网: "Ten-GigabitEthernet",
+	北向接口.E类型.e管理: "M-GigabitEthernet",
+	北向接口.E类型.e聚合: "Bridge-Aggregation",
+}
+f生成接口v7 = 北向接口.F生成接口(ca接口名称v7)
+f创建接口v7 = 北向接口.F创建接口(ca接口名称v7, f生成接口v7)
+#接口缩写
 ca接口缩写 = {
 	北向接口.E类型.e百兆以太网: "Eth",
-	北向接口.E类型.e吉以太网: "GE",
+	北向接口.E类型.e千兆以太网: "GE",
 	北向接口.E类型.e万兆以太网: "XGE",
 	北向接口.E类型.e四万兆以太网: "FGE",
+	北向接口.E类型.e虚拟局域网: "Vlan",
 	北向接口.E类型.e内部: "InLoop",
 	北向接口.E类型.e环回: "Loop",
 	北向接口.E类型.e空: "NULL",
 	北向接口.E类型.e串行: "Ser",
+	北向接口.E类型.e控制: "Aux",
+	北向接口.E类型.e管理: "M-E",
 	北向接口.E类型.e注册隧道: "REG",	#Register-Tunnel
 }
 f创建接口缩写 = 北向接口.F创建接口(ca接口缩写, f生成接口)
+#接口缩写v7
+ca接口缩写v7 = ca接口缩写 | {
+	北向接口.E类型.e管理: "MGE",
+	北向接口.E类型.e聚合: "BAGG",	#Bridge-Aggregation
+}
+f创建接口缩写v7 = 北向接口.F创建接口(ca接口缩写v7, f生成接口v7)
+#处理
 def f生成地址命令4(a地址, a肯定, a次):
 	v地址 = 地址.S网络地址4.fc自动(a地址)
 	v命令 = 命令.C命令("ip address")
@@ -40,6 +62,7 @@ def f生成地址命令4(a地址, a肯定, a次):
 	if a次:
 		v命令 += "sub"
 	return v命令
+#接口
 class C接口(南向接口.I接口配置):
 	def __init__(self, a, a接口):
 		南向接口.I接口配置.__init__(self, a, a接口)

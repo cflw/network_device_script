@@ -1,5 +1,6 @@
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
+import cflw代码库py.cflw工具_序列 as 序列
 from ..基础接口 import 操作
 from ..基础接口 import 数据表
 from ..基础接口 import 接口 as 北向接口
@@ -34,42 +35,44 @@ class C接口配置v7(南向协议.I接口配置):
 #===============================================================================
 # 数据表
 #===============================================================================
-class C邻居表v7:
-	c值开始 = 23
-	def __init__(self, a文本):
-		self.m文本 = str(a文本)
-	def __iter__(self):
-		return self.fe行()
-	def fe行(self):
-		v表项 = None
-		for v行 in self.m文本.split("\n"):
-			if len(v行) < C邻居表v7.c值开始:
-				continue
-			#LLDP neighbor-information of port 2[GigabitEthernet1/0/1]:
-			if "neighbor-information" in v行:
-				if v表项:
-					yield v表项
-				v表项 = 数据表.C记录()
-				v接口s = 字符串.f提取字符串之间(v行, "[", "]")
-				v接口 = 实现接口.f创建接口(v接口s)
-				v表项[数据表.E字段.e本端接口] = v接口
-			#LLDP agent nearest-bridge:
-			if v行[0] == " ":
-				v键 = v行[:C邻居表v7.c值开始-2].strip()
-				v值 = v行[C邻居表v7.c值开始:].strip()
-			else:
-				v键 = ""
-			# LLDP neighbor index : 1
-			# ChassisID/subtype   : 5e0b-be09-0200/MAC address
-			if v键 == "ChassisID/subtype":
-				v物理地址s = 字符串.f提取字符串之间(v值, None, "/", a反向查找 = True)
-				v物理地址 = 地址.S物理地址.fc字符串(v物理地址s)
-				v表项[数据表.E字段.e对端物理地址] = v物理地址
-			# PortID/subtype      : GigabitEthernet1/0/1/Interface name
-			if v键 == "PortID/subtype":
-				v接口s = 字符串.f提取字符串之间(v值, None, "/", a反向查找 = True)
-				v接口 = 实现接口.f创建接口(v接口s)
-				v表项[数据表.E字段.e对端接口] = v接口
-			# Capabilities        : Bridge, Router, Customer Bridge
-		if v表项:
-			yield v表项
+def F列表字段_斜杠前(a字段: str):
+	def f提取(a记录: str)->str:
+		v行 = 字符串.f提取字符串之间(a记录, a字段, "\n")
+		v结束 = v行.rfind("/")
+		return v行[:v结束]
+	return f提取
+class F邻居表信息v7(数据表.I解析列表管线):
+	"""display lldp neighbor-information 
+	适用于: 华三s6900(v7.1.*)"""
+	c值 = 23
+	c本端接口 = "LLDP neighbor-information of port"
+	c邻居索引 = " LLDP neighbor index :"
+	c底层标识 = " ChassisID/subtype   :"
+	c对端接口 = " PortID/subtype      :"
+	c对端属性 = " Capabilities        :"
+	def __init__(self):
+		数据表.I解析列表管线.__init__(self)
+		self.f添加字段(数据表.E字段.e本端接口, lambda x: 字符串.f提取字符串之间(x, "[", "]"), 实现接口.f创建接口)
+		self.f添加字段(数据表.E字段.e对端物理地址, F列表字段_斜杠前(F邻居表信息v7.c底层标识), 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端接口, F列表字段_斜杠前(F邻居表信息v7.c对端接口), str)
+	f下一记录 = staticmethod(数据表.F下一记录(c本端接口))
+	fi有效字段 = staticmethod(数据表.F有效行数(5))
+f邻居表信息v7 = F邻居表信息v7()
+class F邻居表列表v7(数据表.I解析表格管线):
+	"""display lldp neighbor-information list
+	适用于: 华三s6900(v7.1.*)"""
+	c标题行 = "Local Interface Chassis ID      Port ID                    System Name          "
+	c本端接口 = 0
+	c底层标识 = 16
+	c对端接口 = 32
+	c系统名 = 59
+	ca列 = 序列.C切片组(c本端接口, c底层标识, c对端接口, c系统名)
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e本端接口, F邻居表列表v7.ca列.F切片(0), 实现接口.f创建接口缩写)
+		self.f添加字段(数据表.E字段.e对端物理地址, F邻居表列表v7.ca列.F切片(1), 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端接口, F邻居表列表v7.ca列.F切片(2), str)
+		self.f添加字段(数据表.E字段.e对端名称, F邻居表列表v7.ca列.F切片(3), str)
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
+	fi有效行 = staticmethod(数据表.F有效长度(c系统名))
+f邻居表列表v7 = F邻居表列表v7()

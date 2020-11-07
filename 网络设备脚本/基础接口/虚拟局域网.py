@@ -1,8 +1,9 @@
 import enum
 class E链路类型(enum.Enum):
-	e接入 = 0
-	e中继 = 1
-	e混合 = 2
+	e无 = 0	#不是二层口
+	e接入 = 1
+	e中继 = 2
+	e混合 = 3
 class I虚拟局域网配置:
 	#模式
 	def f模式_接口(self, a接口, a操作):

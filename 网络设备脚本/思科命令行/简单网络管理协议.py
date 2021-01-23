@@ -10,7 +10,7 @@ class C代理配置(模式.C同级模式, 南向协议.I代理配置):
 	def fs开关(self, a操作 = None):
 		"""没有命令"""
 		pass
-	def fs团体字符串(self, a字符串, a权限 = 文件.E读写权限.e只读, a操作 = 操作.E操作.e设置):
+	def fs团体字符串(self, a字符串, a权限 = 文件.E访问权限.e只读, a操作 = 操作.E操作.e设置):
 		"""命令: snmp-server community 字符串 权限"""
 		v命令 = 命令.C命令("snmp-server community")
 		v命令 += a字符串

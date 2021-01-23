@@ -1,8 +1,12 @@
-class I接口配置:
-	c模式名 = "热备份路由协议接口配置模式"
+class I冗余路由:
+	c模式名 = "热备份路由协议配置模式"
+	#显示
+	def fg组号(self):
+		raise NotImplementedError()
+	#配置
 	def fs版本(self, a版本, a操作):
 		raise NotImplementedError()
-	def fs地址4(self, a地址, a操作):
+	def fs网络地址4(self, a地址, a操作):
 		raise NotImplementedError()
 	def fs抢占(self, a操作):
 		raise NotImplementedError()

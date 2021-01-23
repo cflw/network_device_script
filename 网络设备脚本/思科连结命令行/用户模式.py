@@ -9,9 +9,7 @@ class C用户模式nv7_0(用户模式.I用户模式):
 		用户模式.I用户模式.__init__(self, a)
 	#模式
 	def f事件_进入模式后(self):
-		self.m设备.f刷新()
-		self.m设备.f输入_结束符()
-		self.m设备.f输入_回车(-1, 5)
+		self.f登录自动刷新()
 	#显示
 	def f显示_时间(self):
 		v输出 = self.m设备.f执行显示命令("show clock")

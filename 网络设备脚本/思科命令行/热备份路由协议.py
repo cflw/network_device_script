@@ -1,18 +1,23 @@
 import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 操作
+from ..基础接口 import 热备份路由协议 as 北向协议
 from ..命令行接口 import 命令
-from ..命令行接口 import 热备份路由协议 as 南向协议
 from .常量 import *
 from . import 接口 as 实现接口
-class C配置(南向协议.I接口配置):
+class C配置(北向协议.I冗余路由, 实现接口.I接口配置):
 	def __init__(self, a, a接口, a组号):
-		南向协议.I接口配置.__init__(self, a, a接口, a组号)
+		实现接口.I接口配置.__init__(self, a, a接口)
+		self.m组号 = int(a组号)
 	def fg前置命令(self):
 		return 命令.C命令(f"stanby {self.fg组号()}")
+	#显示
+	def fg组号(self):
+		return self.m组号
+	#配置
 	def fs版本(self, a版本, a操作 = 操作.E操作.e设置):
 		v命令 = f"standby version {a版本}"
 		self.f执行当前模式命令(v命令)
-	def fs地址4(self, a地址, a操作 = 操作.E操作.e设置):
+	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
 		v地址 = 地址.S网络地址4.fc自动(a地址)
 		v命令 = self.fg前置命令()
 		v命令 += "ip", v地址.fg地址s()

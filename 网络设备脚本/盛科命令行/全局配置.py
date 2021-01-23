@@ -34,7 +34,22 @@ class C全局配置ev6(全局配置.I全局配置):
 			else:
 				v模式 = 实现接口.C接口ev6(self, v接口)
 		return v模式
+	#路由
+	def f模式_虚拟路由器冗余协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
+		from . import 虚拟路由器冗余协议 as 实现协议
+		v接口 = 实现接口.f创建接口ev6(a接口)
+		v模式 = 实现协议.C冗余路由(self, v接口, a组号)
+		return v模式
 	#服务
+	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		from ..基础接口 import 访问控制列表 as 北向列表
+		from ..命令行接口 import 访问控制列表 as 南向列表
+		from . import 访问控制列表 as 实现列表
+		if a类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4, None):
+			v模式 = 实现列表.C网络4(self, a名称)
+		else:
+			raise ValueError("未知的访问控制列表类型")
+		return v模式
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议 as 实现协议
 		return 实现协议.f模式(self, a端, 实现协议.C客户端ev6, None, a操作)

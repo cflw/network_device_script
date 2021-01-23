@@ -21,9 +21,10 @@ ca接口缩写nv7 = {
 f生成接口nv7 = 北向接口.F生成接口(ca接口名称nv7)
 f创建接口nv7 = 北向接口.F创建接口(ca接口名称nv7, f生成接口nv7)
 f创建接口缩写nv7 = 北向接口.F创建接口(ca接口缩写nv7, f生成接口nv7)
-class C接口nv7(南向接口.I接口配置):
+class I接口配置(南向接口.I接口配置):
 	def __init__(self, a, a接口):
 		南向接口.I接口配置.__init__(self, a, a接口)
+class C接口nv7(I接口配置):
 	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
 		raise NotImplementedError()
 	def fs默认网关4(self, a地址, a操作 = 操作.E操作.e设置):

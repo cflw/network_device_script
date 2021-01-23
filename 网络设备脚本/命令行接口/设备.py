@@ -31,6 +31,7 @@ class I设备(设备.I设备):
 		self.m间隔 = c间隔
 		self.m注释 = "#"
 		self.m自动提交 = 操作.E自动提交.e不提交
+		self.m自动关闭 = False	#对象销毁时关闭,由具体设备类控制
 		#连接状态
 		self.m连接 = a连接	#当前连接
 		v连接栈元素 = S连接栈元素(a连接, self)
@@ -52,7 +53,7 @@ class I设备(设备.I设备):
 		#收集信息
 		vi自动提交 = self.m自动提交 != 操作.E自动提交.e不提交
 		#安全关闭
-		if vi自动提交:
+		if self.m自动关闭 or vi自动提交:
 			self.f关闭()
 	#设备状态
 	def fs延迟(self, a间隔 = c间隔):

@@ -6,7 +6,7 @@ from ..命令行接口 import 简单网络管理协议 as 南向协议
 class C代理(模式.C同级模式, 南向协议.I代理配置):
 	def __init__(self, a):
 		南向协议.I代理配置.__init__(self, a)
-	def fs团体字符串(self, a字符串, a权限 = 文件.E读写权限.e只读, a操作 = 操作.E操作.e设置):
+	def fs团体字符串(self, a字符串, a权限 = 文件.E访问权限.e只读, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("snmp-agent community")
 		if 文件.fi含写(a权限):
 			v命令 += "write"

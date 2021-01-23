@@ -11,7 +11,7 @@ class C代理配置sv3(模式.C同级模式, 南向协议.I代理配置):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):
 		南向协议.I代理配置.__init__(self, a)
-	def fs团体字符串(self, a字符串, a权限 = 文件.E读写权限.e只读, a操作 = 操作.E操作.e设置):
+	def fs团体字符串(self, a字符串, a权限 = 文件.E访问权限.e只读, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("snmp-server community")
 		v命令 += a字符串
 		v命令 += "rw" if 文件.fi含写(a权限) else "ro"

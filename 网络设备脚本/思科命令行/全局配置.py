@@ -163,7 +163,13 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_热备份路由协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
 		from . import 热备份路由协议 as 实现协议
 		v接口 = 实现接口.f创建接口(a接口)
-		return 实现协议.C配置(self, v接口, a组号)
+		v模式 = 实现协议.C配置(self, v接口, a组号)
+		return v模式
+	def f模式_虚拟路由器冗余协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
+		from . import 虚拟路由器冗余协议 as 实现协议
+		v接口 = 实现接口.f创建接口(a接口)
+		v模式 = 实现协议.C冗余路由(self, v接口, a组号)
+		return v模式
 	#服务
 	def f模式_网络终端(self):
 		from . import 登录协议

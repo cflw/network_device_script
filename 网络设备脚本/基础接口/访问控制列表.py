@@ -253,7 +253,10 @@ class S统一序号:
 		self.m特定序号 = a特定
 		self.m类型 = a类型
 	def __str__(self):
-		return str(self.m特定序号)
+		if self.m特定序号:
+			return str(self.m特定序号)
+		else:
+			return str(self.m统一序号)
 	@staticmethod
 	def fc特定序号(n, a类型 = None):
 		return S统一序号(None, n, a类型)

@@ -68,8 +68,13 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		return v模式
 	def f模式_热备份路由协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
 		from . import 热备份路由协议 as 实现协议
-		v接口 = 实现接口.f创建接口(a接口)
+		v接口 = 实现接口.f创建接口nv7(a接口)
 		return 实现协议.C接口配置nv7(self, v接口, a组号)
+	def f模式_虚拟路由器冗余协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
+		from . import 虚拟路由器冗余协议 as 实现协议
+		v接口 = 实现接口.f创建接口nv7(a接口)
+		v模式 = 实现协议.C接口(self, v接口, a组号)
+		return v模式
 	#服务
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议 as 实现协议

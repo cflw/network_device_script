@@ -8,9 +8,7 @@ class C用户模式(用户模式.I用户模式):
 		self.m版本信息 = None
 		self.m版本信息时间 = 0
 	def f事件_进入模式后(self):
-		self.m设备.f刷新()
-		self.m设备.f输入_结束符()
-		self.m设备.f输入_回车(-1, 5)
+		self.f登录自动刷新()
 	def f自动登录(self):
 		self.f登录()
 		self.f提升权限()

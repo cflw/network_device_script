@@ -1,5 +1,6 @@
 from . import 模式
 from ..基础接口 import 用户模式
+from ..基础接口 import 文件
 class I用户模式(模式.I模式, 用户模式.I用户模式):
 	c模式名 = "用户模式"
 	def __init__(self, a):
@@ -36,3 +37,8 @@ class I用户模式(模式.I模式, 用户模式.I用户模式):
 			self.m提权级别 = a级别
 		if a密码:
 			self.m提权密码 = a密码
+	def f登录自动刷新(self):	#建议登录完进入模式后调用
+		if self.m设备.m访问权限 & 文件.E访问权限.e读:
+			self.m设备.f刷新()
+			self.m设备.f输入_结束符()
+			self.m设备.f输入_回车(-1, 5)

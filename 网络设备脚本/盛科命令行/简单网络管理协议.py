@@ -17,7 +17,7 @@ class C代理配置ev6(模式.C同级模式, 南向协议.I代理配置):
 		v命令 = 命令.C命令("snmp-server enable")
 		v命令.f前置肯定(操作.fi关操作(v操作), c不)
 		self.f执行当前模式命令(v命令)
-	def fs团体字符串(self, a字符串, a权限 = 文件.E读写权限.e只读, a操作 = 操作.E操作.e设置):
+	def fs团体字符串(self, a字符串, a权限 = 文件.E访问权限.e只读, a操作 = 操作.E操作.e设置):
 		"""命令: snmp-server community 字符串 权限"""
 		v命令 = 命令.C命令("snmp-server community")
 		v命令 += a字符串

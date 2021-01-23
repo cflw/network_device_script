@@ -1,3 +1,4 @@
+from ..基础接口 import 操作
 from ..命令行接口 import 设备 as 南向设备
 from ..命令行接口 import 命令
 from ..命令行接口 import 用户模式
@@ -5,11 +6,12 @@ from ..命令行接口 import 用户模式
 # nexus(v7.x)
 #===============================================================================
 class C设备nv7(南向设备.I设备):
-	"""适用于: 思科nexus9000(v7.0), 浪潮cn8000系列(v7.3), 浪潮cn61108pcv(v7.0)"""
+	"""适用于: 思科n7k系列, 思科n9k系列(v7.0), 浪潮cn8000系列(v7.3), 浪潮cn61108pcv(v7.0)"""
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
 		self.m版本 = a版本
+		self.m自动关闭 = True
 	#输入输出
 	def f输入_结束符(self):
 		self.f输入('\x1a')	#ctrl+z

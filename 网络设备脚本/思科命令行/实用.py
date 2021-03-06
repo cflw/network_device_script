@@ -4,8 +4,8 @@ from ..基础接口 import 操作
 from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 模式
 from ..命令行接口 import 接口 as 南向接口
-from .常量 import *
 from ..命令行接口 import 命令
+from .常量 import *
 ca命令前缀 = {
 	操作.E操作.e是: "",
 	操作.E操作.e否: c不,
@@ -56,3 +56,5 @@ def f生成地址和掩码4(a地址):
 def f生成地址和前缀长度6(a地址):
 	v地址 = 地址.S网络地址6.fc自动(a地址)
 	return "%s /%d" % (v地址.fg地址s(), v地址.fg前缀长度())
+f生成开关命令 = 命令.F生成开关命令(c命令_关闭, False, c不)
+f生成描述命令 = 命令.F生成描述命令(c命令_描述, c不)

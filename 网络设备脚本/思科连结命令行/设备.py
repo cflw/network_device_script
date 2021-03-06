@@ -11,7 +11,6 @@ class C设备nv7(南向设备.I设备):
 		南向设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
 		self.m版本 = a版本
-		self.m自动关闭 = True
 	#输入输出
 	def f输入_结束符(self):
 		self.f输入('\x1a')	#ctrl+z
@@ -36,5 +35,5 @@ class C设备nv7(南向设备.I设备):
 	def f退出(self, a关闭 = False):
 		self.f执行命令("exit")
 class C设备nv9(C设备nv7):
-	"""适用于: 浪潮cn61108pcv(v9.2.3)"""
+	"""适用于: 思科n9k系列(v9.2.3), 浪潮cn61108pcv(v9.2.3)"""
 	

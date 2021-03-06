@@ -18,11 +18,9 @@ class C用户视图(用户模式.I用户模式):
 	#模式
 	def f模式_全局配置(self):
 		from . import 全局配置
-		if self.m设备.m版本 >= 7:
-			return 全局配置.C系统视图v7(self)
 		return 全局配置.C系统视图(self)
 	def f模式_全局显示(self):
-		from . import 全局显示:
+		from . import 全局显示
 		return 全局显示.C全局显示(self)
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):

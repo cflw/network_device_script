@@ -18,7 +18,6 @@ class C设备ev6(南向设备.I设备):
 		南向设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
 		self.m版本 = a版本
-		self.m自动关闭 = True
 	#输入输出
 	def f输入_结束符(self):
 		self.f输入('\x1a')	#ctrl+z

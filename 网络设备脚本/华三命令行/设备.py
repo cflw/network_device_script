@@ -1,7 +1,5 @@
-import cflw代码库py.cflw网络连接 as 连接
 from ..基础接口 import 异常
 from ..命令行接口 import 设备 as 南向设备
-from .. import 华三
 from .常量 import *
 ca错误文本与异常类 = [
 	("% Unrecognized command found at '^' position.", 异常.X命令),

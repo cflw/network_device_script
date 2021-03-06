@@ -5,12 +5,8 @@ class C用户视图(用户模式.I用户模式):
 	def __init__(self, a):
 		用户模式.I用户模式.__init__(self, a)
 	def f事件_进入模式后(self):
-		self.m设备.f刷新()
-		self.m设备.f输入_结束符()
-		self.m设备.f输入_回车()
+		self.f登录自动刷新()
 		v输出 = self.m设备.f输出()
-		if "commit" in v输出:
-			self.m设备.f执行命令("n")
 	def f自动登录(self):
 		self.f登录()
 		self.f提升权限()

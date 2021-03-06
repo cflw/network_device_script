@@ -2,17 +2,15 @@ import cflw代码库py.cflw工具_序列 as 序列
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw时间 as 时间
 from ..基础接口 import 操作
-from ..命令行接口 import 命令
-from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
-from .常量 import *
 from ..基础接口 import 登录 as 北向登录
+from ..命令行接口 import 命令
 from ..命令行接口 import 登录 as 南向登录
+from .常量 import *
 #===============================================================================
 # 常量
 #===============================================================================
 c命令_登录配置v5 = "user-interface"
-c命令_登录配置v7 = "line"
 c命令_访问控制列表 = "acl"
 c命令_登录协议 = "protocol inbound"
 ca登录方式 = {
@@ -85,21 +83,6 @@ class C登录配置表v5:
 					continue
 				yield S登录配置(v文本)
 		yield S登录配置(self.m文本[v位置1:])
-class C登录配置表v7:
-	def __init__(self, a文本):
-		self.m文本 = a文本
-	def __iter__(self):
-		return self.fe节()
-	def fe节(self):
-		v位置0 = 0
-		for v位置1 in 字符串.f重复找(self.m文本, c命令_登录配置v7):
-			if v位置0 != v位置1:
-				v文本 = self.m文本[v位置0 : v位置1]
-				v位置0 = v位置1
-				if not c命令_登录配置v7 in v文本:
-					continue
-				yield S登录配置(v文本)
-		yield S登录配置(self.m文本[v位置1:])
 #===============================================================================
 # 模式
 #===============================================================================
@@ -159,18 +142,3 @@ class C登录(设备.I登录配置):
 	def fg访问控制列表(self):
 		v配置 = self.f显示_当前模式配置()
 		return v配置.fg访问控制列表()
-class C登录v7(C登录):
-	def __init__(self, a, a方式, a范围 = None):
-		C登录.__init__(self, a, a方式, a范围)
-		self.t登录配置表 = C登录配置表v7
-	def fg进入命令(self):
-		v命令 = 命令.C命令(c命令_登录配置v7)
-		v命令 += self.fg模式参数()
-		return v命令
-	def fs访问控制列表(self, a访问列表):
-		pass	#没有命令
-	def fg访问控制列表(self):
-		v命令 = "display current-configuration configuration system | include .+server.+acl"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		v名称 = 字符串.f提取字符串之间(v输出, "acl ", "\n", a结束严谨 = False)
-		return v名称

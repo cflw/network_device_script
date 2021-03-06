@@ -1,5 +1,4 @@
 import cflw代码库py.cflw字符串 as 字符串
-import cflw代码库py.cflw工具_序列 as 序列
 import cflw代码库py.cflw工具_运算 as 运算
 import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 数据表
@@ -74,17 +73,17 @@ class F网络接口表nv7(数据表.I解析表格管线):
 	c接口 = 0
 	c地址 = 21
 	c状态 = 37
-	ca列 = 序列.C切片组(c接口, c地址, c状态)
+	ca列 = 数据表.C切割列(c接口, c地址, c状态)
 	c标题行 = "Interface            IP Address      Interface Status"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列.F切片(0), 实现接口.f创建接口nv7)
-		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列.F切片(1), 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口nv7)
+		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列[1], 地址.S网络地址4.fc主机地址字符串)
 		self.f添加字段(数据表.E字段.e本端协议状态, self.Fg状态(0), 信息.f解析起宕状态)
 		self.f添加字段(数据表.E字段.e本端链路状态, self.Fg状态(1), 信息.f解析起宕状态)
 		self.f添加字段(数据表.E字段.e本端管理状态, self.Fg状态(2), 信息.f解析起宕状态)
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
-	f取状态列 = staticmethod(ca列.F切片(2))
+	f取状态列 = staticmethod(ca列[2])
 	@staticmethod
 	def Fg状态(a序号: int):
 		def fg状态(a行: str):
@@ -106,14 +105,14 @@ class F物理地址表nv7(数据表.I解析表格管线):
 	c安全 = 50
 	nfty = 55	#不知道是什么
 	c端口 = 58
-	ca列 = 序列.C切片组(c选项, c虚拟局域网, c物理地址, c类型, c寿命, c安全, nfty, c端口)
+	ca列 = 数据表.C切割列(c选项, c虚拟局域网, c物理地址, c类型, c寿命, c安全, nfty, c端口)
 	c标题行0 = "   VLAN     MAC Address      Type      age     Secure NTFY   Ports/SWID.SSID.LID"
 	c标题行1 = "---------+-----------------+--------+---------+------+----+------------------"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列.F切片(1), int)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列.F切片(2), 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址类型, self.ca列.F切片(3), 信息.f解析物理地址类型)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[1], int)
+		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[2], 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端物理地址类型, self.ca列[3], 信息.f解析物理地址类型)
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0, c标题行1))
 class F物理地址表nv9(F物理地址表nv7):
 	"""show mac address-table
@@ -126,7 +125,7 @@ class F物理地址表nv9(F物理地址表nv7):
 	c安全 = 47
 	nfty = 54	#不知道是什么
 	c端口 = 59
-	ca列 = 序列.C切片组(c选项, c虚拟局域网, c物理地址, c类型, c寿命, c安全, nfty, c端口)
+	ca列 = 数据表.C切割列(c选项, c虚拟局域网, c物理地址, c类型, c寿命, c安全, nfty, c端口)
 	c标题行0 = "   VLAN     MAC Address      Type      age     Secure NTFY Ports"
 	c标题行1 = "---------+-----------------+--------+---------+------+----+------------------"
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0, c标题行1))

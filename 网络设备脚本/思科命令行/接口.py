@@ -3,9 +3,9 @@ from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 协议
 from ..基础接口 import 操作
 from ..命令行接口 import 接口 as 南向接口
-from .常量 import *
-from . import 实用 as 思科实用
 from ..命令行接口 import 命令
+from . import 实用
+from .常量 import *
 ca接口名称 = 北向接口.ca接口名称
 f生成接口 = 北向接口.F生成接口(ca接口名称)
 f创建接口 = 北向接口.F创建接口(ca接口名称, f生成接口)
@@ -64,22 +64,16 @@ class C接口配置(I接口配置):
 	#操作
 	@南向接口.A接口自动展开
 	def fs开关(self, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.f生成开关命令("shutdown", c不, a操作)
+		v命令 = 实用.f生成开关命令(a操作)
 		self.f执行当前模式命令(v命令)
 	@南向接口.A接口自动展开
 	def fs描述(self, a描述 = "", a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("description")
-		if a操作 == 操作.E操作.e删除:
-			v命令.f前面添加(c不)
-		elif a操作 == 操作.E操作.e重置:
-			v命令.f前面添加(c默认)
-		else:
-			v命令 += a描述
+		v命令 = 实用.f生成描述命令(a描述, a操作)
 		self.f执行当前模式命令(v命令)
 	@南向接口.A接口自动展开
 	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("ip address")
-		v命令 += 思科实用.f生成地址和掩码4(a地址)
+		v命令 += 实用.f生成地址和掩码4(a地址)
 		if a操作 == 操作.E操作.e设置:
 			pass
 		elif a操作 == 操作.E操作.e添加:
@@ -90,7 +84,7 @@ class C接口配置(I接口配置):
 	@南向接口.A接口自动展开
 	def fs网络地址6(self, a地址, a操作 = 操作.E操作.e添加):
 		v命令 = 命令.C命令("ipv6 address")
-		v命令 += 思科实用.f生成地址和前缀长度6(a地址)
+		v命令 += 实用.f生成地址和前缀长度6(a地址)
 		if a操作 == 操作.E操作.e删除:
 			v命令.f前面添加(c不)
 		self.f执行当前模式命令(v命令)

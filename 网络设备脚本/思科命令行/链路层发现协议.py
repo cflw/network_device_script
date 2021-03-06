@@ -1,5 +1,4 @@
 import cflw代码库py.cflw字符串 as 字符串
-import cflw代码库py.cflw工具_序列 as 序列
 import cflw代码库py.cflw工具_运算 as 运算
 from ..基础接口 import 操作
 from ..基础接口 import 链路层发现协议 as 北向协议
@@ -22,13 +21,13 @@ class F邻居表(数据表.I解析表格管线):
 	c能力 = 46	#Capability
 	c对端接口 = 62	#Port ID
 	c标题行0 = "Device ID           Local Intf     Hold-time  Capability      Port ID"
-	ca列 = 序列.C切片组(c设备, c本端接口, c保持时间, c能力, c对端接口)
+	ca列 = 数据表.C切割列(c设备, c本端接口, c保持时间, c能力, c对端接口)
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端名称, F邻居表.ca列.F切片(0), 运算.f原值)
-		self.f添加字段(数据表.E字段.e本端接口, F邻居表.ca列.F切片(1), 实现接口.f创建接口缩写)
-		self.f添加字段(数据表.E字段.e本端保持时间, F邻居表.ca列.F切片(2), int)
-		self.f添加字段(数据表.E字段.e对端接口, F邻居表.ca列.F切片(4), 运算.f原值)
+		self.f添加字段(数据表.E字段.e对端名称, F邻居表.ca列[0], 运算.f原值)
+		self.f添加字段(数据表.E字段.e本端接口, F邻居表.ca列[1], 实现接口.f创建接口缩写)
+		self.f添加字段(数据表.E字段.e本端保持时间, F邻居表.ca列[2], int)
+		self.f添加字段(数据表.E字段.e对端接口, F邻居表.ca列[4], 运算.f原值)
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
 	@staticmethod
 	def fi有效行(a行: str):

@@ -1,5 +1,3 @@
-import time
-import cflw代码库py.cflw字符串 as 字符串
 from ..命令行接口 import 全局显示
 #===============================================================================
 # 全局显示
@@ -19,17 +17,10 @@ class C全局显示(全局显示.I全局显示):
 		v输出 = self.m设备.f执行显示命令(v命令, a自动换页 = True)
 		return C配置内容(v输出)
 	def f显示_时间(self):
+		from . import 时间
 		v命令 = "display clock"
 		v输出 = self.m设备.f执行显示命令(v命令)
-		#2019-04-12 10:58:39-08:00	#←新版本的时间后面会带时区，去掉
-		#Friday
-		#Time Zone(China-Standard-Time) : UTC-08:00
-		v输出 = v输出.split("\n")[0]
-		v时区位置 = 字符串.f连续找最后(v输出, ":", "-")
-		if v时区位置 > 0:
-			v输出 = v输出[:v时区位置]
-		v时间 = time.strptime(v输出, "%Y-%m-%d %H:%M:%S")
-		return v时间
+		return 时间.f解析时间(v输出)
 	def f显示_设备名(self):
 		v命令 = "display current-configuration | include sysname"
 		v输出 = self.m设备.f执行显示命令(v命令)

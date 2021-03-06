@@ -2,8 +2,8 @@ import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 操作
 from ..命令行接口 import 命令
-from ..基础接口 import 协议
 from ..命令行接口 import 接口 as 南向接口
+from . import 实用
 from .常量 import *
 #中兴常见接口
 ca接口名称 = 北向接口.ca接口名称 | {
@@ -39,14 +39,10 @@ class C接口m6000(南向接口.I接口配置):
 		return self.m设备.f执行命令(v命令)
 	#操作
 	def fs开关(self, a操作 = 操作.E操作.e设置):
-		v命令 = 命令.f生成开关命令("shutdown", c不, a操作)
+		v命令 = 实用.f生成开关命令(a操作)
 		self.f执行当前模式命令(v命令)
 	def fs描述(self, a描述 = "", a操作 = 操作.E操作.e设置):
-		v命令 = 命令.C命令("description")
-		if a操作 == 操作.E操作.e删除:
-			v命令.f前面添加(c不)
-		else:
-			v命令 += a描述
+		v命令 = 实用.f生成描述命令(a描述, a操作)
 		self.f执行当前模式命令(v命令)
 	def fs网络地址4(self, a地址, a操作 = 操作.E操作.e设置):
 		v地址 = 地址.S网络地址4.fc自动(a地址)

@@ -26,9 +26,22 @@ class E物理地址类型(enum.Enum):
 class E地址解析协议类型(enum.Enum):
 	e动态 = 0
 	e静态 = 1
+	e接口 = 2	#本端接口
 #===============================================================================
 # 解析
 #===============================================================================
+def f解析数字(a数字: str):
+	"""可解析: 整数, 小数, 百分数, 非数字(返回0)"""
+	if not a数字:
+		return 0
+	elif a数字[-1] == "%":	#百分数
+		return float(a数字[:-1]) * 0.01
+	elif "." in a数字:
+		return float(a数字)
+	elif a数字.isdigit():
+		return int(a数字)
+	else:
+		return 0
 def f解析起宕状态(a状态: str)->bool:
 	"up为真"
 	return "up" in a状态.lower()
@@ -96,7 +109,11 @@ ca地址解析协议类型 = {
 def f解析地址解析协议类型(a类型: str):
 	return ca物理地址类型.get(a类型.lower(), None)
 def f解析网络地址4(a地址: str):
-	if "unassigned" in a地址:	#思科设备接口没地址会显示unassigned
+	if "unassigned" in a地址:	#思科华为设备接口没地址会显示unassigned
 		return None
+	if "--" in a地址:	#华三设备没地址会显示--
+		return None
+	if "/" in a地址:
+		return 地址.S网络地址4.fc地址前缀长度字符串(a地址)
 	else:
 		return 地址.S网络地址4.fc主机地址字符串(a地址)

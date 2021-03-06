@@ -90,9 +90,9 @@ class S接口:
 		else:
 			return False
 	@staticmethod
-	def fc标准(a类型, *a序号, a子序号 = 0):
+	def fc标准(a类型, *aa序号, a子序号 = 0):
 		"(类型,*序号,子序号)"
-		return S接口(a类型, "", a序号, a子序号)
+		return S接口(a类型, aa序号, a子序号)
 	def fi范围(self):
 		for v序号 in self.ma序号:
 			if type(v序号) == range:
@@ -165,12 +165,12 @@ class S接口:
 			return a
 class C接口:
 	"""复杂接口类, 包含接口的各种详细信息"""
-	def __init__(self, a接口, a名称, af生成接口):
+	def __init__(self, a接口: S接口, a名称: str, af生成接口):
 		self.m接口 = a接口
 		if a名称:
 			self.m名称 = a名称
 		else:
-			self.m名称 = aa接口名称[a接口.m类型]
+			self.m名称 = af生成接口.f生成名称(a接口.m类型)
 		self.mf生成接口 = af生成接口
 	def __str__(self):
 		return self.mf生成接口(self.m接口)
@@ -202,7 +202,7 @@ class C接口:
 #===============================================================================
 class F创建接口:
 	"""把字符串转换成接口对象的类"""
-	def __init__(self, aa接口名称, af生成接口 = None):
+	def __init__(self, aa接口名称: dict, af生成接口 = None):
 		self.ma接口名称 = aa接口名称
 		if af生成接口:
 			self.mf生成接口 = af生成接口
@@ -211,7 +211,7 @@ class F创建接口:
 	def __call__(self, a):
 		v类型 = type(a)
 		if v类型 == S接口:
-			return C接口(a接口 = a, a名称 = None, aa接口名称 = self.ma接口名称)
+			return C接口(a, self.ma接口名称[a.m类型], self.mf生成接口)
 		elif isinstance(a, C接口):
 			return a
 		elif hasattr(a, "fg接口"):
@@ -220,7 +220,7 @@ class F创建接口:
 			return self.f创建(a)
 		else:
 			raise TypeError("无法解析的类型")
-	def f创建(self, a字符串):
+	def f创建(self, a字符串: str):
 		v名称s, v总序号s = self.f提取名称和序号(a字符串)
 		v类型, v名称 = self.f解析名称(v名称s)
 		va序号s = self.f分隔序号(v总序号s)
@@ -230,7 +230,7 @@ class F创建接口:
 		v接口值 = S接口(v类型, va序号, v子序号)
 		v接口对象 = C接口(v接口值, v名称, self.mf生成接口)
 		return v接口对象
-	def f提取名称和序号(self, a字符串):
+	def f提取名称和序号(self, a字符串: str):
 		va数字 = c数字正则.findall(a字符串)
 		if not va数字:	#找不到数字
 			v名称 = a字符串
@@ -240,13 +240,13 @@ class F创建接口:
 			v名称 = a字符串[: v数字位置]
 			v序号 = a字符串[v数字位置 :]
 		return v名称.strip(), v序号
-	def f提取尾序号和子序号(self, a字符串):
+	def f提取尾序号和子序号(self, a字符串: str):
 		v点位置 = a字符串.find(".")
 		if v点位置 < 0:
 			return a字符串, "0"
 		else:
 			return a字符串[: v点位置], a字符串[v点位置+1 :]
-	def f解析名称(self, a字符串):
+	def f解析名称(self, a字符串: str):
 		v正则 = re.compile(r"^" + a字符串, re.IGNORECASE)
 		v目标 = None
 		v优先级 = -1
@@ -264,23 +264,23 @@ class F创建接口:
 			return v目标
 		else:
 			raise RuntimeError("找不到名称\"" + a字符串 + "\"")
-	def f分隔序号(self, a字符串):
+	def f分隔序号(self, a字符串: str):
 		if not a字符串:	#无序号时,字符串为空
 			return ["0"]
 		return a字符串.split(self.f分隔符())
-	def f解析序号(self, a字符串):
+	def f解析序号(self, a字符串: str):
 		if "-" in a字符串:
 			v分割 = a字符串.split("-")
 			return range(int(v分割[0]), int(v分割[1])+1)
 		else:
 			return int(a字符串)
-	def f解析子序号(self, a字符串):
+	def f解析子序号(self, a字符串: str):
 		return self.f解析序号(a字符串)
 	def f分隔符(self):
 		return "/"
 class F生成接口:
 	"""把接口对象转换成字符串的类"""
-	def __init__(self, aa接口名称):
+	def __init__(self, aa接口名称: dict):
 		self.ma接口名称 = aa接口名称
 	def __call__(self, a):
 		v类型 = type(a)
@@ -301,9 +301,9 @@ class F生成接口:
 		else:
 			v子序号s = ""
 		return v名称 + self.f分隔符().join(va序号) + v子序号s
-	def f生成名称(self, a类型):
+	def f生成名称(self, a类型: E类型):
 		return self.ma接口名称[a类型]
-	def fe生成序号组(self, a序号组):
+	def fe生成序号组(self, a序号组: tuple):
 		for v序号 in a序号组:
 			v序号类型 = type(v序号)
 			if v序号类型 == int:
@@ -313,16 +313,20 @@ class F生成接口:
 			else:
 				raise TypeError()
 			yield v序号s
-	def f生成序号(self, a序号):
+	def f生成序号(self, a序号: int):
 		return str(a序号)
-	def f生成范围(self, a范围):
+	def f生成范围(self, a范围: slice):
 		return f"{a范围.start}-{a范围.stop - 1}"
-	def f生成子序号(self, a序号):
+	def f生成子序号(self, a序号: int):
 		return "." + str(a序号)
 	def f分隔符(self):
 		return "/"
-f生成接口 = F生成接口(ca接口名称)
-f创建接口 = F创建接口(ca接口名称, f生成接口)
+def F接口工厂(aa接口名称: dict):
+	"""创建 F生成接口 对象和 F创建接口 对象 """
+	vf生成接口 = F生成接口(aa接口名称)
+	vf创建接口 = F创建接口(aa接口名称, vf生成接口)
+	return vf生成接口, vf创建接口
+f生成接口, f创建接口 = F接口工厂(ca接口名称)
 #===============================================================================
 # 接口配置
 #===============================================================================

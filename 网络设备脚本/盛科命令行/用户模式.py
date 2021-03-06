@@ -15,6 +15,7 @@ class C用户模式ev6(用户模式.I用户模式):
 	#模式
 	def f模式_全局配置(self):
 		from . import 全局配置
+		self.m自动关闭 |= True
 		return 全局配置.C全局配置ev6(self)
 	def f模式_全局显示(self):
 		from . import 全局显示

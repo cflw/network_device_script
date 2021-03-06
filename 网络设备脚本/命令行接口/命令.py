@@ -1,4 +1,6 @@
 import copy
+from ..基础接口 import 操作
+from ..基础接口 import 异常
 #===============================================================================
 # 命令类
 #===============================================================================
@@ -68,6 +70,7 @@ class C命令:	#快速添加命令参数
 	def __len__(self):
 		return len(self.m字符串)
 	def f添加(self, *a):
+		"{m字符串}(空格){a字符串}"
 		for v in a:
 			if v == None:
 				continue
@@ -84,6 +87,7 @@ class C命令:	#快速添加命令参数
 			self.f添加(*a)
 		return self
 	def f前面添加(self, *a):
+		"{a字符串}(空格){m字符串}"
 		if not a:
 			raise TypeError()
 		for v in a:
@@ -98,12 +102,14 @@ class C命令:	#快速添加命令参数
 				self.m字符串 = v命令 + " " + self.m字符串
 		return self
 	def f附加(self, *a):
+		"{m字符串}{a字符串}"
 		for v in a:
 			if v == None:
 				continue
 			self.m字符串 += str(v)
 		return self
 	def f前面附加(self, *a):
+		"{a字符串}{m字符串}"
 		if not a:
 			raise TypeError()
 		for v in a:
@@ -160,19 +166,36 @@ def f命令补全(a, *a元组):
 			v匹配程度 = v当前匹配程度
 			v匹配字符串 = v字符串
 	return v匹配字符串
-def f生成开关命令(a命令, a不, a操作):
-	v命令 = 命令.C命令(a命令)
-	if a操作 == True or a操作 == 操作.E操作.e设置:
-		pass
-	elif a操作 == False or a操作 == 操作.E操作.e删除:
-		v命令.f前面添加(a不)
-	elif a操作 == 操作.E操作.e重置:
-		v命令.f前面添加("default")
-	return v命令
-def f生成描述命令(a命令, a不, a描述, a操作):
-	v命令 = 命令.C命令(a命令)
-	if a操作 == 操作.E操作.e设置:
-		v命令 += a描述
-	elif a操作 == 操作.E操作.e删除:
-		v命令.f前面添加(a不)
-	return v命令
+def F生成开关命令(a命令, ai开命令, a不):
+	if ai开命令:
+		def f(a操作):
+			v命令 = C命令(a命令)
+			v操作 = 操作.f解析操作(a操作)
+			if 操作.fi开操作(v操作):
+				pass
+			elif 操作.fi关操作(v操作):
+				v命令.f前面添加(a不)
+			else:
+				raise 异常.X操作()
+			return v命令
+	else:
+		def f(a操作):
+			v命令 = C命令(a命令)
+			v操作 = 操作.f解析操作(a操作)
+			if 操作.fi开操作(v操作):
+				v命令.f前面添加(a不)
+			elif 操作.fi关操作(v操作):
+				pass
+			else:
+				raise 异常.X操作()
+			return v命令
+	return f
+def F生成描述命令(a命令, a不):
+	def f(a描述, a操作):
+		v命令 = C命令(a命令)
+		v操作 = 操作.f解析操作(a操作)
+		if v操作 == 操作.E操作.e设置:
+			v命令 += a描述
+		elif v操作 == 操作.E操作.e删除:
+			v命令.f前面添加(a不)
+	return f

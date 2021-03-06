@@ -2,7 +2,6 @@ import functools
 import pandas	#pandas
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-import cflw代码库py.cflw工具_序列 as 序列
 from ..基础接口 import 数据表
 from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 信息
@@ -17,15 +16,15 @@ class F物理地址表(数据表.I解析表格管线):
 	c物理地址 = 8
 	c类型 = 26
 	c端口 = 38
-	ca列 = 序列.C切片组(c虚拟局域网, c物理地址, c类型, c端口)
+	ca列 = 数据表.C切割列(c虚拟局域网, c物理地址, c类型, c端口)
 	c标题行0 = "Vlan    Mac Address       Type        Ports"
 	c标题行1 = "----    -----------       --------    -----"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, F物理地址表.ca列.F切片(0), int)
-		self.f添加字段(数据表.E字段.e对端物理地址, F物理地址表.ca列.F切片(1), 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址类型, F物理地址表.ca列.F切片(2), 信息.ca物理地址类型.get)
-		self.f添加字段(数据表.E字段.e本端接口, F物理地址表.ca列.F切片(3), 实现接口.f创建接口缩写)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, F物理地址表.ca列[0], int)
+		self.f添加字段(数据表.E字段.e对端物理地址, F物理地址表.ca列[1], 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端物理地址类型, F物理地址表.ca列[2], 信息.ca物理地址类型.get)
+		self.f添加字段(数据表.E字段.e本端接口, F物理地址表.ca列[3], 实现接口.f创建接口缩写)
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0, c标题行1))
 	@staticmethod
 	def fi有效行(a行):
@@ -47,9 +46,9 @@ class F接口详细(数据表.I解析列表管线):
 	c接收率正则 = r"5 minute input rate (\d+) bits/sec, (\d+) packets/sec"
 	c发送率正则 = r"5 minute output rate (\d+) bits/sec, (\d+) packets/sec"
 	c接收数正则 = r"(\d+) packets input, (\d+) bytes, (\d+) no buffer"
-	c接收错误正则 = r"(\d+) input errors, (\d+) CRC, (\d+) frame, (\d+) overrun, (\d+) ignored"
+	c接收错误数正则 = r"(\d+) input errors, (\d+) CRC, (\d+) frame, (\d+) overrun, (\d+) ignored"
 	c发送数正则 = r"(\d+) packets output, (\d+) bytes, (\d+) underruns"
-	c发送错误正则 = r"(\d+) output errors, (\d+) collisions, (\d+) interface resets"
+	c发送错误数正则 = r"(\d+) output errors, (\d+) collisions, (\d+) interface resets"
 	def __init__(self):
 		数据表.I解析列表管线.__init__(self)
 		self.f添加字段(数据表.E字段.e本端接口, 数据表.F正则字段(北向接口.c接口正则, 0), 实现接口.f创建接口)
@@ -60,12 +59,12 @@ class F接口详细(数据表.I解析列表管线):
 		self.f添加字段(数据表.E字段.e本端每秒接收包数, 数据表.F正则字段(F接口详细.c接收率正则, 2), int)
 		self.f添加字段(数据表.E字段.e本端接收包数, 数据表.F正则字段(F接口详细.c接收数正则, 1), int)
 		self.f添加字段(数据表.E字段.e本端接收字节数, 数据表.F正则字段(F接口详细.c接收数正则, 2), int)
-		self.f添加字段(数据表.E字段.e本端接收错误, 数据表.F正则字段(F接口详细.c接收错误正则, 1), int)
+		self.f添加字段(数据表.E字段.e本端接收错误数, 数据表.F正则字段(F接口详细.c接收错误数正则, 1), int)
 		self.f添加字段(数据表.E字段.e本端每秒发送字节数, 数据表.F正则字段(F接口详细.c发送率正则, 1), lambda x: int(x) // 8)
 		self.f添加字段(数据表.E字段.e本端每秒发送包数, 数据表.F正则字段(F接口详细.c发送率正则, 2), int)
 		self.f添加字段(数据表.E字段.e本端发送包数, 数据表.F正则字段(F接口详细.c发送数正则, 1), int)
 		self.f添加字段(数据表.E字段.e本端发送字节数, 数据表.F正则字段(F接口详细.c发送数正则, 2), int)
-		self.f添加字段(数据表.E字段.e本端发送错误, 数据表.F正则字段(F接口详细.c发送错误正则, 1), int)
+		self.f添加字段(数据表.E字段.e本端发送错误数, 数据表.F正则字段(F接口详细.c发送错误数正则, 1), int)
 	f下一记录 = staticmethod(数据表.F下一记录("line protocol is"))
 f接口详细 = F接口详细()
 #===============================================================================
@@ -80,15 +79,15 @@ class F网络接口表4(数据表.I解析表格管线):
 	c方法 = 43	#Method
 	c状态 = 50	#Status
 	c协议 = 72	#Protocol
-	ca列 = 序列.C切片组(c接口, c地址, c好, c方法, c状态, c协议)
+	ca列 = 数据表.C切割列(c接口, c地址, c好, c方法, c状态, c协议)
 	c标题行0 = "Interface              IP-Address      OK? Method Status                Protocol"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, F网络接口表4.ca列.F切片(0), 实现接口.f创建接口)
-		self.f添加字段(数据表.E字段.e本端网络地址4, F网络接口表4.ca列.F切片(1), 信息.f解析网络地址4)
-		self.f添加字段(数据表.E字段.e本端管理状态, F网络接口表4.ca列.F切片(4), 信息.F解析管理状态(a宕 = "administratively"))
-		self.f添加字段(数据表.E字段.e本端链路状态, F网络接口表4.ca列.F切片(4), 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端协议状态, F网络接口表4.ca列.F切片(5), 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端接口, F网络接口表4.ca列[0], 实现接口.f创建接口)
+		self.f添加字段(数据表.E字段.e本端网络地址4, F网络接口表4.ca列[1], 信息.f解析网络地址4)
+		self.f添加字段(数据表.E字段.e本端管理状态, F网络接口表4.ca列[4], 信息.F解析管理状态(a宕 = "administratively"))
+		self.f添加字段(数据表.E字段.e本端链路状态, F网络接口表4.ca列[4], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端协议状态, F网络接口表4.ca列[5], 信息.f解析起宕状态)
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
 	@staticmethod
 	def fi有效行(a行):

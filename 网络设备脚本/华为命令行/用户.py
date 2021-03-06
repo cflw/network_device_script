@@ -2,16 +2,16 @@ from ..基础接口 import 操作
 from ..基础接口 import 用户 as 北向用户
 from ..命令行接口 import 模式
 from ..命令行接口 import 命令
-from ..命令行接口 import 用户 as 南向用户
 ca服务类型 = {
 	北向用户.E服务类型.e终端: "terminal",
 	北向用户.E服务类型.e网络终端: "telnet",
 	北向用户.E服务类型.e安全外壳: "ssh",
 	北向用户.E服务类型.e网页: "web",
 }
-class C用户配置(南向用户.I用户配置):
-	def __init__(self, a, a用户名):
-		南向用户.I用户配置.__init__(self, a, a用户名)
+class C用户配置(北向用户.I用户配置, 模式.I模式):
+	def __init__(self, a, a用户名: str):
+		模式.I模式.__init__(self, a)
+		self.m用户名 = a用户名
 	def fg进入命令(self):
 		return "aaa"
 	def fg命令前缀(self):
@@ -32,7 +32,8 @@ class C用户配置(南向用户.I用户配置):
 		v命令 += "privilege level", v权限
 		self.f执行当前模式命令(v命令)
 	def fs服务类型(self, a服务类型, a操作 = 操作.E操作.e设置):
+		va服务类型 = 北向用户.f解析服务类型(a服务类型)
 		v命令 = self.fg命令前缀()
 		v命令 += "service-type"
-		v命令 += 南向用户.f生成服务类型(ca服务类型, a服务类型)
+		v命令 += tuple(ca服务类型[v] for v in va服务类型)
 		self.f执行当前模式命令(v命令)

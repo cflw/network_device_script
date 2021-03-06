@@ -1,7 +1,7 @@
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-import cflw代码库py.cflw工具_序列 as 序列
 from ..基础接口 import 路由 as 北向路由
+from ..基础接口 import 信息
 from ..基础接口 import 数据表
 from . import 接口 as 实现接口
 ca路由类型 = {
@@ -11,8 +11,9 @@ ca路由类型 = {
 	"OSPF": 北向路由.E路由类型.e开放最短路径优先,
 	"BGP": 北向路由.E路由类型.e边界网关协议,
 }
-class C路由表4:	#需重写
-	"""display ip routing-table"""
+class F路由表4(数据表.I解析表格管线):
+	"""display ip routing-table
+	适用于: 华为s5700(v5.110)"""
 	c网络号 = 0
 	c类型 = 20
 	c优先级 = 28
@@ -20,23 +21,16 @@ class C路由表4:	#需重写
 	c标志 = 43
 	c下一跳 = 49
 	c接口 = 65
-	ca列开始 = (c网络号, c类型, c优先级, c开销, c标志, c下一跳, c接口)
+	ca列 = 数据表.C切割列(c网络号, c类型, c优先级, c开销, c标志, c下一跳, c接口)
 	c标题行 = "Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface"
-	def __init__(self, a文本):
-		v位置 = 字符串.f连续找最后(a文本, C路由表4.c标题行, "\n")
-		self.m文本 = a文本[v位置+1:]
-	def __iter__(self):
-		return self.fe行()
-	def fe行(self):
-		for v行 in self.m文本.split("\n"):
-			if len(v行) < C路由表4.c接口:
-				continue
-			v网络号s, v类型s, v优先级s, v开销s, v标志s, v下一跳s, v接口s = 字符串.fe按位置分割(v行, *C路由表4.ca列开始)
-			if v网络号s:	#没有网络号是负载均衡
-				v网络号 = 地址.S网络地址4.fc自动(v网络号s)
-			v类型 = ca类型[v类型s]
-			v优先级 = int(v优先级s)
-			v开销 = int(v开销s)
-			v下一跳 = 地址.S网络地址4.fc自动(v下一跳s)
-			v接口 = 实现接口.f创建接口(v接口s)
-			yield 北向路由.S路由条目(a网络号 = v网络号, a下一跳 = v下一跳, a出接口 = v接口, a路由类型 = v类型, a优先级 = v优先级, a度量值 = v开销)
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e目标网络号, F路由表4.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
+		self.f添加字段(数据表.E字段.e目标路由类型, F路由表4.ca列[1], ca路由类型.get)
+		self.f添加字段(数据表.E字段.e目标管理距离, F路由表4.ca列[2], int)
+		self.f添加字段(数据表.E字段.e目标度量值, F路由表4.ca列[3], int)
+		self.f添加字段(数据表.E字段.e目标下一跳, F路由表4.ca列[5], 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e本端出接口, F路由表4.ca列[6], 实现接口.f创建接口)
+	fi有效行 = staticmethod(数据表.F有效长度(c接口))
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
+f路由表4 = F路由表4()

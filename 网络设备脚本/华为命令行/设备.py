@@ -11,18 +11,15 @@ ca错误文本与异常类 = [
 	("Error:Too many parameters found at '^' position.", 异常.X命令)
 ]
 class C设备(南向设备.I设备):
+	"""适用于: 华为s5700(v5.20)"""
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
 		self.m连接.fs编码("gb2312")
 		self.m型号 = a型号
 		self.m版本 = a版本
 		self.fs自动换页("  ---- More ----")
-		if a型号 & 华为.E型号.c云:
-			self.fs自动提交(操作.E自动提交.e退出配置模式时)
 	def f退出(self):
 		self.f执行命令("quit")
-	def f提交(self):
-		self.f执行命令("commit")
 	def f输入_结束符(self):
 		self.f输入(c结束符 + "\r")
 	def f模式_用户(self):

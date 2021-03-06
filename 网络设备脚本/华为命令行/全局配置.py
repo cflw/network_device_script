@@ -10,8 +10,6 @@ class C系统视图(全局配置.I全局配置):
 		全局配置.I全局配置.__init__(self, a)
 	def fg进入命令(self):
 		return "system-view"
-	def f事件_退出模式前(self):
-		self.m设备.f自动提交(操作.E自动提交.e退出配置模式时)
 	#模式
 	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
 		from . import 用户

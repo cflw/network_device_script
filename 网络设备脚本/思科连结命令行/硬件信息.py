@@ -32,7 +32,7 @@ f资产信息 = F资产信息()
 def f解析功率(a文本: str):
 	return int(a文本[:-2])
 class F电源v7_电源(数据表.I解析表格管线):
-	"""show enviroment power, 第1个表
+	"""show environment power, 第1个表
 	适用于: 浪潮cn8672up(v7.3.0), 浪潮cn8696q(v7.3.0)"""
 	c序号 = 0
 	c型号 = 4
@@ -57,7 +57,7 @@ class F电源v7_电源(数据表.I解析表格管线):
 	fi结束 = staticmethod(数据表.fi空行)
 f电源v7_电源 = F电源v7_电源()
 class F电源v7_板卡(数据表.I解析表格管线):
-	"""show enviroment power, 第2个表
+	"""show environment power, 第2个表
 	适用于: 浪潮cn8672up(v7.3.0), 浪潮cn8696q(v7.3.0)"""
 	c序号 = 0
 	c型号 = 4
@@ -83,7 +83,7 @@ class F电源v7_板卡(数据表.I解析表格管线):
 	fi结束 = staticmethod(数据表.fi空行)
 f电源v7_板卡 = F电源v7_板卡()
 class F电源v9(数据表.I解析表格管线):
-	"""show enviroment power
+	"""show environment power
 	适用于: 浪潮cn61108pcv(v9.2.3)"""
 	c序号 = 0
 	c型号 = 9
@@ -115,7 +115,7 @@ ca风扇方向 = {
 	"back-to-front": 硬件.E风扇方向.e从后到前,
 }
 class F风扇v7(数据表.I解析表格管线):
-	"""show enviroment fan
+	"""show environment fan
 	适用于: 浪潮cn8672up(v7.3.0), 浪潮cn8696q(v7.3.0)"""
 	c风扇 = 0
 	c型号 = 16
@@ -135,7 +135,7 @@ class F风扇v7(数据表.I解析表格管线):
 	fi结束 = staticmethod(数据表.fi空行)
 f风扇v7 = F风扇v7()
 class F风扇v9(数据表.I解析表格管线):
-	"""show enviroment fan
+	"""show environment fan
 	适用于: 浪潮cn61108pcv(v9.2.3)"""
 	c风扇 = 0
 	c型号 = 16
@@ -160,7 +160,7 @@ f风扇v9 = F风扇v9()
 # 温度
 #===============================================================================
 class F温度v7(数据表.I解析表格管线):
-	"""show enviroment temperature
+	"""show environment temperature
 	适用于: 浪潮cn8672up(v7.3.0), 浪潮cn8696q(v7.3.0)"""
 	c模块 = 0
 	c传感器 = 9
@@ -185,7 +185,7 @@ class F温度v7(数据表.I解析表格管线):
 	fi结束 = staticmethod(数据表.fi空行)
 f温度v7 = F温度v7()
 class F温度v9(数据表.I解析表格管线):
-	"""show enviroment temperature
+	"""show environment temperature
 	适用于: 浪潮cn61108pcv(v9.2.3)"""
 	c模块 = 0
 	c传感器 = 9

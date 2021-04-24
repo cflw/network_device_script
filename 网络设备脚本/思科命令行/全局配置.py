@@ -12,6 +12,9 @@ class C全局配置(全局配置.I全局配置):
 	def fg进入命令(self):
 		return C全局配置.c进入命令
 	#基本模式
+	def f模式_设备(self):
+		from . import 设备模式
+		return 设备模式.C设备配置(self)
 	def f模式_时间(self):
 		from . import 时间
 		return 时间.C时间(self)
@@ -238,11 +241,3 @@ class C全局配置(全局配置.I全局配置):
 	def f模式_链路层发现协议(self, a接口 = None, a操作 = 操作.E操作.e设置):
 		from . import 链路层发现协议
 		return 链路层发现协议.C进程配置(self)
-	#全局配置
-	def fs设备名(self, a名称):
-		v命令 = "hostname " + str(a名称)
-		self.f执行当前模式命令(v命令)
-	#其它
-	def fs域名(self, a名称 = "a"):
-		v命令 = "ip domain-name " + str(a名称)
-		self.f执行当前模式命令(v命令)

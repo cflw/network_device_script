@@ -43,10 +43,11 @@ class I设备(设备.I设备):
 			self.m当前连接栈 = (v连接栈元素,)
 		#设备状态
 		self.ma模式 = []
-		self.m自动换页文本 = ''
+		self.m自动换页文本 = ""
 		self.m历史命令 = ""	#防止连续执行相同命令
 		self.m历史输出 = ""	#如果执行了相同的命令,则返回相同的输出
 		self.mf自动登录 = None	#
+		self.mf换页判断 = f换页判断_无
 	def __del__(self):
 		if not self.m连接:
 			return
@@ -63,6 +64,7 @@ class I设备(设备.I设备):
 		"设置自动换页标记"
 		self.m自动换页文本 = a文本
 		self.m自动换页替换 = None
+		self.mf换页判断 = f换页判断_自动换页文本
 	def f关闭(self):
 		"执行清理操作, 然后关闭连接. f关闭 只能调用一次"
 		assert(self.fi当前连接())
@@ -183,24 +185,31 @@ class I设备(设备.I设备):
 	def f输出显示结果(self, a自动换页 = True, a最小等待 = 1):
 		v输出 = ''
 		v计时 = 时间.C秒表()
-		if a自动换页 and self.m自动换页文本:
+		if a自动换页:
+			vi有换页 = False
 			while True:
 				v读 = self.f输出(a等待 = True)
 				v输出 += v读
-				if self.m自动换页文本 in v读:	#还有更多
+				if self.mf换页判断(self, v读):	#还有更多
 					self.f输入_空格()
 					self.f设备_等待回显()
+					vi有换页 = True
 					continue
 				else:	#没有更多
 					if v计时.f滴答() < a最小等待:
 						continue
 					else:
 						break
-			v输出 = self.f自动换页替换(v输出)
+			if vi有换页:
+				v输出 = self.f自动换页替换(v输出)
 		else:
 			v输出 = self.f输出(a等待 = True)
+			if self.mf换页判断(self, v输出):	#还有更多
+				self.f停止显示()
 		self.m历史输出 = v输出.replace("\r\n", "\n")
 		return self.m历史输出
+	def f停止显示(self):
+		self.f输入_任意键()
 	def f处理显示结果(self, a输出):
 		"""根据具体设备对显示结果进行处理"""
 		return a输出	# 默认不处理,原样返回
@@ -387,3 +396,7 @@ def f参数等级(a, a最高):
 	else:
 		v数字 = a
 	return math.floor(float(v数字) * a最高 + 0.5)
+def f换页判断_无(self, a文本: str):
+	return False
+def f换页判断_自动换页文本(self, a文本: str):
+	return self.m自动换页文本 in a文本

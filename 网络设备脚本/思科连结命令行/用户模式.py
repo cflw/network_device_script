@@ -10,11 +10,6 @@ class C用户模式nv7_0(用户模式.I用户模式):
 	#模式
 	def f事件_进入模式后(self):
 		self.f登录自动刷新()
-	#显示
-	def f显示_时间(self):
-		v输出 = self.m设备.f执行显示命令("show clock")
-		from . import 时间
-		return 时间.f解析时间nv7(v输出)
 	#模式
 	def f模式_全局配置(self):
 		from . import 全局配置
@@ -43,6 +38,18 @@ class C用户模式nv7_3(C用户模式nv7_0):
 	def f模式_全局配置(self):
 		from . import 全局配置
 		return 全局配置.C全局配置nv7_3(self)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示nv7_3(self)
 	#操作
 	def f保存配置(self):
 		self.f执行当前模式命令("copy running-config startup-config")
+class C用户模式nv9_2(C用户模式nv7_3):
+	"""适用于: 浪潮cn61108pc-v(v9.2)"""
+	#模式
+	def f模式_全局配置(self):
+		from . import 全局配置
+		return 全局配置.C全局配置nv9_2(self)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示nv9_2(self)

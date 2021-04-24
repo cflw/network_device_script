@@ -26,7 +26,7 @@ class E字段(enum.Enum):
 	e本端序列号 = c本端 + c序列号
 	#硬件
 	c硬件 = 0x00010000
-	e本端单元 = c本端 + c硬件 + 0x00
+	e本端单元 = c本端 + c硬件 + 0x00	#单元,插槽,槽位
 	c电源 = c硬件 + 0x0100
 	e本端输出功率 = c本端 + c电源 + 0x01	#功率单位:瓦
 	e本端输入功率 = c本端 + c电源 + 0x02
@@ -215,13 +215,24 @@ def F下一记录(a找: str):
 	return f下一记录
 def f下一记录_直接结束(a文本: str, a开始位置: int)->int:
 	return -1
+def f下一记录_下一行(a文本: str, a开始位置: int)->int:
+	v下一行位置 = a文本.find("\n", a开始位置) + 1
+	if v下一行位置 > a开始位置:
+		return v下一行位置
+	else:
+		return -1
 #字段管线记录
-def F列表字段(a字段: str, a结束: str = "\n"):
-	"""针对"键: 值"的格式"""
+def F列表字段(a字段: str, a结束: str = "\n", a分隔符 = ":"):
+	"""针对"键: 值"的格式
+	字段不用包含冒号"""
+	v正则 = re.compile(f"\\s*({a字段})\\s*{a分隔符}\\s*(.*?)\\n")
 	def f提取(a文本: str)->str:
-		return 字符串.f提取字符串之间(a文本, a字段, a结束, a结束严谨 = False)
+		if v匹配 := v正则.search(a文本):
+			return v匹配[2]
+		else:
+			return ""
 	return f提取
-def F正则字段(a正则, a索引: int = 1):
+def F正则字段(a正则, a索引):
 	#正则
 	v类型 = type(a正则)
 	if v类型 == str:
@@ -233,7 +244,10 @@ def F正则字段(a正则, a索引: int = 1):
 	#函数
 	def f提取(a文本: str)->str:
 		if v结果 := v正则.search(a文本):
-			return v结果[a索引]
+			if type(a索引) in (list, tuple):	#多个
+				return v结果.group(*a索引)
+			else:	#一个
+				return v结果.group(a索引)
 		return ""
 	return f提取
 def F指定行列(af取行, af取列):	#取行可以用 字符串.F提取包含行, 取列可以用 数据表.C切割列.F切片

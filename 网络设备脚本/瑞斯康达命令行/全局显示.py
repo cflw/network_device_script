@@ -1,12 +1,19 @@
 import cflw代码库py.cflw字符串 as 字符串
-from ..命令行接口 import 全局显示
-from ..命令行接口 import 设备 as 南向设备
+from ..基础接口 import 全局显示
+from ..命令行接口 import 模式
 from . import 系统信息
 #===============================================================================
 # 全局显示
 #===============================================================================
-class C全局显示sv3(全局显示.I全局显示):
+class C全局显示sv3(全局显示.I全局显示, 模式.I显示模式):
 	"""适用于: 浪潮s6550(v3.x)"""
+	#模式
+	def f模式_设备(self):
+		from . import 设备模式
+		return 设备模式.C设备显示sv3(self)
+	def f模式_时间(self):
+		from . import 时间
+		return 时间.C时间显示sv3(self)
 	#显示
 	def f显示_当前配置(self):
 		self.m设备.f执行命令("show running-config")
@@ -17,13 +24,3 @@ class C全局显示sv3(全局显示.I全局显示):
 	def f显示_启动配置(self):
 		v输出 = self.m设备.f执行显示命令("show startup-config")
 		return v输出
-	def f显示_时间(self):
-		v输出 = self.m设备.f执行显示命令("show clock")
-		from . import 时间
-		return 时间.f解析时间sv3(v输出)
-	def f显示_中央处理器利用率(self):
-		v输出 = self.m设备.f执行显示命令("show cpu-utilization")
-		return 系统信息.f解析中央处理器利用率(v输出)
-	def f显示_内存利用率(self):
-		v输出 = self.m设备.f执行显示命令("show memory")
-		return 系统信息.f解析内存利用率(v输出)

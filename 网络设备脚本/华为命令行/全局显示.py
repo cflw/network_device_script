@@ -1,13 +1,19 @@
 from ..命令行接口 import 全局显示
+from . import 基本表信息
 #===============================================================================
 # 全局显示
 #===============================================================================
-class C全局显示(全局显示.I全局显示):
-	#基础
-	def f显示_版本(self):
-		v命令 = "display version"
-		v输出 = self.m设备.f执行显示命令(v命令, a自动换页 = True)
-		return v输出
+class C全局显示(全局显示.I全局显示, 模式.I显示模式):
+	def __init__(self, a):
+		模式.I显示模式.__init__(self, a)
+	#模式
+	def f模式_设备(self):
+		from . import 设备模式
+		return 设备模式.C设备显示(self)
+	def f模式_时间(self):
+		from . import 时间
+		return 设备模式.C时间显示(self)
+	#显示配置
 	def f显示_启动配置(self):
 		v命令 = "display saved-configuration"
 		v输出 = self.m设备.f执行显示命令(v命令, a自动换页 = True)
@@ -16,24 +22,6 @@ class C全局显示(全局显示.I全局显示):
 		v命令 = "display current-configuration"
 		v输出 = self.m设备.f执行显示命令(v命令, a自动换页 = True)
 		return C配置内容(v输出)
-	def f显示_时间(self):
-		from . import 时间
-		v命令 = "display clock"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		return 时间.f解析时间(v输出)
-	def f显示_设备名(self):
-		v命令 = "display current-configuration | include sysname"
-		v输出 = self.m设备.f执行显示命令(v命令)
-		return C输出分析.f从配置取设备名称(v输出)
-	def f显示_运行时间(self):
-		"从开机到现在所经过的时间"
-		raise NotImplementedError()
-	def f显示_开机日期(self):
-		raise NotImplementedError()
-	def f显示_序列号(self):
-		raise NotImplementedError()
-	def f显示_出厂日期(self):
-		raise NotImplementedError()
 	#显示 基本表信息
 	def f显示_物理地址表(self):
 		v命令 = "display mac-address"

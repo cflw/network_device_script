@@ -47,10 +47,15 @@ def f拆分时区(a时区):
 def f解析并拆分时区(a时区):
 	v时区 = f解析时间(a时区)
 	return f拆分时区(v时区)
-class I时间配置:
-	c模式名 = "时间设置模式"
+class I时间显示:
 	def f显示_时间(self):
+		"返回 time.struct_time 对象"
 		raise NotImplementedError()
+	def f显示_时区(self):
+		"返回 datetime.timezone 对象"
+		raise NotImplementedError()
+class I时间配置:
+	c模式名 = "时间配置模式"
 	def fs为系统时间(self):
 		"""把设备时间时区设置为当前系统的时间时区"""
 		v时区 = 时间.S时区.fc系统时区()

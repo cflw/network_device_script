@@ -1,6 +1,8 @@
 class I全局配置:
 	c模式名 = "全局配置模式"
 	#模式 系统
+	def f模式_设备(self):
+		raise NotImplementedError()
 	def f模式_时间(self):
 		raise NotImplementedError()
 	def f模式_日志(self):
@@ -81,7 +83,4 @@ class I全局配置:
 	def f模式_多协议标签交换(self):	#mpls
 		raise NotImplementedError()
 	def f模式_第二层隧道协议(self, a名称):	#l2tp
-		raise NotImplementedError()
-	#配置
-	def fs设备名(self, a名称):
 		raise NotImplementedError()

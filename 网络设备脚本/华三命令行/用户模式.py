@@ -32,22 +32,19 @@ class C用户视图(用户模式.I用户模式):
 		if not v输出:
 			self.m设备.f输入(" ")
 			v输出 = self.m设备.f输出()
-		if "Automatic configuration" in v输出:	#刚开机,自动配置中,按ctrl+c中断
-			self.m设备.f输入(c中断符)
-			v输出 = self.m设备.f输出()
 		if "Username:" in v输出:
-			v输出 = self.f执行命令(a用户名)
+			v输出 = self.m设备.f执行命令(a用户名)
 		if "Password:" in v输出:
-			v输出 = self.f执行命令(a密码)
+			v输出 = self.m设备.f执行命令(a密码)
 		time.sleep(0.5)
 		self.m设备.mf自动登录 = self.f自动登录
 		self.f切换到当前模式()
 	def f提升权限(self, a密码 = ""):
 		self.f记住提权(a密码 = a密码)
 		if self.m提权密码:
-			v输出 = self.f执行命令("super")
+			v输出 = self.m设备.f执行命令("super")
 		if "Password" in v输出:
-			v输出 = self.f执行命令(self.m提权密码)
+			v输出 = self.m设备.f执行命令(self.m提权密码)
 		if "Error" in v输出:
 			raise RuntimeError(v输出)
 		elif "User privilege level is" in v输出:

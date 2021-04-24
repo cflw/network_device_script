@@ -20,9 +20,6 @@ class C设备(南向设备.I设备):
 	def f模式_用户(self):
 		from . import 用户模式
 		return 用户模式.C用户视图(self)
-	def f模式_启动(self):
-		from . import 启动
-		return 启动.C启动(self)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v命令 = str(a命令)
 		v输出 = 南向设备.I设备.f执行显示命令(self, v命令, a自动换页)

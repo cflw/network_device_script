@@ -28,7 +28,7 @@ def f生成规则序号(a序号):
 	return v命令
 f生成协议4 = 南向列表.f生成协议4
 f生成协议6 = 南向列表.f生成协议6
-f生成允许 = functools.partial(南向列表.f生成允许, 南向列表.c允许元组)
+f生成允许 = 南向列表.f生成允许
 def f生成端口(a前置: str, a端口):
 	return a前置 + " " + 南向列表.f生成端口(g到字符串, a端口)
 def f生成地址4(a前置: str, a地址):
@@ -50,7 +50,7 @@ def f生成地址6(a前置: str, a地址):
 	else:
 		return "%s %s" % (a前置, v地址)
 #到字符串
-class C到字符串(北向列表.I端口号到字符串):
+class C到字符串(北向列表.I生成端口):
 	def f大于(self, a值):
 		return "gt " + str(a值)
 	def f小于(self, a值):
@@ -228,14 +228,14 @@ class C助手(北向列表.I助手):
 	f反算标准4 = F反算(2000)
 	f反算扩展4 = F反算(3000)
 	@staticmethod
-	def ft特定序号(n, a类型):
+	def ft特定编号(n, a类型):
 		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f计算标准4(n)
 		elif a类型 == 北向列表.E类型.e扩展4:
 			return C助手.f计算扩展4(n)
 		return n
 	@staticmethod
-	def ft统一序号(n, a类型):
+	def ft统一编号(n, a类型):
 		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f反算标准4(n)
 		elif a类型 == 北向列表.E类型.e扩展4:

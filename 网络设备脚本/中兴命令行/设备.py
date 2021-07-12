@@ -2,6 +2,7 @@ import cflw代码库py.cflw网络连接 as 连接
 from ..命令行接口 import 设备 as 南向设备
 from ..命令行接口 import 用户模式 as 用户模式
 from .. import 中兴
+from .常量 import *
 class C设备(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)

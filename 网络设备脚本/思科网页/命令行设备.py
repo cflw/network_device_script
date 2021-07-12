@@ -7,7 +7,7 @@ from ..命令行接口 import 设备 as 命令行设备
 from ..思科命令行.常量 import *
 from . import 命令行用户模式 as 实现用户模式
 class C设备(网页设备.I设备, 命令行设备.I设备):
-	"""适用于: c7200"""
+	"""适用于: 思科c7200"""
 	def __init__(self, a连接, a型号, a版本):
 		网页设备.I设备.__init__(self, a连接)
 		命令行设备.I设备.__init__(self, a连接)

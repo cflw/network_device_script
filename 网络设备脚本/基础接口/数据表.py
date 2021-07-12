@@ -11,15 +11,15 @@ class E字段(enum.Enum):
 	c对端 = 0x20000000
 	#信息
 	c信息 = 0x00000000
-	e名称 = c信息 + 0x01
-	e本端名称 = c本端 + e名称
-	e对端名称 = c对端 + e名称
-	e描述 = c信息 + 0x02
-	e本端描述 = c本端 + e描述
-	e对端描述 = c对端 + e描述
-	e索引 = c信息 + 0x03
-	e本端索引 = c本端 + e索引
-	e对端索引 = c对端 + e索引
+	c名称 = c信息 + 0x01
+	e本端名称 = c本端 + c名称
+	e对端名称 = c对端 + c名称
+	c描述 = c信息 + 0x02
+	e本端描述 = c本端 + c描述
+	e对端描述 = c对端 + c描述
+	c索引 = c信息 + 0x03
+	e本端索引 = c本端 + c索引
+	e对端索引 = c对端 + c索引
 	c型号 = c信息 + 0x04
 	e本端型号 = c本端 + c型号
 	c序列号 = c信息 + 0x05
@@ -515,62 +515,3 @@ class I解析表格列表管线:
 		return f上次结果
 	def f上次结果(self, a字段):
 		return self.ma上次结果[a字段]
-#===============================================================================
-# 记录
-#===============================================================================
-class C记录:	#废弃
-	"""一条记录"""
-	def __init__(self, a字典 = {}):
-		self.m字典 = {}
-		for k, v in a字典.items():
-			self.__setitem__(k, v)
-	def __len__(self):
-		return len(self.m字典)
-	def __bool__(self):
-		return bool(self.m字典)
-	def __str__(self):
-		v字符串 = ""
-		for k, v in self.m字典.items():
-			if v字符串:
-				v字符串 += ", "
-			else:
-				v字符串 = "{"
-			v键 = 字符串.f提取字符串之间(str(k), "e", None)
-			if type(v) == str:
-				v值 = '"' + v + '"'
-			else:
-				v值 = str(v)
-			v字符串 += f"{v键}: {v值}"
-		v字符串 += "}"
-		return v字符串
-	def __repr__(self):
-		return f"<记录: {repr(self.m字典)}>"
-	def __setitem__(self, k, v):
-		if not k in E字段:
-			raise ValueError("键必需是 E字段 值")
-		if fi无端(k):
-			raise ValueError("键必需包含本端或对端信息")
-		self.m字典[k] = v
-	def __getitem__(self, k):
-		if not k in E字段:
-			raise ValueError("键必需是 E字段 值")
-		if fi无端(k):
-			v本端 = E字段.c本端 + k
-			vi本端 = v本端 in self.m字典
-			v对端 = E字段.c对端 + k
-			vi对端 = v对端 in self.m字典
-			if vi本端 and vi对端:
-				raise RuntimeError("键不包含端信息, 且字典中同时存在两端, 无法选择其中一端")
-			if vi对端:
-				return self.m字典[v对端]
-			if vi本端:
-				return self.m字典[v本端]
-			return None
-		if k in self.m字典:
-			return self.m字典[k]
-		else:
-			return None
-	def __delitem__(self, k):
-		del self.m字典[k]
-	def f清空(self):
-		self.m字典.clear()

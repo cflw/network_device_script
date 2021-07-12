@@ -1,7 +1,8 @@
+import pandas
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 数据表
 from . import 接口 as 实现接口
-class C表nv7:
+class C表nv7:	#需重写
 	"""show vlan
 	适用于: 浪潮cn8000系列(v7.3)"""
 	c号 = 0
@@ -24,10 +25,10 @@ class C表nv7:
 			v虚拟局域网s, v名称s, v状态s, v端口s = 字符串.fe按位置分割(v行, *C表nv7.ca列开始)
 			if v虚拟局域网s.isdigit():	#开始
 				if v虚拟局域网:
-					yield 数据表.C记录({
+					yield {
 						数据表.E字段.e本端虚拟局域网: v虚拟局域网,
 						数据表.E字段.e本端接口: va接口,
-					})
+					}
 				v虚拟局域网 = int(v虚拟局域网s)
 				va接口 = []
 			elif not v虚拟局域网s:	#空的
@@ -43,7 +44,10 @@ class C表nv7:
 					v接口缓冲[v接口s] = v接口
 					va接口.append(v接口)
 		if v虚拟局域网:
-			yield 数据表.C记录({
+			yield {
 				数据表.E字段.e本端虚拟局域网: v虚拟局域网,
 				数据表.E字段.e本端接口: va接口,
-			})
+			}
+def f虚拟局域网nv7(a文本: str):	#需重写
+	v表 = C表nv7(a文本)
+	return pandas.DataFrame(v表.fe行())

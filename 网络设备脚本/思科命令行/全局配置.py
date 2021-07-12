@@ -69,7 +69,7 @@ class C全局配置(全局配置.I全局配置):
 		else:
 			raise ValueError("未知的访问控制列表类型")
 		if a操作 == 操作.E操作.e删除:
-			v命令 = c不 + v模式.fg进入命令()
+			v命令 = v模式.fg删除命令()
 			self.f执行当前模式命令(v命令)
 		elif a操作 == 操作.E操作.e重置:
 			v命令 = c默认 + v模式.fg进入命令()

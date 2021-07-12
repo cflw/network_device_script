@@ -2,6 +2,7 @@ import time
 from ..思科命令行 import 用户模式
 from ..基础接口 import 异常
 class C用户模式(用户模式.C用户模式):
+	"""适用于: 思科c7200"""
 	def __init__(self, a):
 		用户模式.C用户模式.__init__(self, a)
 	#模式

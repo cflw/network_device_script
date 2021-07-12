@@ -1,10 +1,17 @@
 import enum
+import copy
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw工具_运算 as 运算
 from . import 协议
 #===============================================================================
 # 枚举&结构
 #===============================================================================
+class E字段(enum.Enum):	#访问控制列表字段
+	e列表编号 = 0
+	e列表名称 = 1
+	e列表类型 = 2
+	e是否使用 = 3
+	e规则数量 = 10
 class E类型(enum.IntEnum):
 	e类型 = 0x1000
 	e物理 = 0x2000
@@ -15,22 +22,82 @@ class E类型(enum.IntEnum):
 	e扩展6 = 0x3061
 	e多协议标签交换 = 0x4000
 	mpls = e多协议标签交换
-class I端口号到字符串:
+class I生成端口:
+	def __init__(self):
+		self.f自动生成运算()
+	def __call__(self, a端口):
+		v端口 = S端口号.fc自动(a端口)
+		if v端口.m运算 == 运算.f大于:
+			return self.f大于(v端口.m值)
+		elif v端口.m运算 == 运算.f大于等于:
+			return self.f大于等于(v端口.m值)
+		elif v端口.m运算 == 运算.f小于:
+			return self.f小于(v端口.m值)
+		elif v端口.m运算 == 运算.f小于等于:
+			return self.f小于等于(v端口.m值)
+		elif v端口.m运算 == 运算.f包含:
+			if type(v端口.m值) == range:
+				return self.f范围(v端口.m值)
+			else:
+				return self.f等于(v端口.m值)
+		elif v端口.m运算 == 运算.f不包含:
+			return self.f不等于(v端口.m值)
+		else:
+			return self.f其他(v端口.m值)
 	def f等于(self, a序列):
 		raise NotImplementedError()
 	def f不等于(self, a序列):
 		raise NotImplementedError()
-	def f大于(self, a值):
+	def f大于(self, a值: int):
 		raise NotImplementedError()
-	def f大于等于(self, a值):
-		return self.f大于(a值 - 1)
-	def f小于(self, a值):
+	def f大于等于(self, a值: int):
 		raise NotImplementedError()
-	def f小于等于(self, a值):
-		return self.f小于(a值 + 1)
-	def f范围(self, a值):
+	def f小于(self, a值: int):
 		raise NotImplementedError()
-class C端口号到字符串(I端口号到字符串):
+	def f小于等于(self, a值: int):
+		raise NotImplementedError()
+	def f范围(self, a值: range):
+		raise NotImplementedError()
+	def f其他(self, a值):
+		return ""
+	def f自动生成运算(self):	#在__init__中调用
+		c等于 = 0
+		c不等于 = 1
+		c大于 = 2
+		c大于等于 = 3
+		c小于 = 4
+		c小于等于 = 5
+		c范围 = 6
+		va重写表 = [
+			self.f等于 == I生成端口.f等于,	#0
+			self.f不等于 == I生成端口.f不等于,	#1
+			self.f大于 == I生成端口.f大于,	#2
+			self.f大于等于 == I生成端口.f大于等于,	#3
+			self.f小于 == I生成端口.f小于,	#4
+			self.f小于等于 == I生成端口.f小于等于,	#5
+			self.f范围 == I生成端口.f范围,	#6
+		]
+		if not va重写表[c大于]:
+			if va重写表[c大于等于]:
+				self.f大于 = lambda a值: self.f大于等于(a值 + 1)
+			if va重写表[c范围]:
+				self.f大于 = lambda a值: self.f范围(range(a值 + 1, 65536))
+		if not va重写表[c大于等于]:
+			if va重写表[c大于]:
+				self.f大于等于 = lambda a值: self.f大于(a值 - 1)
+			if va重写表[c范围]:
+				self.f大于等于 = lambda a值: self.f范围(range(a值, 65536))
+		if not va重写表[c小于]:
+			if va重写表[c小于等于]:
+				self.f小于 = lambda a值: self.f小于等于(a值 - 1)
+			if va重写表[c范围]:
+				self.f小于 = lambda a值: self.f范围(range(1, a值))
+		if not va重写表[c小于等于]:
+			if va重写表[c小于]:
+				self.f小于等于 = lambda a值: self.f小于(a值 + 1)
+			if va重写表[c范围]:
+				self.f小于等于 = lambda a值: self.f范围(range(1, a值 + 1))
+class C生成端口(I生成端口):
 	def f大于(self, a值):
 		return ">" + str(a值)
 	def f大于等于(self, a值):
@@ -45,7 +112,7 @@ class C端口号到字符串(I端口号到字符串):
 		return "≠" + " ".join(字符串.ft字符串序列(a序列))
 	def f范围(self, a值: range):
 		return "%d~%d" % (a值.start, a值.stop - 1)
-c端口号到字符串 = C端口号到字符串()
+c生成端口 = C生成端口()
 class S端口号:
 	def __init__(self, a值, a运算):
 		self.m运算 = a运算
@@ -76,20 +143,7 @@ class S端口号:
 		if 字符串.fi连续范围(a) or 字符串.fi区间范围(a):
 			return S端口号.fc范围(字符串.ft范围(a))
 		#"符号 数字"的格式
-		ca符号表 = {
-			"==": S端口号.fc等于,
-			">=": S端口号.fc大于等于,
-			"<=": S端口号.fc小于等于,
-			"!=": S端口号.fc不等于,
-			"<>": S端口号.fc不等于,
-			">": S端口号.fc大于,
-			"≥": S端口号.fc大于等于,
-			"<": S端口号.fc小于,
-			"≤": S端口号.fc小于等于,
-			"=": S端口号.fc等于,
-			"≠": S端口号.fc不等于,
-		}
-		for k, v in ca符号表.items():
+		for k, v in ca端口号符号表.items():
 			v符号长度 = len(k)
 			v符号 = a[0 : v符号长度]
 			if k == v符号:
@@ -120,7 +174,7 @@ class S端口号:
 		return S端口号(a值, 运算.f不包含)
 	def fi范围内(self, a):
 		return self.m运算(self.m值, a)
-	def ft字符串(self, a接口 = c端口号到字符串):
+	def ft字符串(self, a接口 = c生成端口):
 		if self.m运算 == 运算.f大于:
 			return a接口.f大于(self.m值)
 		elif self.m运算 == 运算.f大于等于:
@@ -138,6 +192,20 @@ class S端口号:
 			return a接口.f不等于(self.m值)
 		else:
 			return ""
+ca端口号符号表 = {
+	"==": S端口号.fc等于,
+	">=": S端口号.fc大于等于,
+	"<=": S端口号.fc小于等于,
+	"!=": S端口号.fc不等于,
+	"<>": S端口号.fc不等于,
+	">": S端口号.fc大于,
+	"≥": S端口号.fc大于等于,
+	"<": S端口号.fc小于,
+	"≤": S端口号.fc小于等于,
+	"=": S端口号.fc等于,
+	"≠": S端口号.fc不等于,
+}
+#规则
 class S规则:
 	"""成员&参数:\n
 	允许: bool, 决定动作是permit还是deny\n
@@ -146,7 +214,7 @@ class S规则:
 	目标地址: S网络地址4\n
 	源端口: S端口\n
 	目标端口: S端口"""
-	#方法	--------------------------------------------------------------------
+	#方法
 	def __init__(self, **a):
 		self.m序号 = -1	#添加规则时不使用该序号,解析规则时赋值
 		self.m允许 = None
@@ -156,6 +224,19 @@ class S规则:
 		self.m源端口 = None
 		self.m目的端口 = None
 		self.f更新(**a)
+	def __ior__(self, a):
+		v类型 = type(a)
+		if v类型 == S规则:
+			self.f更新_规则(a)
+		elif v类型 == dict:
+			self.f更新_字典(a)
+		else:
+			raise TypeError("无法识别的类型")
+		return self
+	def __or__(self, a):
+		v = copy.copy(self)
+		v.__ior__(a)
+		return v
 	def f更新(self, a规则 = None, **a字典):
 		if a规则:
 			self.f更新_规则(a规则)
@@ -247,22 +328,22 @@ class S规则:
 	}
 c空序号 = -1
 c空规则 = S规则(a允许 = False)	#拒绝所有
-class S统一序号:
+class S统一编号:
 	def __init__(self, a统一, a特定 = None, a类型 = None):
-		self.m统一序号 = a统一
-		self.m特定序号 = a特定
+		self.m统一编号 = a统一
+		self.m特定编号 = a特定
 		self.m类型 = a类型
 	def __str__(self):
-		if self.m特定序号:
-			return str(self.m特定序号)
+		if self.m特定编号:
+			return str(self.m特定编号)
 		else:
-			return str(self.m统一序号)
+			return str(self.m统一编号)
 	@staticmethod
-	def fc特定序号(n, a类型 = None):
-		return S统一序号(None, n, a类型)
+	def fc特定编号(n, a类型 = None):
+		return S统一编号(None, n, a类型)
 	@staticmethod
-	def fc统一序号(n, a类型 = None):
-		return S统一序号(n, None, a类型)
+	def fc统一编号(n, a类型 = None):
+		return S统一编号(n, None, a类型)
 #===============================================================================
 # 接口
 #===============================================================================
@@ -277,14 +358,14 @@ class I列表配置:
 	def f应用到(self, a模式, a方向, a操作):
 		raise NotImplementedError()
 class I助手:
-	"用来计算到目标设备的访问控制列表序号, 原始参数的n从0开始"
+	"用来计算到目标设备的访问控制列表编号, 原始参数的n从0开始"
 	@staticmethod
-	def ft特定序号(n, a类型):
+	def ft特定编号(n, a类型):
 		return n
 	@staticmethod
-	def ft统一序号(n, a类型 = None):
+	def ft统一编号(n, a类型 = None):
 		return n
 	@staticmethod
 	def f判断类型(n):
-		"根据特定序号判断类型"
+		"根据特定编号判断类型"
 		raise NotImplementedError()

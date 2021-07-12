@@ -9,7 +9,7 @@ from ..命令行接口 import 命令
 from ..命令行接口 import 访问控制列表 as 南向列表
 from .常量 import *
 #===============================================================================
-# 生成&解析
+# 生成
 #===============================================================================
 c标准 = "standard"
 c扩展 = "extended"
@@ -26,13 +26,13 @@ class F序号范围检查:
 				if a序号 in v:
 					return True
 			if a异常:
-				raise ValueError(a错误文本)
+				raise ValueError(self.m异常文本)
 			return False
 		return False
 fi标准范围 = F序号范围检查(ca标准范围, "标准访问控制列表号码范围应为1~99,1300~1999")
 fi扩展范围 = F序号范围检查(ca扩展范围, "扩展访问控制列表号码范围应为100~199,2000~2699")
 #端口号
-class C端口号到字符串(北向列表.I端口号到字符串):
+class F生成端口(北向列表.I生成端口):
 	def f大于(self, a值):
 		return "gt " + str(a值)
 	def f小于(self, a值):
@@ -43,8 +43,7 @@ class C端口号到字符串(北向列表.I端口号到字符串):
 		return "neq " + " ".join(字符串.ft字符串序列(a序列))
 	def f范围(self, a值: range):
 		return "range %d %d" % (a值.start, a值.stop - 1)
-g端口号到字符串 = C端口号到字符串()
-f生成端口 = functools.partial(南向列表.f生成端口, g端口号到字符串)
+f生成端口 = F生成端口()
 #规则序号
 def f生成规则序号4(a序号):
 	if a序号 == None or a序号 < 0:
@@ -58,7 +57,7 @@ def f生成规则序号6(a序号):
 		return "sequence " + str(a序号)
 #协议
 #允许
-f生成允许 = functools.partial(南向列表.f生成允许, 南向列表.c允许元组)
+f生成允许 = 南向列表.f生成允许
 #地址
 def f生成地址标准4(a地址):
 	if not a地址:
@@ -283,7 +282,7 @@ class C助手(北向列表.I助手):
 	f判断扩展4 = F判断类型(*c反算扩展4, 北向列表.E类型.e扩展4)
 	#实现
 	@staticmethod
-	def ft特定序号(n, a类型):
+	def ft特定编号(n, a类型):
 		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f计算标准4(n)
 		elif a类型 == 北向列表.E类型.e扩展4:
@@ -291,7 +290,7 @@ class C助手(北向列表.I助手):
 		else:
 			raise ValueError("类型错")
 	@staticmethod
-	def ft统一序号(n, a类型):
+	def ft统一编号(n, a类型):
 		if a类型 == 北向列表.E类型.e标准4:
 			return C助手.f反算标准4(n)
 		elif a类型 == 北向列表.E类型.e扩展4:
@@ -338,8 +337,8 @@ class C规则解析器:
 		if v词0 == "any":
 			return None
 		elif v词0 == "host":
-			v词1 = self.m取词.f取词推进()
-			return 地址.S网络地址4.fc主机地址字符串(v词)
+			v词1 = self.m取词.f取词推进()	#地址
+			return 地址.S网络地址4.fc主机地址字符串(v词1)
 		v词1 = self.m取词.f取词()	#通配符
 		if not v词1:
 			return 地址.S网络地址4.fc主机地址字符串(v词0)

@@ -3,7 +3,6 @@ import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 操作
 from ..基础接口 import 协议
-from ..基础接口 import 异常
 from ..基础接口 import 访问控制列表 as 北向列表
 from ..命令行接口 import 命令
 from ..命令行接口 import 访问控制列表 as 南向列表

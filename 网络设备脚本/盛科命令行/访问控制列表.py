@@ -19,7 +19,7 @@ def f生成规则序号4(a序号):
 	else:
 		return a序号
 #端口号
-class C端口号到字符串(北向列表.I端口号到字符串):
+class F生成端口(北向列表.I生成端口):
 	def f大于(self, a值):
 		return "gt " + str(a值)
 	def f小于(self, a值):
@@ -30,15 +30,15 @@ class C端口号到字符串(北向列表.I端口号到字符串):
 		return "neq " + " ".join(字符串.ft字符串序列(a序列))
 	def f范围(self, a值: range):
 		return "range %d %d" % (a值.start, a值.stop - 1)
-g端口号到字符串 = C端口号到字符串()
-f生成端口 = functools.partial(南向列表.f生成端口, g端口号到字符串)
+f生成端口 = F生成端口()
 #协议
 ca协议到字符串4 = 南向列表.ca协议到字符串4 | {
 	协议.E协议.ip: "any",
 	协议.E协议.ipv4: "any",
 }
+f生成协议4 = 南向列表.F生成协议(ca协议到字符串4)
 #允许
-f生成允许 = functools.partial(南向列表.f生成允许, 南向列表.c允许元组)
+f生成允许 = 南向列表.f生成允许
 #地址
 def f生成地址4(a地址):
 	"转成字符串"

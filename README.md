@@ -11,6 +11,7 @@
 
 项目依赖项：
 * [乘风龙王的代码库(python)](https://github.com/cflw/cflw_py)
+* pandas
 * paramiko（安全外壳连接到网络设备时需要）
 * pyserial（串口连接到网络设备时需要）
 * pywin32（命名管道连接到网络设备时需要）
@@ -26,6 +27,7 @@
 * [用python编写控制网络设备的自动化脚本6：框架设计2](https://zhuanlan.zhihu.com/p/67650697) \[知乎\]
 * [用python编写控制网络设备的自动化脚本7：跳板（远程登录）](https://zhuanlan.zhihu.com/p/83475460) \[知乎\]
 * [用python编写控制网络设备的自动化脚本8：网页](https://zhuanlan.zhihu.com/p/259894429) \[知乎\]
+* [用python编写控制网络设备的自动化脚本9：显示2](https://zhuanlan.zhihu.com/p/380379504) \[知乎\]
 
 ## 内容包含
 《网络设备脚本》支持的可以控制的**网络设备**的品牌有：

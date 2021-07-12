@@ -7,9 +7,7 @@ class C用户模式m6000(用户模式.I用户模式):
 		用户模式.I用户模式.__init__(self, a)
 	#模式
 	def f事件_进入模式后(self):
-		self.m设备.f刷新()
-		self.m设备.f输入_结束符()
-		self.m设备.f输入_回车(-1, 5)
+		self.f登录自动刷新()
 	def f模式_全局配置(self):
 		from . import 全局配置
 		return 全局配置.C全局配置m6000(self)

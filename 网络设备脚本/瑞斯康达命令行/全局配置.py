@@ -21,6 +21,16 @@ class C全局配置sv3(全局配置.I全局配置):
 	def f模式_日志(self):
 		from . import 日志
 		return 日志.C日志sv3(self)
+	#数据结构
+	def f模式_访问控制列表(self, a编号: int, a类型 = None, a操作 = 操作.E操作.e设置):
+		from ..基础接口 import 访问控制列表 as 北向列表
+		from ..命令行接口 import 访问控制列表 as 南向列表
+		from . import 访问控制列表 as 实现列表
+		if a编号 in range(2000, 3000):
+			v模式 = 实现列表.C扩展4(self, a编号)
+		else:
+			raise NotImplementedError()
+		return v模式
 	#服务
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议 as 实现协议

@@ -1,3 +1,4 @@
+import pandas
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 数据表
 from ..基础接口 import 生成树 as 北向生成树
@@ -9,7 +10,7 @@ ca端口角色nv7 = {
 ca端口状态nv7 = {
 	"FWD": 北向生成树.E端口状态.e转发,
 }
-class C接口表nv7:
+class C接口表nv7:	#需重写
 	"""show spanning-tree
 	show spanning-tree brief
 	适用于: 浪潮cn8000系列(v7.3)"""
@@ -41,9 +42,12 @@ class C接口表nv7:
 			v接口 = 实现接口.f创建接口缩写nv7(v接口s)
 			v端口角色 = ca端口角色nv7[v角色s]
 			v端口状态 = ca端口状态nv7[v状态s]
-			yield 数据表.C记录({
+			yield {
 				数据表.E字段.e本端生成树实例: v虚拟局域网,
 				数据表.E字段.e本端接口: v接口,
 				数据表.E字段.e本端生成树角色: v端口角色,
 				数据表.E字段.e本端生成树状态: v端口状态,
-			})
+			}
+def f接口表nv7(a文本: str):	#需重写
+	v表 = C接口表nv7(a文本)
+	return pandas.DataFrame(v表.fe行())

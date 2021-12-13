@@ -1,6 +1,6 @@
 from ..基础接口 import 操作
-from ..基础接口 import 协议
 from ..命令行接口 import 全局配置
+from ..命令行接口 import 命令
 from .. import 华三
 from . import 接口 as 实现接口
 class C系统视图(全局配置.I全局配置):
@@ -29,7 +29,7 @@ class C系统视图(全局配置.I全局配置):
 		return 时间范围.C时间范围(self, a名称)
 	def f模式_虚拟局域网(self, a序号):	#vlan
 		raise NotImplementedError()
-	#其它
+	#数据结构
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
@@ -45,6 +45,15 @@ class C系统视图(全局配置.I全局配置):
 			return 实现列表.C高级6v5(self, v名称)
 		else:
 			raise ValueError("错误的类型")
+	#服务
+	def f模式_简单网络管理协议(self, a端, a操作 = 操作.E操作.e设置):
+		from . import 简单网络管理协议
+		if a端 == 操作.E端.e代理:
+			return 简单网络管理协议.C代理v5(self)
+		elif a端 == 操作.E端.e陷阱:
+			return 简单网络管理协议.C陷阱v5(self)
+		else:
+			raise ValueError("a端 必需是代理或陷阱")
 	#设备配置
 	def fs设备名(self, a名称, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("sysname")

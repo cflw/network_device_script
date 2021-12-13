@@ -1,4 +1,5 @@
 from ..基础接口 import 操作
+from ..命令行接口 import 命令
 from ..华三命令行 import 全局配置 as 旧全局配置
 from . import 接口 as 实现接口
 class C系统视图v7(旧全局配置.C系统视图):
@@ -21,16 +22,20 @@ class C系统视图v7(旧全局配置.C系统视图):
 			return 用户.C用户v7(self, a用户名)
 		else:	#版本 >= 7.1
 			return 用户.C用户v7_1(self, a用户名)
-	def f模式_登录(self, a方式, a范围, a操作 = 操作.E操作.e设置):
+	def f模式_登录(self, a方式, a范围, a操作 = 操作.E操作.e设置):	#废弃
 		from . import 登录
 		return 登录.C登录v7(self, a方式, a范围)
+	def f模式_远程登录(self, a协议, a范围, a操作 = 操作.E操作.e设置):
+		from . import 登录
+		v模式 = 登录.C远程登录配置v7(self, a协议, a范围)
+		return v模式
 	def f模式_时间范围(self, a名称, a操作 = 操作.E操作.e设置):
-		from . import 时间范围
+		from ..华三命令行 import 时间范围
 		return 时间范围.C时间范围(self, a名称)
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
-		from . import 访问控制列表 as 实现列表
+		from ..华三命令行 import 访问控制列表 as 实现列表
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
 		if v类型 == 北向列表.E类型.e标准4:
 			return 实现列表.C基本4v7(self, v名称)
@@ -44,7 +49,7 @@ class C系统视图v7(旧全局配置.C系统视图):
 			raise ValueError("错误的类型")
 	#服务
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
-		from . import 网络时间协议
+		from ..华三命令行 import 网络时间协议
 		if a端 == 操作.E端.e服务器:
 			return 网络时间协议.C服务器(self)
 		elif a端 == 操作.E端.e客户端:
@@ -52,11 +57,11 @@ class C系统视图v7(旧全局配置.C系统视图):
 		else:
 			raise ValueError("a端 必需是服务器或客户端")
 	def f模式_简单网络管理协议(self, a端 = 操作.E端.e代理, a操作 = 操作.E操作.e设置):
-		from ..华为命令行 import 简单网络管理协议
+		from . import 简单网络管理协议
 		if a端 == 操作.E端.e代理:
-			return 简单网络管理协议.C代理(self)
+			return 简单网络管理协议.C代理v7(self)
 		elif a端 == 操作.E端.e陷阱:
-			return 简单网络管理协议.C陷阱(self)
+			return 简单网络管理协议.C陷阱v7(self)
 		else:
 			raise ValueError("a端 必需是代理或陷阱")
 	#链路层

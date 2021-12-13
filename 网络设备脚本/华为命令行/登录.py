@@ -47,7 +47,7 @@ class S登录配置:
 	def fg认证方式(self):
 		v方式s = 字符串.f提取字符串周围(self.m文本, "\n", "login", "\n").strip()
 		return 序列.f字典按值找键(ca登录认证方式, v方式s)
-	def fg访问控制列表(self):
+	def fg访问列表(self):
 		v名称 = 字符串.f提取字符串之间(self.m文本, c命令_访问控制列表, " ")
 		if v名称:
 			return v名称
@@ -120,7 +120,7 @@ class C登录(设备.I登录配置):
 		v命令 = 命令.C命令("authentication-mode")
 		v命令 += ca登录认证方式[a认证方式]
 		self.f执行当前模式命令(v命令)
-	def fs访问控制列表(self, a访问列表):
+	def fs访问列表(self, a访问列表):
 		v命令 = "acl %s inbound" % (a访问列表, )
 		self.f执行当前模式命令(v命令)
 	def fs操作超时(self, a秒 = 600):
@@ -139,6 +139,6 @@ class C登录(设备.I登录配置):
 	def fg登录协议(self):
 		v配置 = self.f显示_当前模式配置()
 		return v配置.fg登录协议()
-	def fg访问控制列表(self):
+	def fg访问列表(self):
 		v配置 = self.f显示_当前模式配置()
-		return v配置.fg访问控制列表()
+		return v配置.fg访问列表()

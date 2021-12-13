@@ -12,6 +12,15 @@ class C全局配置sv3(全局配置.I全局配置):
 	def fg进入命令(self):
 		return "config terminal"
 	#模式
+	def f模式_远程登录(self, a协议, a范围 = None, a操作 = 操作.E操作.e设置):
+		from . import 登录
+		if a协议 == 协议.E协议.e安全外壳:	#ssh
+			v模式 = 登录.C登录配置ssh_sv3(self)
+		elif a协议 == 协议.E协议.e网络终端:	#telnet
+			raise NotImplementedError()
+		else:
+			raise ValueError("不支持的格式")
+		return v模式
 	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
 		from . import 用户
 		return 用户.C用户sv3(self.fg上级模式(), a用户名)

@@ -384,7 +384,7 @@ class I接口配置:	#常见的接口配置
 	def fs时钟频率(self, a频率, a操作):
 		raise NotImplementedError()
 	#流量控制
-	def fs访问控制列表(self, a访问控制列表, a方向, a操作):
+	def fs访问列表(self, a访问控制列表, a方向, a操作):
 		raise NotImplementedError()
 	def fs服务质量(self, a, a方向, a操作):
 		raise NotImplementedError()

@@ -11,7 +11,11 @@ class I全局配置:
 		raise NotImplementedError()
 	def f模式_用户(self, a用户名, a操作):
 		raise NotImplementedError()
-	def f模式_登录(self, a方式, a范围, a操作):	#console,vty之类的
+	def f模式_登录(self, a方式, a范围, a操作):	#废弃
+		raise NotImplementedError()
+	def f模式_串口登录(self, a操作):
+		raise NotImplementedError()
+	def f模式_远程登录(self, a协议, a范围, a操作):
 		raise NotImplementedError()
 	def f模式_时间范围(self, a名称, a操作):
 		raise NotImplementedError()

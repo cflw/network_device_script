@@ -1,4 +1,5 @@
 from ..基础接口 import 操作
+from ..基础接口 import 类型
 from ..命令行接口 import 全局配置
 from . import 接口 as 实现接口
 #===============================================================================
@@ -17,6 +18,13 @@ class C全局配置ev6(全局配置.I全局配置):
 		v模式 = 用户.C用户ev6(self, a用户名)
 		if 操作.fi减操作(v操作):
 			self.f执行当前模式命令(v模式.fg删除命令())
+		return v模式
+	def f模式_登录(self, a登录方式, a范围, a操作 = 操作.E操作.e设置):
+		from . import 登录
+		v范围 = 类型.f解析范围(a范围)
+		if not 登录.fi登录范围内(a登录方式, v范围):
+			raise ValueError("超出范围")
+		v模式 = 登录.C登录配置ev6(self, a登录方式, a范围)
 		return v模式
 	def f模式_时间(self):
 		from . import 时间

@@ -9,6 +9,6 @@ class I陷阱配置:
 	def fs服务器(self, a地址, a操作 = None):
 		"""主动往服务器发消息"""
 		raise NotImplementedError()
-	def fs源(self, a源, a字符串, a操作 = None):
+	def fs源(self, a源, a操作 = None):
 		"""发包源地址"""
 		raise NotImplementedError()

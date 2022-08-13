@@ -81,7 +81,7 @@ class C登录配置表:
 		return self.fe节()
 	def fe节(self):
 		v位置0 = 0
-		for v位置1 in 字符串.f重复找(self.m文本, c命令_登录配置):
+		for v位置1 in 字符串.fe找(self.m文本, c命令_登录配置):
 			if v位置0 != v位置1:
 				yield S登录配置(self.m文本[v位置0 : v位置1])
 				v位置0 = v位置1

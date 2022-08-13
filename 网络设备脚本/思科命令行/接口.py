@@ -56,7 +56,7 @@ class C接口配置(I接口配置):
 		return self.fg上级模式().f模式_开放最短路径优先(a进程号 = a进程号, a版本 = a版本, a接口 = self.m接口)
 	def f模式_增强内部网关路由协议(self, a版本 = 协议.E协议.e网络协议4):
 		return self.fg上级模式().f模式_增强内部网关路由协议(a版本 = a版本, a接口 = self.m接口)
-	def f模式_中间系统到中间系统(self, a版本 = 协议.E协议.e网络协议4):
+	def f模式_中间系统到中间系统(self, a进程号 = 1, a版本 = 协议.E协议.e网络协议4):
 		return self.fg上级模式().f模式_中间系统到中间系统(a进程号 = a进程号, a版本 = a版本, a接口 = self.m接口)
 	#显示
 	def f显示_当前模式配置(self):

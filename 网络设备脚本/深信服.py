@@ -10,10 +10,21 @@ class E型号(enum.IntEnum):
 	ad1000 = c应用交付 + 1000
 def f创建设备(a连接, a型号, a版本 = 0):
 	v版本 = 工具.S版本号.fc自动(a版本)
-	if 连接层.fi网页(a连接):	#网页
+	if 连接层.fi命令行(a连接):	#命令行
 		if a型号 & E型号.c防火墙:
-			from .深信服防火墙网页 import 设备
-			return 设备.C设备(a连接, a型号, v版本)
+			if v版本 < "8.0.35":
+				raise ValueError("8.0.35之前的版本不支持命令行")
+			else:	#>=8.0.35
+				#深信服防火墙需要 在账号勾选命令行、在接口勾选SSH 才能使用命令行登录。SSH端口号22345
+				from .深信服防火墙命令行 import 设备
+				return 设备.C设备v8(a连接, a型号, a版本)
+	elif 连接层.fi网页(a连接):	#网页
+		if a型号 & E型号.c防火墙:
+			if v版本 < "8.0.35":	#界面1
+				from .深信服防火墙网页 import 设备
+				return 设备.C设备(a连接, a型号, v版本)
+			else:	#>=8.0.35	#界面2
+				raise NotImplementedError()
 		elif a型号 & E型号.c应用交付:
 			if v版本 < "7.0.5":	#界面1
 				from .深信服应用交付网页 import 设备

@@ -1,5 +1,4 @@
 import time
-import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 异常
 from ..命令行接口 import 用户模式
 class C用户模式(用户模式.I用户模式):

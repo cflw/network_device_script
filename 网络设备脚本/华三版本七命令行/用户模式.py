@@ -1,5 +1,6 @@
 import time
 from ..华三命令行 import 用户模式 as 旧用户模式
+from ..华为命令行.常量 import *
 class C用户视图v7(旧用户模式.C用户视图):
 	def f模式_全局配置(self):
 		from . import 全局配置

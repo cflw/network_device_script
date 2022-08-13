@@ -1,4 +1,5 @@
 from ..命令行接口 import 全局显示
+from ..命令行接口 import 模式
 from . import 基本表信息
 #===============================================================================
 # 全局显示
@@ -12,7 +13,7 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 		return 设备模式.C设备显示(self)
 	def f模式_时间(self):
 		from . import 时间
-		return 设备模式.C时间显示(self)
+		return 时间.C时间显示(self)
 	#显示配置
 	def f显示_启动配置(self):
 		v命令 = "display saved-configuration"

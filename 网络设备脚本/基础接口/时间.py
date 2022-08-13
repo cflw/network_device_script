@@ -45,7 +45,7 @@ def f拆分时区(a时区):
 	v时分秒 = 时间.f总秒拆成时分秒(v总秒)
 	return a时区.tzname(None), v符号, v时分秒[0], v时分秒[1]
 def f解析并拆分时区(a时区):
-	v时区 = f解析时间(a时区)
+	v时区 = f解析时区(a时区)
 	return f拆分时区(v时区)
 class I时间显示:
 	def f显示_时间(self):

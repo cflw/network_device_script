@@ -12,6 +12,9 @@ class C全局显示v7(全局显示.I全局显示, 模式.I显示模式):
 			return 设备模式.C设备显示_模拟v7_1(self)
 		else:
 			return 设备模式.C设备显示v7(self)
+	def f模式_时间(self):
+		from ..华三命令行 import 时间
+		return 时间.C时间显示(self)
 	#显示
 	def f显示_当前配置(self):
 		v命令 = "display current-configuration"
@@ -20,4 +23,12 @@ class C全局显示v7(全局显示.I全局显示, 模式.I显示模式):
 	def 显示_启动配置(self):
 		v命令 = "display saved-configuration"
 		v输出 = self.m设备.f执行显示命令(v命令, a自动换页 = True)
+		return v输出
+	def f显示_诊断信息(self):
+		"""一次性获取所有信息"""
+		v命令 = "display diagnostic-information"
+		v输出 = self.m设备.f执行显示命令(v命令)
+		#Save or display diagnostic information (Y=save, N=display)? [Y/N]:
+		if "[Y/N]" in v输出:
+			v输出 = self.m设备.f执行显示命令("N", a自动换页 = True)
 		return v输出

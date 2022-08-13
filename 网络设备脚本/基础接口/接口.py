@@ -79,7 +79,7 @@ class S接口:
 		self.ma序号 = tuple(aa序号)
 		self.m子序号 = int(a子序号)
 	def __str__(self):
-		return f"""{self.m类型} {"/".join(self.ma序号)} .{self.m子序号}"""
+		return f"""{self.m类型} {"/".join(str(v) for v in self.ma序号)} .{self.m子序号}"""
 	def __repr__(self):
 		return f"S接口({self.m类型}, {self.ma序号}, {self.m子序号})"
 	def __eq__(self, a):

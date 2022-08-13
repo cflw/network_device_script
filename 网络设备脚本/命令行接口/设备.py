@@ -12,6 +12,7 @@ from ..命令行接口 import 模式
 #===============================================================================
 # 准备
 #===============================================================================
+c首次等待 = 10
 c等待 = 2
 c间隔 = c等待 / 10
 c网络终端换码 = "\x1b["	#vt100控制码
@@ -27,6 +28,7 @@ class I设备(设备.I设备):
 	def __init__(self, a连接):
 		设备.I设备.__init__(self)
 		#设备设置
+		self.m首次等待 = c首次等待
 		self.m等待 = c等待
 		self.m间隔 = c间隔
 		self.m注释 = "#"
@@ -57,9 +59,10 @@ class I设备(设备.I设备):
 		if self.m自动关闭 or vi自动提交:
 			self.f关闭()
 	#设备状态
-	def fs延迟(self, a间隔 = c间隔):
-		self.m间隔 = a间隔
-		self.m等待 = a间隔 * 10
+	def fs等待响应时间(self, a首次等待 = c首次等待, a等待 = c等待):
+		self.m首次等待 = a首次等待
+		self.m等待 = a等待
+		self.m间隔 = a等待 / 10
 	def fs自动换页(self, a文本):
 		"设置自动换页标记"
 		self.m自动换页文本 = a文本
@@ -98,17 +101,20 @@ class I设备(设备.I设备):
 			self.f设备_回显(v内容)
 			return v内容
 		#有等待
-		v计数 = 0
+		v等待计时 = 0
+		v等待上限 = self.m首次等待
 		v内容 = ""
 		while True:
 			v读 = self.m连接.f读_最新()
 			if v读:
 				v内容 += v读
+				v等待计时 = 0
+				v等待上限 = self.m等待
 				time.sleep(self.m间隔)
 				continue
 			else:
-				v计数 += 1
-				if v计数 >= 10:
+				v等待计时 += self.m间隔
+				if v等待计时 >= v等待上限:
 					break
 				else:
 					time.sleep(self.m间隔)
@@ -146,25 +152,21 @@ class I设备(设备.I设备):
 	def f刷新(self):
 		"清除正在输入的命令, 清除输出缓存"
 		self.f设备_停顿()
-		v输出 = self.m连接.f读_最新()
-	def f等待响应(self, a时间 = 5):
-		v输出 = self.m连接.f读_直到('', a时间)
-		if self.m回显 and v输出:	#回显
-			print(v输出, end = '', flush = True)
-			return
+		self.m连接.f读_最新()
 	def f检查命令(self, a命令):
 		"判断命令能不能执行"
 		raise NotImplementedError()
-	def f执行命令(self, a命令):
+	def f执行命令(self, a命令, a等待 = False):
 		"输入一段字符按回车, 并返回输出结果"
 		#准备命令
+		assert(a命令)	#命令不能为空
 		v命令 = str(a命令)
 		self.m历史命令 = v命令
 		#执行
 		self.f刷新()
 		self.f输入(v命令)
 		self.f输入_回车()
-		self.m历史输出 = self.f输出()
+		self.m历史输出 = self.f输出(a等待)
 		return self.m历史输出
 	def f执行配置命令(self, a命令, a自动提交 = True):
 		self.f执行命令(a命令)
@@ -182,7 +184,7 @@ class I设备(设备.I设备):
 		self.f输入(v命令)
 		self.f输入_回车()
 		return self.f输出显示结果(a自动换页)
-	def f输出显示结果(self, a自动换页 = True, a最小等待 = 1):
+	def f输出显示结果(self, a自动换页 = True, a最小等待 = c等待):
 		v输出 = ''
 		v计时 = 时间.C秒表()
 		if a自动换页:
@@ -250,7 +252,8 @@ class I设备(设备.I设备):
 		v模式 = self.ma模式[-1]
 		v模式.f事件_退出模式前()
 		if type(v模式).fg退出命令 != 模式.I模式.fg退出命令:
-			self.f执行命令(v模式.fg退出命令())
+			if v命令 := v模式.fg退出命令():
+				self.f执行命令(v命令)
 		else:
 			self.f退出()
 		self.ma模式.pop()
@@ -314,7 +317,7 @@ class I设备(设备.I设备):
 			self.m连接.f写(a测试字符)
 			self.m连接.f读_直到(a测试字符, 2)
 			v和 = v秒表.f滴答()
-		self.fs延迟(v和 / 5)	#间隔设置为平均响应时间的2倍
+		self.fs等待响应时间(v和 * 2)	#间隔设置为平均响应时间的2倍
 	def f退出(self, a关闭 = False):
 		"""设备默认退出当前模式行为, 如果模式重写了 fg退出命令 则不调用该函数\n
 		如果当前模式是用户模式, 则退出登录"""

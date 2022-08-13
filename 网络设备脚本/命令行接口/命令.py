@@ -198,4 +198,5 @@ def F生成描述命令(a命令, a不):
 			v命令 += a描述
 		elif v操作 == 操作.E操作.e删除:
 			v命令.f前面添加(a不)
+		return v命令
 	return f

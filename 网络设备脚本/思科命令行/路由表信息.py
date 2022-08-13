@@ -1,14 +1,11 @@
 import pandas	#pandas
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-from ..基础接口 import 操作
-from ..基础接口 import 信息
 from ..基础接口 import 数据表
 from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
 from ..基础接口 import 路由 as 北向路由
 from ..命令行接口 import 命令
-from ..命令行接口 import 路由 as 南向路由
 from . import 接口 as 实现接口
 #常量
 ca代码4 = {

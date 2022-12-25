@@ -1,15 +1,16 @@
 import time
 import selenium.webdriver	#selenium
+from selenium.webdriver.common.by import By	#selenium
 #包装元素类
 class C元素:
 	"""对selenium网页元素的封装"""
 	def __init__(self, a元素):
 		self.m元素 = a元素
 	def f查找(self, a找, a包装 = True):
-		return f包装(self.m元素.find_element_by_xpath(a找), a包装)
+		return f包装(self.m元素.find_element(By.XPATH, a找), a包装)
 	def fe查找(self, a找, a包装 = True):
 		f包装0 = F包装(a包装)
-		for v元素 in self.m元素.find_elements_by_xpath(a找):
+		for v元素 in self.m元素.find_elements(By.XPATH, a找):
 			yield f包装0(v元素)
 	def f点击(self):
 		self.m元素.click()

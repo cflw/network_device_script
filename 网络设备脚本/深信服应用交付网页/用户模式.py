@@ -19,7 +19,7 @@ class C用户模式ad70(用户模式.I用户模式):
 		w消息 = self.m设备.f查找("//*[@id=\"error_msg\"]")
 		w登录.f点击()
 		time.sleep(1)
-		if not self.m设备.f查找_直到("//*[@id=\"id_top\"]", 1):
+		if not self.m设备.f查找_直到("//*[@id=\"id_top\"]", a超时 = 1):
 			# 提示：请输入密码！
 			# 提示：用户名或密码错误 (还有4次机会)
 			v消息 = w消息.fg文本()
@@ -45,7 +45,7 @@ class C用户模式ad705(用户模式.I用户模式):
 		w登录 = self.m设备.f查找("//button[@class=\"uedc-ppkg-login_product-submit\"]")
 		w消息 = self.m设备.f查找("//div[@class=\"uedc-ppkg-login_product-tip\"]")
 		w登录.f点击()
-		if not self.m设备.f查找_直到("//div[@id=\"top_nav\"]", 5):
+		if not self.m设备.f查找_直到("//div[@id=\"top_nav\"]", a超时 = 5):
 			# 请输入合法的用户名
 			# 请输入合法的密码
 			# 身份验证-用户名或密码错误(剩余重试[4]次)

@@ -14,11 +14,8 @@ ca路由类型 = {
 	"SSL VPN路由": 路由.E路由类型.e本地,
 }
 def f解析路由条目4(a元素):	#<tr>
+	"""适用于:v8.0.7~8.0.13"""
 	v类型s, v目的s, v掩码s, v下一跳s, v度量值s, v接口s = map(lambda x: x.fg文本(), a元素.fe查找("td"))
-	v类型 = ca路由类型[v类型s]
-	v网络号 = 地址.S网络地址4.fc地址掩码(v目的s, v掩码s)
-	v下一跳 = 地址.S网络地址4.fc地址前缀长度(v下一跳s, 32)
-	v度量值 = int(v度量值s)
 	return {
 		数据表.E字段.e目标路由类型: ca路由类型[v类型s],
 		数据表.E字段.e目标网络号: 地址.S网络地址4.fc地址掩码(v目的s, v掩码s),
@@ -26,7 +23,8 @@ def f解析路由条目4(a元素):	#<tr>
 		数据表.E字段.e目标度量值: int(v度量值s),
 	}
 class C查看路由:
-	c表格路径 = '/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div[3]/div'
+	"""适用于:v8.0.7~8.0.13"""
+	c表格路径 = "/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div[3]/div"
 	def __init__(self, a设备):
 		self.m设备 = a设备
 	def f显示_路由表(self, a网络协议 = 协议.E协议.e网络协议4, a路由类型 = 0):

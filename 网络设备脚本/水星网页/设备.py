@@ -1,4 +1,5 @@
 import enum
+from selenium.webdriver.common.by import By	#selenium
 from ..网页接口 import 设备
 class C设备(设备.I设备):
 	"""适用于: mw155r"""
@@ -17,7 +18,7 @@ class C设备(设备.I设备):
 		self.f切换框架(C设备.c菜单框架)
 		#切换模式
 		for v模式 in aa模式:
-			v元素 = self.m连接.find_element_by_xpath(f"/html/body/menu/ol[@id='ol{v模式}']/a[1]")
+			v元素 = self.m连接.find_element(By.XPATH, f"/html/body/menu/ol[@id='ol{v模式}']/a[1]")
 			v元素.click()
 		self.ma模式 == aa模式
 	def f切换框架(self, a框架):
@@ -25,7 +26,7 @@ class C设备(设备.I设备):
 			return
 		self.m连接.switch_to.default_content()
 		if a框架:
-			e = self.m连接.find_element_by_xpath(a框架)
+			e = self.m连接.find_element(By.XPATH, a框架)
 			self.m连接.switch_to.frame(e)
 		self.m当前框架 = a框架
 	def f查找(self, a找):

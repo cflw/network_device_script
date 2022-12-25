@@ -29,22 +29,22 @@ class C设备(设备.I设备):
 			self.f查找_直到(a等待元素)
 		time.sleep(1)
 	def f切换模式_序号(self, aa模式: tuple):
-		v层级 = len(a模式)
+		v层级 = len(aa模式)
 		w导航 = self.f查找("/html/body/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]")
 		#一级菜单
-		w菜单1 = w导航.f查找(f"div[{a模式[0]}]")	#ext-comp-1012
+		w菜单1 = w导航.f查找(f"div[{aa模式[0]}]")	#ext-comp-1012
 		w按钮1 = w菜单1.f查找("div[1]")	#ext-gen39
 		w按钮1.f点击()
 		if v层级 == 1:
 			return
 		#二级菜单
-		w菜单2 = w菜单1.f查找(f"div/div/ul/div/li[{a模式[1]}]")
+		w菜单2 = w菜单1.f查找(f"div/div/ul/div/li[{aa模式[1]}]")
 		w按钮2 = w菜单1.f查找("div[1]")	#ext-gen39
 		w按钮2.f点击()
 		if v层级 == 2:
 			return
 		#三级菜单
-		w菜单3 = w菜单2.f查找(f"ul[1]/li[{a模式[2]}]")
+		w菜单3 = w菜单2.f查找(f"ul[1]/li[{aa模式[2]}]")
 		w按钮3 = w菜单3.f查找("div[1]")
 		w按钮3.f点击()
 	def f切换子模式0(self, a模式: int):

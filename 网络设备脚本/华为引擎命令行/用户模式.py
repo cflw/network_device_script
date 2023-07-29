@@ -2,7 +2,7 @@ import time
 from ..基础接口 import 异常
 from ..基础接口 import 操作
 from ..华为命令行 import 用户模式 as 旧用户模式
-class C用户视图(旧用户模式.C用户视图):
+class C用户视图ne(旧用户模式.C用户视图):
 	"""适用于: 华为ne40e(v8.180)"""
 	def f事件_进入模式后(self):
 		self.f登录自动刷新()
@@ -13,10 +13,10 @@ class C用户视图(旧用户模式.C用户视图):
 		from . import 全局配置
 		if self.m设备.m自动提交 == 操作.E自动提交.e不提交:
 			self.fs自动提交(操作.E自动提交.e立即)
-		return 全局配置.C系统视图(self)
+		return 全局配置.C系统视图ne(self)
 	def f模式_全局显示(self):
 		from . import 全局显示
-		return 全局显示.C全局显示(self)
+		return 全局显示.C全局显示ne(self)
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):
 		self.m设备.f切换到当前连接()
@@ -40,3 +40,12 @@ class C用户视图(旧用户模式.C用户视图):
 		time.sleep(0.5)
 		self.m设备.mf自动登录 = self.f自动登录
 		self.f切换到当前模式()
+class C用户视图ce(C用户视图ne):
+	def f模式_全局配置(self):
+		from . import 全局配置
+		if self.m设备.m自动提交 == 操作.E自动提交.e不提交:
+			self.fs自动提交(操作.E自动提交.e立即)
+		return 全局配置.C系统视图ce(self)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示ce(self)

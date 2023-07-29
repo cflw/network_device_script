@@ -42,6 +42,10 @@ def f解析数字(a数字: str):
 		return int(a数字)
 	else:
 		return 0
+def f字节到比特(a数字: str):
+	return int(a数字) * 8
+def f比特到字节(a数字: str):
+	return int(a数字) // 8
 def f解析起宕状态(a状态: str)->bool:
 	"up为真"
 	return "up" in a状态.lower()
@@ -60,7 +64,15 @@ def f解析双工模式(a双工: str)->bool:
 	elif "half" in v双工:
 		return False
 	return None	#未知
-c速率正则 = re.compile(r"(\d+)([GMk])")
+def f解析双工模式缩写(a双工: str)->bool:
+	"f为真"
+	v字符 = a双工.lower()[0]
+	if v字符 == 'f':
+		return True
+	elif v字符 == 'h':
+		return False
+	return None
+c速率正则 = re.compile(r"(?:a\-)?(\d+)([GMk])?")
 def f解析速率(a速率: str)->int:
 	"解析带单位的速率"
 	if v速率 := c速率正则.search(a速率):
@@ -86,6 +98,17 @@ def f解析链路类型(a类型: str):
 	elif "trunk" in v类型:
 		return 虚拟局域网.E链路类型.e中继
 	elif "hybrid" in v类型:
+		return 虚拟局域网.E链路类型.e混合
+	else:
+		return 虚拟局域网.E链路类型.e无
+def f解析链路类型缩写(a类型: str):
+	from . import 虚拟局域网
+	v字符 = a类型.lower()[0]
+	if v字符 == 'a':
+		return 虚拟局域网.E链路类型.e接入
+	elif v字符 == 't':
+		return 虚拟局域网.E链路类型.e中继
+	elif v字符 == 'h':
 		return 虚拟局域网.E链路类型.e混合
 	else:
 		return 虚拟局域网.E链路类型.e无

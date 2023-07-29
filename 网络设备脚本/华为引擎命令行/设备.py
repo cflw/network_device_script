@@ -6,7 +6,7 @@ ca错误文本与异常类 = [
 	("Error: Wrong parameter found at '^' position.", 异常.X命令),
 	("Error: Ambiguous command found at '^' position.", 异常.X命令),
 ]
-class C设备(旧设备.C设备):
+class C设备ne(旧设备.C设备):
 	"""适用于: 华为ne40e(v8.180)"""
 	def __init__(self, a连接, a型号, a版本):
 		旧设备.C设备.__init__(self, a连接, a型号, a版本)
@@ -14,6 +14,17 @@ class C设备(旧设备.C设备):
 		self.f执行命令("commit")
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户视图(self)
+		return 用户模式.C用户视图ne(self)
+	#其它
+	f检测命令异常 = 命令.F检测命令异常(ca错误文本与异常类)
+class C设备ce(C设备ne):
+	"""适用于: """
+	def __init__(self, a连接, a型号, a版本):
+		C设备ne.__init__(self, a连接, a型号, a版本)
+	def f提交(self):
+		self.f执行命令("commit")
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图ce(self)
 	#其它
 	f检测命令异常 = 命令.F检测命令异常(ca错误文本与异常类)

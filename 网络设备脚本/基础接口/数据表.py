@@ -109,8 +109,8 @@ class E字段(enum.Enum):
 	c接口接收数据 = c接口 + 0x1000
 	c接口发送数据 = c接口 + 0x2000
 	#接口数据(接收)
-	c每秒接收字节数 = c接口接收数据 + 1
-	e本端每秒接收字节数 = c本端 + c每秒接收字节数
+	c每秒接收比特数 = c接口接收数据 + 1	#单位: bps
+	e本端每秒接收比特数 = c本端 + c每秒接收比特数
 	c每秒接收包数 = c接口接收数据 + 2
 	e本端每秒接收包数 = c本端 + c每秒接收包数
 	c接收字节数 = c接口接收数据 + 3
@@ -122,8 +122,8 @@ class E字段(enum.Enum):
 	c接收利用率 = c接口接收数据 + 6
 	e本端接收利用率 = c本端 + c接收利用率
 	#接口数据(发送)
-	c每秒发送字节数 = c接口发送数据 + 1
-	e本端每秒发送字节数 = c本端 + c每秒发送字节数
+	c每秒发送比特数 = c接口发送数据 + 1	#单位: bps
+	e本端每秒发送比特数 = c本端 + c每秒发送比特数
 	c每秒发送包数 = c接口发送数据 + 2
 	e本端每秒发送包数 = c本端 + c每秒发送包数
 	c发送字节数 = c接口发送数据 + 3
@@ -205,7 +205,7 @@ def F有效行数(a数量: int):
 def fi空行(a行: str):
 	return not bool(a行)
 #字段管线控制
-def F下一记录(a找: str):
+def F下一记录(a找: str):	#查找字符串的开始位置作为下一记录的开始
 	def f下一记录(a文本1: str, a开始位置:int)->int:
 		v下一行位置 = a文本1.find("\n", a开始位置) + 1
 		if v下一行位置 > a开始位置:
@@ -213,6 +213,18 @@ def F下一记录(a找: str):
 		else:
 			return -1
 	return f下一记录
+def F下一记录行(a找: str):	#查找字符串所在行作为下一记录的开始行
+	def f下一记录行(a文本1: str, a开始位置: int)->int:
+		v下一行位置 = a文本1.find("\n", a开始位置) + 1
+		if v下一行位置 > a开始位置:
+			v查找位置 = a文本1.find(a找, v下一行位置)
+			if v查找位置 > 0:
+				return a文本1.rfind("\n", 0, v查找位置) + 1
+			else:
+				return -1
+		else:
+			return -1
+	return f下一记录行
 def f下一记录_直接结束(a文本: str, a开始位置: int)->int:
 	return -1
 def f下一记录_下一行(a文本: str, a开始位置: int)->int:
@@ -222,17 +234,31 @@ def f下一记录_下一行(a文本: str, a开始位置: int)->int:
 	else:
 		return -1
 #字段管线记录
-def F列表字段(a字段: str, a结束: str = "\n", a分隔符 = ":"):
+def F列表字段(a字段: str, a结束: str = "\n", a分隔符: str = ":"):
 	"""针对"键: 值"的格式
-	字段不用包含冒号"""
-	v正则 = re.compile(f"\\s*({a字段})\\s*{a分隔符}\\s*(.*?)\\n")
-	def f提取(a文本: str)->str:
-		if v匹配 := v正则.search(a文本):
-			return v匹配[2]
-		else:
-			return ""
+	字段【不要】包含冒号"""
+	assert(type(a结束) == str)	#非字符串作为参数,是否传参错误? 把正则字段替换成列表字段可能出现传入数字的情况
+	if a分隔符:
+		assert(a字段.find(a分隔符) == -1)	#字段不要包含冒号
+		def f提取(a文本: str)->str:
+			v开始位置 = a文本.find(a字段)
+			if v开始位置 == -1:
+				return ""
+			v分隔符位置 = a文本.find(a分隔符, v开始位置)
+			if v分隔符位置 == -1:
+				return ""
+			v结束位置 = a文本.find(a结束, v分隔符位置)
+			return a文本[v分隔符位置+1 : v结束位置].strip()
+	else:
+		v字段长度 = len(a字段)
+		def f提取(a文本: str)->str:
+			v开始位置 = a文本.find(a字段)
+			if v开始位置 == -1:
+				return ""
+			v结束位置 = a文本.find(a结束, v开始位置)
+			return a文本[v开始位置+v字段长度 : v结束位置].strip()
 	return f提取
-def F正则字段(a正则, a索引):
+def F正则字段(a正则: str, a索引: int):
 	#正则
 	v类型 = type(a正则)
 	if v类型 == str:
@@ -428,6 +454,7 @@ class I解析列表管线:
 		while v开始位置 >= 0:
 			#提取记录文本
 			v结束位置 = self.f下一记录(a文本, v开始位置)
+			assert(v开始位置 != v结束位置)
 			if v结束位置 > v开始位置:
 				v记录s = a文本[v开始位置 : v结束位置]
 			else:

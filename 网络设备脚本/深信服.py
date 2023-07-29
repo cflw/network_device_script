@@ -23,9 +23,11 @@ def f创建设备(a连接, a型号, a版本 = 0):
 			if v版本 < "8.0.35":	#界面1
 				from .深信服防火墙网页 import 设备
 				return 设备.C设备(a连接, a型号, v版本)
-			else:	#v版本 >= "8.0.35"	#界面2
+			elif v版本 < "8.0.83":	#界面2
 				from .深信服防火墙网页2 import 设备
 				return 设备.C设备af8035(a连接, a型号, v版本)
+			else:	#v版本 >= 8.0.83	#界面3
+				raise ValueError("不支持的版本")
 		elif a型号 & E型号.c应用交付:
 			if v版本 < "7.0.5":	#界面1
 				from .深信服应用交付网页 import 设备

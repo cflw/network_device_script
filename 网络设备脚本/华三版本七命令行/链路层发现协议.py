@@ -41,7 +41,7 @@ def F列表字段_斜杠前(a字段: str):
 	return f提取
 class F邻居表信息v7(数据表.I解析列表管线):
 	"""display lldp neighbor-information 
-	适用于: 华三s6900(v7.1.*)"""
+	适用于: 华三s6900(v7.1.*), 紫光s7800xp(v7.1.*)"""
 	c值 = 23
 	c本端接口 = "LLDP neighbor-information of port"
 	c邻居索引 = " LLDP neighbor index :"
@@ -74,3 +74,21 @@ class F邻居表列表v7(数据表.I解析表格管线):
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
 	fi有效行 = staticmethod(数据表.F有效长度(c系统名))
 f邻居表列表v7 = F邻居表列表v7()
+class F邻居表列表s7v7(数据表.I解析表格管线):
+	"""display lldp neighbor-information list
+	适用于: 紫光s7800xp(v7.1.*)"""
+	c标题行 = "Local Interface Chassis ID      Port ID                         System Name     "
+	c本端接口 = 0
+	c底层标识 = 16
+	c对端接口 = 32
+	c系统名 = 64
+	ca列 = 数据表.C切割列(c本端接口, c底层标识, c对端接口, c系统名)
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e本端接口, F邻居表列表v7.ca列[0], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e对端物理地址, F邻居表列表v7.ca列[1], 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e对端接口, F邻居表列表v7.ca列[2], str)
+		self.f添加字段(数据表.E字段.e对端名称, F邻居表列表v7.ca列[3], str)
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
+	fi有效行 = staticmethod(数据表.F有效长度(c系统名))
+f邻居表列表s7v7 = F邻居表列表s7v7()

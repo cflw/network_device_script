@@ -12,7 +12,7 @@ ca路由类型 = {
 }
 class F路由表4(数据表.I解析表格管线):
 	"""display ip routing-table
-	适用于: 华三s3100v3(v7.1.*), 华三msr36系列(v7.1.*), 华三s5820v2(v7.1.075)"""
+	适用于: 华三s3100v3(v7.1.*), 华三msr36系列(v7.1.*), 华三s5820v2(v7.1.075), 紫光s7800xp(v7.1.*)"""
 	c网络号 = 0
 	c类型 = 19
 	c优先级 = 27
@@ -23,12 +23,12 @@ class F路由表4(数据表.I解析表格管线):
 	c标题行 = "Destination/Mask   Proto   Pre Cost        NextHop         Interface"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e目标网络号, F路由表4.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
-		self.f添加字段(数据表.E字段.e目标路由类型, F路由表4.ca列[1], ca路由类型.get)
-		self.f添加字段(数据表.E字段.e目标管理距离, F路由表4.ca列[2], int)
-		self.f添加字段(数据表.E字段.e目标度量值, F路由表4.ca列[3], int)
-		self.f添加字段(数据表.E字段.e目标下一跳, F路由表4.ca列[4], 地址.S网络地址4.fc主机地址字符串)
-		self.f添加字段(数据表.E字段.e本端出接口, F路由表4.ca列[5], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e目标网络号, self.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
+		self.f添加字段(数据表.E字段.e目标路由类型, self.ca列[1], ca路由类型.get)
+		self.f添加字段(数据表.E字段.e目标管理距离, self.ca列[2], int)
+		self.f添加字段(数据表.E字段.e目标度量值, self.ca列[3], int)
+		self.f添加字段(数据表.E字段.e目标下一跳, self.ca列[4], 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e本端出接口, self.ca列[5], 实现接口.f创建接口缩写v7)
 	fi有效行 = staticmethod(数据表.F有效长度(c接口))
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
 f路由表4 = F路由表4()

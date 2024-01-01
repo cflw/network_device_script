@@ -5,7 +5,7 @@ from . import 接口 as 实现接口
 #===============================================================================
 # cn系列(v6.x)
 #===============================================================================
-class C全局配置ev6(全局配置.I全局配置):
+class C全局配置_ev6(全局配置.I全局配置):
 	"""适用于: 盛科e580(v6.x), 浪潮cn61108pcvh(v6.x), 浪潮s5350(v6.x)"""
 	def __init__(self, a):
 		全局配置.I全局配置.__init__(self, a)
@@ -24,11 +24,11 @@ class C全局配置ev6(全局配置.I全局配置):
 		v范围 = 类型.f解析范围(a范围)
 		if not 登录.fi登录范围内(a登录方式, v范围):
 			raise ValueError("超出范围")
-		v模式 = 登录.C登录配置ev6(self, a登录方式, a范围)
+		v模式 = 登录.C登录配置_ev6(self, a登录方式, a范围)
 		return v模式
 	def f模式_时间(self):
 		from . import 时间
-		return 时间.C时间ev6(self)
+		return 时间.C时间_ev6(self)
 	def f模式_日志(self):
 		from . import 日志
 		return 日志.C日志ev6(self)
@@ -40,16 +40,16 @@ class C全局配置ev6(全局配置.I全局配置):
 				raise ValueError("设备不匹配")
 			v模式 = a接口
 		else:
-			v接口 = 实现接口.f创建接口ev6(a接口)
+			v接口 = 实现接口.f创建接口_ev6(a接口)
 			if v接口.m接口.m类型 == 北向接口.E类型.e管理:
 				v模式 = 实现接口.C管理ev6(self, v接口)
 			else:
-				v模式 = 实现接口.C接口ev6(self, v接口)
+				v模式 = 实现接口.C接口_ev6(self, v接口)
 		return v模式
 	#路由
 	def f模式_虚拟路由器冗余协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
 		from . import 虚拟路由器冗余协议 as 实现协议
-		v接口 = 实现接口.f创建接口ev6(a接口)
+		v接口 = 实现接口.f创建接口_ev6(a接口)
 		v模式 = 实现协议.C冗余路由(self, v接口, a组号)
 		return v模式
 	#服务
@@ -68,8 +68,8 @@ class C全局配置ev6(全局配置.I全局配置):
 	def f模式_简单网络管理协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 简单网络管理协议
 		if a端 == 操作.E端.e代理:
-			return 简单网络管理协议.C代理配置ev6(self)
+			return 简单网络管理协议.C代理配置_ev6(self)
 		elif a端 == 操作.E端.e陷阱:
-			return 简单网络管理协议.C陷阱配置ev6(self)
+			return 简单网络管理协议.C陷阱配置_ev6(self)
 		else:
 			raise ValueError("a端 必需是代理或陷阱")

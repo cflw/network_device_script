@@ -2,6 +2,7 @@ from ..基础接口 import 异常
 from ..命令行接口 import 设备 as 南向设备
 from ..命令行接口 import 命令
 from ..命令行接口 import 用户模式
+from ..思科命令行.常量 import *
 #===============================================================================
 # 设备(v6.x)
 #===============================================================================
@@ -12,8 +13,7 @@ ca错误文本与异常类 = [
 	#("% Multiple ports are allowed on named ACLs only", 异常.X执行),	#多端口号只允许在命名acl使用
 	("% Unsupport port speed ability", 异常.X执行),	#敲"speed 速率"时端口不支持会报错
 ]
-class C设备ev6(南向设备.I设备):
-	"""适用于: 盛科e580(v6.x), 浪潮cn61108pcvh(v6.x), 浪潮s5350(v6.x)"""
+class C设备_ev6(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
 		self.m型号 = a型号
@@ -24,7 +24,7 @@ class C设备ev6(南向设备.I设备):
 	#模式
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户模式ev6(self)
+		return 用户模式.C用户模式_ev6(self)
 	#命令
 	def f执行命令(self, a命令):
 		v输出 = 南向设备.I设备.f执行命令(self, a命令)
@@ -69,3 +69,11 @@ class C设备ev6(南向设备.I设备):
 		return None
 	def f退出(self, a关闭 = False):
 		self.f执行命令("exit")
+class C设备_e580v6(C设备_ev6):
+	"""适用于: 盛科e580(v6.x), 浪潮cn61108pcvh(v6.2.27)"""
+class C设备_e530v6(C设备_ev6):
+	"""适用于: 盛科s530(v6.*), 浪潮s5350(v6.2.27)"""
+	#模式
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户模式_e530v6(self)

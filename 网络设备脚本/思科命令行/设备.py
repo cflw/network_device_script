@@ -24,7 +24,6 @@ class C设备(南向设备.I设备):
 	def f模式_用户(self):
 		from . import 用户模式 as 实现用户模式
 		v模式 = 实现用户模式.C用户模式(self)
-		# self.fs顶级模式(v模式)
 		return v模式
 	def f执行命令(self, a命令):
 		v输出 = 南向设备.I设备.f执行命令(self, a命令)
@@ -77,3 +76,17 @@ class C设备(南向设备.I设备):
 	def f助手_服务质量策略(self, a策略名称: str, a分类名称: str, a行为名称: str, ai自动绑定: bool = True):
 		from . import 服务质量
 		return 服务质量.C助手(a策略名称, a分类名称, a行为名称)
+class C设备_v11(C设备):
+	"""适用于: 浪潮s6550(v11.12)"""
+	def __init__(self, a连接, a型号, a版本):
+		C设备.__init__(self, a连接, a型号, a版本)
+	def f模式_用户(self):
+		from . import 用户模式 as 实现用户模式
+		return 实现用户模式.C用户模式_v11(self)
+class C设备_v12(C设备):
+	"""适用于: 浪潮s5960(v12.2)"""
+	def __init__(self, a连接, a型号, a版本):
+		C设备.__init__(self, a连接, a型号, a版本)
+	def f模式_用户(self):
+		from . import 用户模式 as 实现用户模式
+		return 实现用户模式.C用户模式_v12(self)

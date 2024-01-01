@@ -10,7 +10,7 @@ ca端口角色nv7 = {
 ca端口状态nv7 = {
 	"FWD": 北向生成树.E端口状态.e转发,
 }
-class C接口表nv7:	#需重写
+class C接口表_nv7:	#需重写
 	"""show spanning-tree
 	show spanning-tree brief
 	适用于: 浪潮cn8000系列(v7.3)"""
@@ -34,12 +34,12 @@ class C接口表nv7:	#需重写
 				v虚拟局域网 = int(v行[4:])
 			if len(v行) < 46:
 				continue
-			if not v行[C接口表nv7.c开销].isdigit():
+			if not v行[C接口表_nv7.c开销].isdigit():
 				continue
 			if not all(v行[i] == " " for i in (16, 21, 25, 35, 44)):
 				continue
-			v接口s, v角色s, v状态s, v开销s, v优先级s, v类型s = 字符串.fe按位置分割(v行, *C接口表nv7.ca列开始)
-			v接口 = 实现接口.f创建接口缩写nv7(v接口s)
+			v接口s, v角色s, v状态s, v开销s, v优先级s, v类型s = 字符串.fe按位置分割(v行, *C接口表_nv7.ca列开始)
+			v接口 = 实现接口.f创建接口缩写_nv7(v接口s)
 			v端口角色 = ca端口角色nv7[v角色s]
 			v端口状态 = ca端口状态nv7[v状态s]
 			yield {
@@ -48,6 +48,6 @@ class C接口表nv7:	#需重写
 				数据表.E字段.e本端生成树角色: v端口角色,
 				数据表.E字段.e本端生成树状态: v端口状态,
 			}
-def f接口表nv7(a文本: str):	#需重写
-	v表 = C接口表nv7(a文本)
+def f接口表_nv7(a文本: str):	#需重写
+	v表 = C接口表_nv7(a文本)
 	return pandas.DataFrame(v表.fe行())

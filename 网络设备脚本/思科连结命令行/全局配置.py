@@ -20,7 +20,7 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		return v模式
 	def f模式_时间(self):
 		from . import 时间
-		return 时间.C时间nv7(self)
+		return 时间.C时间_nv7(self)
 	def f模式_日志(self):
 		from . import 日志
 		return 日志.C日志nv7(self)
@@ -32,7 +32,7 @@ class C全局配置nv7_0(全局配置.I全局配置):
 				raise ValueError("设备不匹配")
 			v模式 = a接口
 		else:
-			v接口 = 实现接口.f创建接口nv7(a接口)
+			v接口 = 实现接口.f创建接口_nv7(a接口)
 			v模式 = 旧实现接口.C接口配置(self, v接口)
 		思科实用.f执行模式操作命令(self, v模式, a操作)
 		return v模式
@@ -72,11 +72,11 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		return v模式
 	def f模式_热备份路由协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
 		from . import 热备份路由协议 as 实现协议
-		v接口 = 实现接口.f创建接口nv7(a接口)
+		v接口 = 实现接口.f创建接口_nv7(a接口)
 		return 实现协议.C接口配置nv7(self, v接口, a组号)
 	def f模式_虚拟路由器冗余协议(self, a接口, a组号, a操作 = 操作.E操作.e设置):
 		from . import 虚拟路由器冗余协议 as 实现协议
-		v接口 = 实现接口.f创建接口nv7(a接口)
+		v接口 = 实现接口.f创建接口_nv7(a接口)
 		v模式 = 实现协议.C接口(self, v接口, a组号)
 		return v模式
 	#服务

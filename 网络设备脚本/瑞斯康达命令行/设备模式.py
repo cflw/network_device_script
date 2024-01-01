@@ -2,7 +2,7 @@ from ..基础接口 import 设备模式
 from ..命令行接口 import 模式
 from . import 系统信息
 from . import 硬件信息
-class C设备显示sv3(设备模式.I设备显示, 模式.I显示模式):
+class C设备显示_sv3(设备模式.I设备显示, 模式.I显示模式):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):
 		模式.I显示模式.__init__(self, a)

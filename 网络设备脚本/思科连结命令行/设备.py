@@ -2,10 +2,10 @@ from ..基础接口 import 操作
 from ..命令行接口 import 设备 as 南向设备
 from ..命令行接口 import 命令
 #===============================================================================
-# nexus(v7.x)
+# nexus(v7.*)
 #===============================================================================
-class C设备nv7(南向设备.I设备):
-	"""适用于: 思科n7k系列, 思科n9k系列(v7.0), 浪潮cn8000系列(v7.3), 浪潮cn61108pcv(v7.0)"""
+class C设备_nv7(南向设备.I设备):
+	"""适用于: 思科n7k系列, 思科n9k系列(v7.0), 浪潮cn61108pcv(v7.0)"""
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
 		self.m连接.fs编码("utf-8")
@@ -18,10 +18,7 @@ class C设备nv7(南向设备.I设备):
 	#模式
 	def f模式_用户(self):
 		from . import 用户模式
-		if self.m版本 < 7.3:
-			return 用户模式.C用户模式nv7_0(self)
-		else:
-			return 用户模式.C用户模式nv7_3(self)
+		return 用户模式.C用户模式_nv7_0(self)
 	#命令
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v命令 = str(a命令)
@@ -35,8 +32,13 @@ class C设备nv7(南向设备.I设备):
 		return v输出
 	def f退出(self, a关闭 = False):
 		self.f执行命令("exit")
-class C设备nv9(C设备nv7):
+class C设备_nv7_3(C设备_nv7):
+	"""适用于: 浪潮cn8672up(v7.3), 浪潮cn8696q(v7.3)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户模式_nv7_3(self)	
+class C设备_nv9(C设备_nv7):
 	"""适用于: 思科n9k系列(v9.x), 浪潮cn61108pcv(v9.2.3)"""
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户模式nv9_2(self)
+		return 用户模式.C用户模式_nv9_2(self)

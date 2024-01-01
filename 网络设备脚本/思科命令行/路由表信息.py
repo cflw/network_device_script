@@ -87,99 +87,110 @@ def f生成显示路由表命令(a版本, *a参数, a虚拟路由转发 = None):
 	return v命令
 def f解析距离(a文本):
 	"""必需是"[%d/%d]"格式"""
-	v = 字符串.f提取字符串之间(a文本, "[", "]")
-	v管理距离s, v度量值s = v.split("/")
-	return int(v管理距离s), int(v度量值s)
-def f去逗号(a文本):
-	if a文本[-1] == ",":
-		return a文本[:-1]
-	return a文本
+	if v := 字符串.f提取字符串之间(a文本, "[", "]"):
+		v管理距离s, v度量值s = v.split("/")
+		return int(v管理距离s), int(v度量值s)
+	return 0, 0
 #===============================================================================
-# 表
+# 路由表4
 #===============================================================================
-class F路由表4:
+class F路由表4(数据表.I解析列表管线):
+	"""show ip route
+	适用于: 思科c7200(v15.2)"""
 	c协议 = 0
+	c主类 = 6
 	c网络号 = 9
-	def __call__(self, a文本: str):
-		return self.f解析(a文本)
-	def f解析(self, a文本: str):
-		def fe行():
-			v结果 = {}
-			for v行 in a文本.split("\n"):
-				if not self.fi有效行(v行):
-					continue
-				if self.fi新记录(v行):
-					v结果 = {}
-					v路由类型s = v行[F路由表4.c协议 : F路由表4.c网络号].strip()
-					v详细开始 = v行.find(" ", F路由表4.c网络号)
-					v网络号s = v行[F路由表4.c网络号 : v详细开始]
-					v结果[数据表.E字段.e目标路由类型] = ca代码4[v路由类型s]
-					v结果[数据表.E字段.e目标网络号] = 地址.S网络地址4.fc自动(v网络号s)
-				for v词 in v行[v详细开始+1 : ].split(" "):
-					v词 = f去逗号(v词)
-					if "[" in v词:	#管理距离&度量值
-						v管理距离, v度量值 = f解析距离(v词)
-						v结果[数据表.E字段.e目标管理距离] = v管理距离
-						v结果[数据表.E字段.e目标度量值] = v度量值
-					elif v词.count(".") == 3:	#地址
-						v下一跳 = 地址.S网络地址4.fc自动(v词)
-						v结果[数据表.E字段.e目标下一跳] = v下一跳
-					elif v词.count(":") == 2:	#存在时间
-						pass
-					elif 北向接口.c接口正则.fullmatch(v词):
-						v出接口 = 实现接口.f创建接口(v词)
-						v结果[数据表.E字段.e本端出接口] = v出接口
-					else:	#无关词,跳过
-						pass
-				yield v结果
-		v数据表 = pandas.DataFrame(fe行())
-		return v数据表
-	@staticmethod
-	def fi有效行(a行: str):
-		if len(a行) < 40:	#太短
+	def __init__(self):
+		数据表.I解析列表管线.__init__(self)
+	def fe记录(self, a文本):
+		for v行s in self.fe记录文本(a文本):
+			v记录 = {}
+			#路由类型
+			if v路由类型s := v行s[self.c协议 : self.c主类].strip():
+				if v路由类型s[-1] == '*':	#默认路由
+					v路由类型s = v路由类型s[:-1]
+				v记录[数据表.E字段.e目的路由类型] = ca代码4[v路由类型s]
+			else:
+				v记录[数据表.E字段.e目的路由类型] = self.f上次结果(数据表.E字段.e目的路由类型)
+			#网络号
+			v网络号开始位置 = self.c主类 if v行s[self.c主类] != ' ' else self.c网络号
+			v网络号结束位置 = v行s.find(" ", v网络号开始位置)
+			if v网络号s := v行s[v网络号开始位置 : v网络号结束位置].strip():
+				v记录[数据表.E字段.e目的网络号] = 地址.S网络地址4.fc自动(v网络号s)
+			else:
+				v记录[数据表.E字段.e目的网络号] = self.f上次结果(数据表.E字段.e目的网络号)
+			#管理距离,度量值
+			v记录[数据表.E字段.e目的管理距离], v记录[数据表.E字段.e目的度量值] = f解析距离(v行s)
+			#下一跳地址
+			v逗号位置0 = v行s.find(",")	#逗号前是下一跳地址
+			v下一跳位置 = v行s.rfind(" ", 0, v逗号位置0) + 1
+			v下一跳s = v行s[v下一跳位置 : v逗号位置0]
+			if "." in v下一跳s:
+				v记录[数据表.E字段.e目的下一跳] = 地址.S网络地址4.fc主机地址字符串(v下一跳s)
+			#出接口
+			v逗号位置1 = v行s.find(",", v逗号位置0 + 1)	#最后一个逗号后面是出接口
+			if v逗号位置1 > 0:
+				v接口s = v行s[v逗号位置1 + 1 :].strip()
+			else:
+				v接口s = v行s[v逗号位置0 + 1 :].strip()
+			if not "." in v接口s:	#判断是否接口
+				v记录[数据表.E字段.e本端出接口] = 实现接口.f创建接口(v接口s)
+			yield v记录
+	f下一记录 = staticmethod(数据表.f下一记录_下一行)
+	def fi有效记录(self, a行: str):
+		if len(a行) < 10:	#太短
 			return False
 		if "-" in a行:	#带横杠的是说明行
 			return False
-		if a行[6].isdigit():	#主类行没有能使用的信息
+		if "subnet" in a行:	#是主类行
+			return False
+		if a行[self.c主类-1] != ' ':
 			return False
 		return True
-	@staticmethod
-	def fi新记录(a行: str):
-		return a行[0] != " " and a行[F路由表4.c网络号-1] == " "
 f路由表4 = F路由表4()
-class F路由表6:
+#===============================================================================
+# 路由表6
+#===============================================================================
+class F路由表6(数据表.I解析列表管线):
+	"""show ipv6 route
+	适用于: 思科c7200(v15.2)"""
 	c协议 = 0
 	c网络号 = 4
-	def __call__(self, a行: str):
-		return self.f解析(a行)
-	def f解析(self, a文本: str):
-		def fe行():
-			v结果 = {}
-			for v行 in a文本.split("\n"):
-				if not self.fi有效行(v行):
-					continue
-				if self.fi新记录(v行):
-					v结果 = {}
-					v路由类型s = v行[F路由表6.c协议 : F路由表6.c网络号].strip()
-					v距离开始 = v行.find(" ", F路由表6.c网络号)
-					v网络号s = v行[F路由表6.c网络号 : v距离开始]
-					v结果[数据表.E字段.e目标路由类型] = ca代码6[v路由类型s]
-					v结果[数据表.E字段.e目标网络号] = 地址.S网络地址6.fc自动(v网络号s)
-					v管理距离, v度量值 = f解析距离(v行[v距离开始+1 : ])
-					v结果[数据表.E字段.e目标管理距离] = v管理距离
-					v结果[数据表.E字段.e目标度量值] = v度量值
-					continue
-				for v词 in v行.strip().split(" "):
-					v词 = f去逗号(v词)
-					if v词.count(":") >= 2:	#地址
-						v结果[数据表.E字段.e目标下一跳] = 地址.S网络地址6.fc自动(v词)
-					elif 北向接口.c接口正则.fullmatch(v词):
-						v结果[数据表.E字段.e本端出接口] = 实现接口.f创建接口(v词)
-					else:
-						pass
-				yield v结果
-		v数据表 = pandas.DataFrame(fe行())
-		return v数据表
+	c标题行6 = "       OE2 - OSPF ext 2, ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, l - LISP"
+	def __init__(self):
+		数据表.I解析列表管线.__init__(self)
+	def fe记录(self, a文本: str):
+		for v行s in self.fe记录文本(a文本):
+			#新记录行
+			if self.fi新记录(v行s):
+				v记录0 = self.f解析网络号行(v行s)
+				continue
+			#详细行
+			v记录1 = v记录0 | self.f解析下一跳行(v行s)
+			yield v记录1
+	def f解析网络号行(self, a行: str):
+		v记录 = {}
+		v路由类型s = a行[F路由表6.c协议 : self.c网络号].strip()
+		v距离开始 = a行.find(" ", self.c网络号)
+		v网络号s = a行[F路由表6.c网络号 : v距离开始]
+		v记录[数据表.E字段.e目的路由类型] = ca代码6[v路由类型s]
+		v记录[数据表.E字段.e目的网络号] = 地址.S网络地址6.fc自动(v网络号s)
+		v记录[数据表.E字段.e目的管理距离], v记录[数据表.E字段.e目的度量值] = f解析距离(a行[v距离开始+1 : ])
+		return v记录
+	def f解析下一跳行(self, a行: str):
+		v记录 = {}
+		v逗号位置0 = a行.find(",")
+		v下一跳位置0 = a行.rfind(" ", 0, v逗号位置0)	#逗号前的空格
+		v下一跳s = a行[v下一跳位置0 + 1 : v逗号位置0].strip()
+		if ":" in v下一跳s:	#是地址
+			v记录[数据表.E字段.e目的下一跳] = 地址.S网络地址6.fc主机地址字符串(v下一跳s)
+			v接口s = a行[v逗号位置0 + 1 :].strip()
+			v记录[数据表.E字段.e本端出接口] = 实现接口.f创建接口(v接口s)
+		else:	#是接口
+			v记录[数据表.E字段.e本端出接口] = 实现接口.f创建接口(v下一跳s)
+		return v记录
+	f下一记录 = staticmethod(数据表.f下一记录_下一行)
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行6))
 	@staticmethod
 	def fi有效行(a行: str):
 		if len(a行) < 16:	#太短
@@ -187,7 +198,6 @@ class F路由表6:
 		if "-" in a行:	#说明行
 			return False
 		return True
-	@staticmethod
-	def fi新记录(a行: str):
-		return a行[0] != " " and a行[F路由表6.c网络号-1] == " "
+	def fi新记录(self, a行: str):
+		return a行[0] != ' ' and a行[self.c网络号-1] == ' ' and a行[self.c网络号] != ' '
 f路由表6 = F路由表6()

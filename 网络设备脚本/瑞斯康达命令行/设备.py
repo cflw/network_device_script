@@ -5,7 +5,7 @@ from ..命令行接口 import 用户模式
 #===============================================================================
 # s系列(v3.x)
 #===============================================================================
-class C设备sv3_50(南向设备.I设备):
+class C设备_sv3_50(南向设备.I设备):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
@@ -18,7 +18,7 @@ class C设备sv3_50(南向设备.I设备):
 	#模式
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户模式sv3(self)
+		return 用户模式.C用户模式_sv3(self)
 	#命令
 	def f执行命令(self, a命令):
 		v输出 = 南向设备.I设备.f执行命令(self, a命令)
@@ -38,10 +38,10 @@ class C设备sv3_50(南向设备.I设备):
 		return v输出
 	def f退出(self, a关闭 = False):
 		self.f执行命令("exit")
-class C设备sv3_60(C设备sv3_50):
+class C设备_sv3_60(C设备_sv3_50):
 	"""适用于: s6550(v3.60)"""
 	def __init__(self, a连接, a型号, a版本):
-		C设备sv3_50.__init__(self, a连接, a型号, a版本)
+		C设备_sv3_50.__init__(self, a连接, a型号, a版本)
 	def f执行显示命令(self, a命令, a自动换页 = True):
 		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
 		v输出 = v输出.replace("\r\n", "\n")

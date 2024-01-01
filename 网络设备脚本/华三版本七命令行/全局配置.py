@@ -2,7 +2,7 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令
 from ..华三命令行 import 全局配置 as 旧全局配置
 from . import 接口 as 实现接口
-class C系统视图v7(旧全局配置.C系统视图):
+class C系统视图_v7(旧全局配置.C系统视图):
 	"""system-view
 	适用于: 华三s5820v2(v7.1.075)"""
 	def __init__(self, a):
@@ -27,7 +27,7 @@ class C系统视图v7(旧全局配置.C系统视图):
 		return 登录.C登录v7(self, a方式, a范围)
 	def f模式_远程登录(self, a协议, a范围, a操作 = 操作.E操作.e设置):
 		from . import 登录
-		v模式 = 登录.C远程登录配置v7(self, a协议, a范围)
+		v模式 = 登录.C远程登录配置_v7(self, a协议, a范围)
 		return v模式
 	def f模式_时间范围(self, a名称, a操作 = 操作.E操作.e设置):
 		from ..华三命令行 import 时间范围
@@ -35,16 +35,16 @@ class C系统视图v7(旧全局配置.C系统视图):
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
-		from ..华三命令行 import 访问控制列表 as 实现列表
+		from . import 访问控制列表 as 实现列表
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
 		if v类型 == 北向列表.E类型.e标准4:
-			return 实现列表.C基本4v7(self, v名称)
+			return 实现列表.C基本4_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展4:
-			return 实现列表.C高级4v7(self, v名称)
+			return 实现列表.C高级4_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e标准6:
-			return 实现列表.C基本6v7(self, v名称)
+			return 实现列表.C基本6_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展6:
-			return 实现列表.C高级6v7(self, v名称)
+			return 实现列表.C高级6_v7(self, v名称)
 		else:
 			raise ValueError("错误的类型")
 	#服务
@@ -69,8 +69,8 @@ class C系统视图v7(旧全局配置.C系统视图):
 		from . import 链路层发现协议
 		if a接口:
 			v接口 = 实现接口.f创建接口v7(a接口)
-			return 链路层发现协议.C接口配置v7(self, v接口)
-		return 链路层发现协议.C进程配置v7(self)
+			return 链路层发现协议.C接口配置_v7(self, v接口)
+		return 链路层发现协议.C进程配置_v7(self)
 	#操作
 	def fs设备名(self, a名称, a操作 = 操作.E操作.e设置):
 		v命令 = 命令.C命令("sysname")

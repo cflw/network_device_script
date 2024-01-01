@@ -1,6 +1,6 @@
 import time
 from ..基础接口 import 用户模式
-class C用户模式ev6(用户模式.I用户模式):
+class C用户模式_ev6(用户模式.I用户模式):
 	"""适用于: 浪潮s5350(v6.x)"""
 	def __init__(self, a设备):
 		self.m设备 = a设备
@@ -17,7 +17,7 @@ class C用户模式ev6(用户模式.I用户模式):
 		self.m设备.f解析登录后地址()
 	def f模式_全局配置(self):
 		from . import 全局配置
-		return 全局配置.C全局配置ev6(self.m设备)
+		return 全局配置.C全局配置_ev6(self.m设备)
 	def f模式_全局显示(self):
 		from . import 全局显示
-		return 全局显示.C全局显示ev6(self.m设备)
+		return 全局显示.C全局显示_ev6(self.m设备)

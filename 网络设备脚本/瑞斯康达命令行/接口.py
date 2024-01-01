@@ -4,10 +4,8 @@ from ..基础接口 import 接口 as 北向接口
 from ..命令行接口 import 命令
 from ..命令行接口 import 模式
 from ..命令行接口 import 接口 as 南向接口
-ca接口名称 = 北向接口.ca接口名称
-f创建接口 = 北向接口.F创建接口(ca接口名称)
 #s交换机v3
-ca接口名称sv3 = {
+ca接口名称_sv3 = 北向接口.ca接口名称 | {
 	北向接口.E类型.e空: "null",
 	北向接口.E类型.e环回: "loopback",
 	北向接口.E类型.e快速以太网: "fastethernet",
@@ -17,19 +15,13 @@ ca接口名称sv3 = {
 	北向接口.E类型.e虚拟局域网: "vlan",
 	北向接口.E类型.e堆叠: "isf-port",
 }
-ca接口缩写sv3 = {
+ca接口缩写_sv3 = ca接口名称_sv3 | {
 	北向接口.E类型.e环回: "LO",
 	北向接口.E类型.e堆叠: "ISF",
 	北向接口.E类型.e聚合: "PC",
 	北向接口.E类型.e吉以太网: "GE",
 	北向接口.E类型.e十吉以太网: "TGE",
 	北向接口.E类型.e快速以太网: "FE",
-	北向接口.E类型.e虚拟局域网: "VLAN",
-	北向接口.E类型.e空: "NULL",
 }
-class F生成接口sv3(北向接口.F生成接口):
-	def f生成名称(self, a类型):
-		return self.ma接口名称[a类型] + " "
-f生成接口sv3 = F生成接口sv3(ca接口名称sv3)
-f创建接口sv3 = 北向接口.F创建接口(ca接口名称sv3, f生成接口sv3)
-f创建接口缩写sv3 = 北向接口.F创建接口(ca接口缩写sv3, f生成接口sv3)
+f生成接口_sv3, f创建接口_sv3,  = 北向接口.F接口工厂(ca接口名称_sv3)
+f生成接口缩写_sv3, f创建接口缩写_sv3 = 北向接口.F接口工厂(ca接口缩写_sv3)

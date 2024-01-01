@@ -1,7 +1,7 @@
 import time
 import cflw代码库py.cflw字符串 as 字符串
 from ..网页接口 import 设备 as 网页设备
-class C设备ev6(网页设备.I设备):
+class C设备_ev6(网页设备.I设备):
 	"""适用于: 盛科e580(v6.x), 浪潮cn61108pcvh(v6.x), 浪潮s5350(v6.x)"""
 	def __init__(self, a连接, a型号, a版本):
 		网页设备.I设备.__init__(self, a连接)
@@ -12,7 +12,7 @@ class C设备ev6(网页设备.I设备):
 		self.m当前模式 = None
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户模式ev6(self)
+		return 用户模式.C用户模式_ev6(self)
 	def f解析登录后地址(self):
 		"""登录后调用
 		解析"http://x.x.x.x/web_index.cgi?sessionId=1573646679&lang=cn" """

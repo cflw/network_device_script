@@ -41,9 +41,9 @@ def f创建设备(a连接, a型号: int = 0, a版本 = 0):
 		if a型号 & E型号.c连结:
 			from .思科连结命令行 import 设备
 			if v版本 >= 9:
-				return 设备.C设备nv9(a连接, a型号, v版本)
+				return 设备.C设备_nv9(a连接, a型号, v版本)
 			elif v版本 >= 7:
-				return 设备.C设备nv7(a连接, a型号, v版本)
+				return 设备.C设备_nv7(a连接, a型号, v版本)
 			raise ValueError("不支持的版本")
 		else:
 			from .思科命令行 import 设备

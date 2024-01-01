@@ -63,7 +63,13 @@ def f创建设备(a连接, a型号 = 0, a版本 = 0):
 			return 设备.C设备(a连接, a型号, v版本)
 		elif v主版本 <= 7:
 			from .华三版本七命令行 import 设备 as 设备
-			return 设备.C设备v7(a连接, a型号, v版本)
+			if a型号 in (E型号.msr3620, E型号.s5820v2):
+				vt设备 = 设备.C设备_ev7
+			elif a型号 in (E型号.s9810,):
+				vt设备 = 设备.C设备_s9v7
+			else:
+				vt设备 = 设备.C设备_v7
+			return vt设备(a连接, a型号, v版本)
 		elif v主版本 <= 9:
 			raise ValueError("不支持的版本")
 		else:

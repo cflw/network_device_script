@@ -7,7 +7,7 @@ from ..思科命令行.常量 import *
 #===============================================================================
 # s系列(v3.x)
 #===============================================================================
-class C代理配置sv3(模式.C同级模式, 北向协议.I代理配置):
+class C代理配置_sv3(模式.C同级模式, 北向协议.I代理配置):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):
 		模式.C同级模式.__init__(self, a)
@@ -26,7 +26,7 @@ class C代理配置sv3(模式.C同级模式, 北向协议.I代理配置):
 		#Community exist. if you want to modify the community information,please input 'yes' to confirm:
 		if "confirm" in v输出:
 			self.m设备.f执行命令("yes")
-class C陷阱配置sv3(模式.C同级模式, 北向协议.I陷阱配置):
+class C陷阱配置_sv3(模式.C同级模式, 北向协议.I陷阱配置):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):
 		模式.C同级模式.__init__(self, a)

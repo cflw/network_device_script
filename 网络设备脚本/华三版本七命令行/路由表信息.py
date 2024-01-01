@@ -10,9 +10,10 @@ ca路由类型 = {
 	"OSPF": 北向路由.E路由类型.e开放最短路径优先,
 	"BGP": 北向路由.E路由类型.e边界网关协议,
 }
-class F路由表4(数据表.I解析表格管线):
+class F路由表4_v7(数据表.I解析表格管线):
 	"""display ip routing-table
-	适用于: 华三s3100v3(v7.1.*), 华三msr36系列(v7.1.*), 华三s5820v2(v7.1.075), 紫光s7800xp(v7.1.*)"""
+	适用于: 华三s3100v3(v7.1.*), 华三msr36系列(v7.1.*), 华三s5820v2(v7.1.075), 
+		紫光s5200(v7.1.*), 紫光s7800xp(v7.1.*)"""
 	c网络号 = 0
 	c类型 = 19
 	c优先级 = 27
@@ -23,12 +24,30 @@ class F路由表4(数据表.I解析表格管线):
 	c标题行 = "Destination/Mask   Proto   Pre Cost        NextHop         Interface"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e目标网络号, self.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
-		self.f添加字段(数据表.E字段.e目标路由类型, self.ca列[1], ca路由类型.get)
-		self.f添加字段(数据表.E字段.e目标管理距离, self.ca列[2], int)
-		self.f添加字段(数据表.E字段.e目标度量值, self.ca列[3], int)
-		self.f添加字段(数据表.E字段.e目标下一跳, self.ca列[4], 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e目的网络号, self.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
+		self.f添加字段(数据表.E字段.e目的路由类型, self.ca列[1], ca路由类型.get)
+		self.f添加字段(数据表.E字段.e目的管理距离, self.ca列[2], int)
+		self.f添加字段(数据表.E字段.e目的度量值, self.ca列[3], int)
+		self.f添加字段(数据表.E字段.e目的下一跳, self.ca列[4], 地址.S网络地址4.fc主机地址字符串)
 		self.f添加字段(数据表.E字段.e本端出接口, self.ca列[5], 实现接口.f创建接口缩写v7)
 	fi有效行 = staticmethod(数据表.F有效长度(c接口))
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
-f路由表4 = F路由表4()
+f路由表4_v7 = F路由表4_v7()
+class F路由表4_s9v7(数据表.I解析表格管线):
+	"""display ip routing-table
+	适用于: 华三s9810(v7.1.*)"""
+	c标题行0 = "Destination/Mask    Proto  Pre  Cost         NextHop         Interface"
+	c数据行0 = "0.0.0.0/0           Static 60   0            xxx.xxx.xxx.xxx Vlanxxxx"
+	ca列 = 数据表.f自动分列(c标题行0, c数据行0)
+	c网络号, c类型, c优先级, c开销, c下一跳, c接口 = ca列.fe列位置()
+	def __init__(self):
+		数据表.I解析表格管线.__init__(self)
+		self.f添加字段(数据表.E字段.e目的网络号, self.ca列[0], 地址.S网络地址4.fc地址前缀长度字符串)
+		self.f添加字段(数据表.E字段.e目的路由类型, self.ca列[1], ca路由类型.get)
+		self.f添加字段(数据表.E字段.e目的管理距离, self.ca列[2], int)
+		self.f添加字段(数据表.E字段.e目的度量值, self.ca列[3], int)
+		self.f添加字段(数据表.E字段.e目的下一跳, self.ca列[4], 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e本端出接口, self.ca列[5], 实现接口.f创建接口缩写s9v7)
+	fi有效行 = staticmethod(数据表.F有效长度(c接口))
+	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
+f路由表4_s9v7 = F路由表4_s9v7()

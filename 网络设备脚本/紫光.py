@@ -11,7 +11,8 @@ class E型号(enum.IntEnum):
 	c框式 = 0x02000000
 	c版本七 = 0x00040000	#uniware v7
 	c版本九 = 0x00080000	#uniware v9
-	s5200s = c交换机 + c盒式 + c版本七 + 5200
+	s5200 = c交换机 + c盒式 + c版本七 + 5200
+	s5200s = c交换机 + c盒式 + c版本七 + 5201
 	s5600 = c交换机 + c盒式 + c版本七 + 5600
 	s5600x = c交换机 + c盒式 + c版本七 + 5601
 	s6600x = c交换机 + c盒式 + c版本七 + 6601
@@ -33,7 +34,13 @@ def f创建设备(a连接, a型号 = 0, a版本 = 0):
 		v主版本 = v版本[0]
 		if v主版本 <= 7:
 			from .华三版本七命令行 import 设备 as 设备
-			return 设备.C设备v7(a连接, a型号, v版本)
+			if a型号 in (E型号.s5200, E型号.s5200s):
+				vt设备 = 设备.C设备_us5v7
+			elif a型号 in (E型号.s7800xp, E型号.s8600x):
+				vt设备 = 设备.C设备_s7v7
+			else:
+				vt设备 = 设备.C设备_v7
+			return vt设备(a连接, a型号, v版本)
 		else:
 			raise ValueError("不支持的版本")
 	raise ValueError("不支持的连接,型号,版本")

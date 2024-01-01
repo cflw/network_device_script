@@ -10,7 +10,7 @@ ca错误文本与异常类 = [
 	("% Too many parameters found at '^' position.", 异常.X命令),	#符号“^”指示位置的参数输入太多
 	("% Wrong parameter found at '^' position.", 异常.X命令),	#在符号“^”指示位置的参数错误
 ]
-class C设备v7(南向设备.I设备):
+class C设备_v7(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
 		南向设备.I设备.__init__(self, a连接)
 		self.fs自动换页("---- More ----")
@@ -24,7 +24,7 @@ class C设备v7(南向设备.I设备):
 		self.f输入(c结束符 + c回车符)
 	def f模式_用户(self):
 		from . import 用户模式
-		return 用户模式.C用户视图v7(self)
+		return 用户模式.C用户视图_v7(self)
 	def f模式_启动(self):
 		from . import 启动
 		return 启动.C启动v7(self)
@@ -40,3 +40,23 @@ class C设备v7(南向设备.I设备):
 		v输出 = self.f执行显示命令("display this", a自动换页 = True)
 		v输出 = 南向设备.f去头尾行(v输出)
 		return v输出
+class C设备_ev7(C设备_v7):
+	"""适用于: (模拟器)华三msr3620(v7.1.*), (模拟器)华三s5820v2(v7.1.*)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_ev7(self)
+class C设备_us5v7(C设备_v7):
+	"""适用于: 紫光s5200(v7.1.*)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_us5v7(self)
+class C设备_s7v7(C设备_v7):
+	"""适用于: 紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_s7v7(self)
+class C设备_s9v7(C设备_v7):
+	"""适用于: 华三S9810(v7.1.*)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_s9v7(self)

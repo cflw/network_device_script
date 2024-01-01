@@ -1,13 +1,13 @@
 import time
 from ..华三命令行 import 用户模式 as 旧用户模式
 from ..华为命令行.常量 import *
-class C用户视图v7(旧用户模式.C用户视图):
+class C用户视图_v7(旧用户模式.C用户视图):
 	def f模式_全局配置(self):
 		from . import 全局配置
-		return 全局配置.C系统视图v7(self)
+		return 全局配置.C系统视图_v7(self)
 	def f模式_全局显示(self):
 		from . import 全局显示
-		return 全局显示.C全局显示v7(self)
+		return 全局显示.C全局显示_v7(self)
 	#动作
 	def f登录(self, a用户名 = "", a密码 = ""):
 		self.m设备.f切换到当前连接()
@@ -29,3 +29,38 @@ class C用户视图v7(旧用户模式.C用户视图):
 		time.sleep(0.5)
 		self.m设备.mf自动登录 = self.f自动登录
 		self.f切换到当前模式()
+class C用户视图_ev7(C用户视图_v7):
+	"""适用于: (模拟器)华三msr3620(v7.1.*), (模拟器)华三s5820v2(v7.1.*)"""
+	def __init__(self, a):
+		C用户视图_v7.__init__(self, a)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_s5v7(self)
+class C用户视图_s5v7(C用户视图_v7):
+	"""适用于: 华三S5560X(v7.1.*)"""
+	def __init__(self, a):
+		C用户视图_v7.__init__(self, a)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_s5v7(self)
+class C用户视图_s7v7(C用户视图_v7):
+	"""适用于: 紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*)"""
+	def __init__(self, a):
+		C用户视图_v7.__init__(self, a)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_s7v7(self)
+class C用户视图_us5v7(C用户视图_v7):
+	"""适用于: 紫光s5200(v7.1.*)"""
+	def __init__(self, a):
+		C用户视图_v7.__init__(self, a)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_us5v7(self)
+class C用户视图_s9v7(C用户视图_v7):
+	"""适用于: 华三S9810(v7.1.*)"""
+	def __init__(self, a):
+		C用户视图_v7.__init__(self, a)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_s9v7(self)

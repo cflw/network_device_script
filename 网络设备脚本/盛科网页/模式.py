@@ -1,5 +1,5 @@
 import enum
-class E模式ev6(enum.IntEnum):
+class E模式_ev6(enum.IntEnum):
 	"""适用于: 浪潮s5350(v6.x)"""
 	e设备概况 = enum.auto()
 
@@ -83,7 +83,7 @@ class E模式ev6(enum.IntEnum):
 	e工具_Traceroute = enum.auto()
 
 	e重启保存 = enum.auto()
-class C模式ev6:
+class C模式_ev6:
 	"""适用于: 浪潮s5350(v6.x)"""
 	c设备概况 = "web_device.cgi"
 	c系统管理_文件管理 = "web_file.cgi"

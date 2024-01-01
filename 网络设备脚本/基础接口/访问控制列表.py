@@ -211,9 +211,9 @@ class S规则:
 	允许: bool, 决定动作是permit还是deny\n
 	协议: int, 值来自E协议\n
 	源地址: S网络地址4\n
-	目标地址: S网络地址4\n
+	目的地址: S网络地址4\n
 	源端口: S端口\n
-	目标端口: S端口"""
+	目的端口: S端口"""
 	#方法
 	def __init__(self, **a):
 		self.m序号 = -1	#添加规则时不使用该序号,解析规则时赋值
@@ -358,7 +358,7 @@ class I列表配置:
 	def f应用到(self, a模式, a方向, a操作):
 		raise NotImplementedError()
 class I助手:
-	"用来计算到目标设备的访问控制列表编号, 原始参数的n从0开始"
+	"用来计算到目的设备的访问控制列表编号, 原始参数的n从0开始"
 	@staticmethod
 	def ft特定编号(n, a类型):
 		return n

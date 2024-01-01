@@ -74,8 +74,22 @@ class C用户模式(用户模式.I用户模式):
 		# v命令.f前置否定(a开关, c不)
 		# self.m设备.f执行用户命令(v命令)
 	#内部
-	def fg版本信息(self):
+	def fg版本信息(self):	#需重写
 		if time.time() - self.m版本信息时间 >= 60:	#超过1分种则刷新
 			v输出 = self.m设备.f执行显示命令("show version")
 			self.m版本信息 = C版本信息(v输出)
 		return self.m版本信息
+class C用户模式_v11(C用户模式):
+	"""适用于: 浪潮s6550(v11.12)"""
+	def __init__(self, a设备):
+		C用户模式.__init__(self, a设备)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_v11(self)
+class C用户模式_v12(C用户模式):
+	"""适用于: 浪潮s5960(v12.2)"""
+	def __init__(self, a设备):
+		C用户模式.__init__(self, a设备)
+	def f模式_全局显示(self):
+		from . import 全局显示
+		return 全局显示.C全局显示_v12(self)

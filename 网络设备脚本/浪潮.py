@@ -30,31 +30,48 @@ def f创建设备(a连接, a型号, a版本):
 	if 连接层.fi命令行(a连接):	#命令行
 		if a型号 & E型号.c思科:
 			from .思科命令行 import 设备
-			return 设备.C设备(a连接, a型号, v版本)
-		if a型号 & E型号.c思科连结:
+			if v版本 < 12:
+				vt设备 = 设备.C设备_v11
+			elif v版本 < 15:
+				vt设备 = 设备.C设备_v12
+			else:	# >= 15
+				vt设备 = 设备.C设备
+		elif a型号 & E型号.c思科连结:
 			from .思科连结命令行 import 设备
 			if v版本 >= 9:
-				return 设备.C设备nv9(a连接, a型号, v版本)
+				vt设备 = 设备.C设备_nv9
+			elif v版本 >= (7,3):
+				vt设备 = 设备.C设备_nv7_3
 			elif v版本 >= 7:
-				return 设备.C设备nv7(a连接, a型号, v版本)
-			raise ValueError("不支持的版本")
-		if a型号 & E型号.c盛科:
+				vt设备 = 设备.C设备_nv7
+			else:
+				raise ValueError("不支持的版本")
+		elif a型号 & E型号.c盛科:
 			from .盛科命令行 import 设备
 			if v版本 >= 6:
-				return 设备.C设备ev6(a连接, a型号, v版本)
-			raise ValueError("不支持的版本")
-		if a型号 & E型号.c瑞斯康达:
+				if a型号 == E型号.cn61108pcvh:
+					vt设备 = 设备.C设备_e580v6
+				elif a型号 == E型号.s5350:
+					vt设备 = 设备.C设备_e530v6
+				else:
+					vt设备 = 设备.C设备_ev6
+			else:
+				raise ValueError("不支持的版本")
+		elif a型号 & E型号.c瑞斯康达:
 			from .瑞斯康达命令行 import 设备
 			if v版本 < (3,60):
-				return 设备.C设备sv3_50(a连接, a型号, v版本)
+				vt设备 = 设备.C设备sv3_50
 			else:
-				return 设备.C设备sv3_60(a连接, a型号, v版本)
-		if a型号 & E型号.c博科:
+				vt设备 = 设备.C设备sv3_60
+		elif a型号 & E型号.c博科:
 			raise ValueError("不支持的型号")
+		else:
+			raise ValueError("不支持的型号")
+		return vt设备(a连接, a型号, v版本)
 	elif 连接层.fi网页(a连接):	#网页
 		if a型号 & E型号.c盛科:
 			from .盛科网页 import 设备
-			return 设备.C设备ev6(a连接, a型号, a版本)
+			return 设备.C设备_ev6(a连接, a型号, a版本)
 	elif 连接层.fi简单网管(a连接):	#简单网络管理协议
 		if a型号 & E型号.c思科:
 			from .思科简单网管 import 设备

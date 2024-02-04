@@ -54,7 +54,11 @@ def f创建设备(a连接, a型号 = 0, a版本 = 0):
 		else:
 			v版本 = 工具.S版本号.fc自动(5)
 	else:
-		v版本 = 工具.S版本号.fc自动(a版本)
+		from .华三命令行 import 版本
+		if type(a版本) == str:
+			v版本 = 版本.f解析版本字符串(a版本)
+		else:
+			v版本 = 工具.S版本号.fc自动(a版本)
 	#创建设备
 	if 连接层.fi命令行(a连接):	#命令行
 		v主版本 = v版本[0]
@@ -63,10 +67,16 @@ def f创建设备(a连接, a型号 = 0, a版本 = 0):
 			return 设备.C设备(a连接, a型号, v版本)
 		elif v主版本 <= 7:
 			from .华三版本七命令行 import 设备 as 设备
+			v发行号 = v版本[3]
 			if a型号 in (E型号.msr3620, E型号.s5820v2):
 				vt设备 = 设备.C设备_ev7
 			elif a型号 in (E型号.s9810,):
 				vt设备 = 设备.C设备_s9v7
+			elif a型号 == E型号.s5560x:	#S5560X-54C-EI, S5560X-30F-EI
+				if v发行号 < 6526:	#Version 7.1.070, Release 1119P20
+					vt设备 = 设备.C设备_sv7_2019
+				else:	#Version 7.1.070, Release 6526
+					vt设备 = 设备.C设备_s5v7
 			else:
 				vt设备 = 设备.C设备_v7
 			return vt设备(a连接, a型号, v版本)

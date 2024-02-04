@@ -5,13 +5,13 @@ class C全局显示af8035(全局显示.I全局显示):
 	def __init__(self, a设备):
 		self.m设备 = a设备
 	def f显示_中央处理器利用率(self):
-		self.m设备.f切换模式(模式.C模式af8035.c首页)
+		self.m设备.f切换模式(模式.C模式_af8035.c首页)
 		c路径 = "/html/body/div[2]/div/div/div[2]/div/div[2]/div[2]/div[1]/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div[6]/div[2]/div/div/div/div/div[1]/div/div[2]/div/div/div/div[1]/div/div[2]/div/span[1]/span"
 		w利用率 = self.m设备.f查找(c路径)
 		from . import 系统信息
 		return 系统信息.f解析利用率af8035(w利用率.fg文本())
 	def f显示_内存利用率(self):
-		self.m设备.f切换模式(模式.C模式af8035.c首页)
+		self.m设备.f切换模式(模式.C模式_af8035.c首页)
 		c路径 = "/html/body/div[2]/div/div/div[2]/div/div[2]/div[2]/div[1]/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div[6]/div[2]/div/div/div/div/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div/span[1]/span"
 		w利用率 = self.m设备.f查找(c路径)
 		from . import 系统信息

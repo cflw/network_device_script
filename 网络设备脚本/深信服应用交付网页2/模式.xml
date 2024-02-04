@@ -1,0 +1,75 @@
+<模式>
+	<侧栏 名称="运行概览">
+		<侧栏 名称="首页" url路径="/mod_runtime/homepage/index"></侧栏>
+		<侧栏 名称="虚拟服务" url路径="/mod_runtime/virtual_service/index"></侧栏>
+		<侧栏 名称="节点池" url路径="/mod_runtime/pool/index"></侧栏>
+		<侧栏 名称="业务主机" url路径="/mod_runtime/business/index"></侧栏>
+		<侧栏 名称="链路状态" url路径="/mod_runtime/link/index"></侧栏>
+		<侧栏 名称="全局负载" url路径="/mod_runtime/dns_overview/index"></侧栏>
+		<侧栏 名称="数据中心" url路径="/mod_runtime/data_center/index"></侧栏>
+		<侧栏 名称="设备状态" url路径="/mod_runtime/device/index"></侧栏>
+		<侧栏 名称="实时状态" url路径="/mod_runtime/status/index"></侧栏>
+		<侧栏 名称="日志查看" url路径="/mod_runtime/alarm_log/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="应用负载">
+		<侧栏 名称="虚拟服务" url路径="/mod_ad/virtual_service/index"></侧栏>
+		<侧栏 名称="节点池" url路径="/mod_ad/node_pool/index"></侧栏>
+		<侧栏 名称="业务主机" url路径="/mod_ad/business/index"></侧栏>
+		<侧栏 名称="前置策略" url路径="/mod_ad/previous/index"></侧栏>
+		<侧栏 名称="SSL策略" url路径="/mod_ad/ssl/index"></侧栏>
+		<侧栏 名称="优化策略" url路径="/mod_ad/optimization/index"></侧栏>
+		<侧栏 名称="安全策略" url路径="/mod_ad/security/index"></侧栏>
+		<侧栏 名称="iPro" url路径="/mod_ad/ipro/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="链路负载">
+		<侧栏 名称="智能路由" url路径="/mod_link/intelligent_router/index"></侧栏>
+		<侧栏 名称="DNS代理" url路径="/mod_link/dns_proxy/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="全局负载">
+		<侧栏 名称="DNS服务器" url路径="/mod_dns/dns_server/index"></侧栏>
+		<侧栏 名称="域名发布" url路径="/mod_dns/dns_server/index"></侧栏>
+		<侧栏 名称="静态就近性" url路径="/mod_dns/dns_server/index"></侧栏>
+		<侧栏 名称="数据中心配置" url路径="/mod_dns/dns_server/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="资源管理">
+		<侧栏 名称="证书管理" url路径="/mod_object/certificate/index"></侧栏>
+		<侧栏 名称="自定义内容" url路径="/mod_object/http/index"></侧栏>
+		<侧栏 名称="规则地址库" url路径="/mod_object/rule/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="网络部署">
+		<侧栏 名称="网络接口" url路径="/mod_network/interface/index">
+			<标签栏 名称="链路IP配置" ut标识="mod_network.interface.page.net_ip.tab"></标签栏>
+			<标签栏 名称="链路健康检查" ut标识="mod_network.interface.page.net_check.tab"></标签栏>
+			<标签栏 名称="端口聚合" ut标识="mod_network.interface.page.wan.tab"></标签栏>
+			<标签栏 名称="端口桥接" ut标识="mod_network.interface.page.bridge.tab"></标签栏>
+			<标签栏 名称="VLAN子接口" ut标识="mod_network.interface.page.vlan.tab"></标签栏>
+			<标签栏 名称="网口配置" ut标识="mod_network.interface.page.speed_duplexing.tab"></标签栏>
+		</侧栏>
+		<侧栏 名称="地址转换" url路径="/mod_network/nat/index"></侧栏>
+		<侧栏 名称="网络安全" url路径="/mod_network/security/index"></侧栏>
+		<侧栏 名称="静态路由" url路径="/mod_network/static_router/index"></侧栏>
+		<侧栏 名称="动态路由" url路径="/mod_network/dynamic_router/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="系统管理">
+		<侧栏 名称="通用配置" url路径="/mod_system/common/index">
+			<标签栏 名称="管理口配置" ut标识="mod_system.common.page.ManagementPort.tab"></标签栏>
+			<标签栏 名称="登录配置" ut标识="mod_system.common.page.WEBUI.tab"></标签栏>
+			<标签栏 名称="SSH命令行配置" ut标识="mod_system.common.page.SSH.tab"></标签栏>
+			<标签栏 名称="授权管理" ut标识="mod_system.common.page.AuthorizeManage.tab"></标签栏>
+			<标签栏 名称="SMTP" ut标识="mod_system.common.page.SMTP.tab"></标签栏>
+			<标签栏 名称="日期/时间" ut标识="mod_system.common.page.Date.tab"></标签栏>
+			<标签栏 名称="HOSTS" ut标识="mod_system.common.page.Hosts.tab"></标签栏>
+			<标签栏 名称="网络参数" ut标识="mod_system.common.page.Network.tab"></标签栏>
+		</侧栏>
+		<侧栏 名称="SNMP" url路径="/mod_system/snmp/index"></侧栏>
+		<侧栏 名称="告警日志配置" url路径="/mod_system/alarm/index"></侧栏>
+		<侧栏 名称="系统维护" url路径="/mod_system/maintenance/index"></侧栏>
+		<侧栏 名称="调试排障" url路径="/mod_system/debug/index"></侧栏>
+		<侧栏 名称="报表设置" url路径="/mod_system/report/index"></侧栏>
+		<侧栏 名称="补丁更新" url路径="/mod_system/patchupdate/index"></侧栏>
+	</侧栏>
+	<侧栏 名称="高可用性">
+		<侧栏 名称="模式" url路径="/mod_ha/mode/index"></侧栏>
+		<侧栏 名称="主备信息" url路径="/mod_ha/standby_manage/index"></侧栏>
+	</侧栏>
+</模式>

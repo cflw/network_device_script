@@ -55,13 +55,17 @@ class C元素:
 		return x, y, x + v宽, y + v高
 	def fi选中(self):
 		return self.m元素.is_selected()
+	def fi显示(self):
+		return self.m元素.is_displayed()
+	def fi隐藏(self):
+		return not self.m元素.is_displayed()
 #包装函数
 def f有包装(a元素):
 	return a元素 if type(a元素) == C元素 else C元素(a元素)
-def f没包装(a元素):
+def f去包装(a元素):
 	return a元素.m元素 if type(a元素) == C元素 else a元素
 def F包装(a包装: bool):
-	return f有包装 if a包装 else f没包装
+	return f有包装 if a包装 else f去包装
 def f包装(a元素, a包装: bool = True):
 	if type(a元素) == C元素:
 		return a元素 if a包装 else a元素.m元素

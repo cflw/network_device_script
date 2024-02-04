@@ -1,0 +1,110 @@
+<模式>
+	<侧栏 名称="主页" x序号="1" url路径="/cgi-bin/main.cgi?action=wel&amp;modify=0"></侧栏>
+	<侧栏 名称="系统概况" x序号="2">
+		<侧栏 名称="活动查看" url路径="/cgi-bin/viewer/active_view/activity.cgi?action=view_sys"></侧栏>
+		<侧栏 名称="大屏可视" url路径="/cgi-bin/viewer/big_screen_view/big_screen.cgi?action=init"></侧栏>
+		<侧栏 名称="虚拟服务详情" url路径="/cgi-bin/viewer/vs_info/view_vs_state.cgi?action=init"></侧栏>
+		<侧栏 名称="智能DNS统计" url路径="/cgi-bin/viewer/gfad_domain/gfad_domain.cgi?action=view_domain"></侧栏>
+		<侧栏 名称="DDoS攻击分析" url路径="/cgi-bin/viewer/ddos_stat/ddos_analysis.cgi?action=init"></侧栏>
+		<侧栏 名称="链路状态" url路径="/cgi-bin/viewer/link_stat/view_whole.cgi?action=init"></侧栏>
+		<侧栏 名称="节点状态" url路径="/cgi-bin/viewer/node_pool_stat/pool_stat.cgi?action=init"></侧栏>
+		<侧栏 名称="接口状态" url路径="/cgi-bin/viewer/snmp_interface/snmp_interface.cgi?action=init"></侧栏>
+		<侧栏 名称="DNS状态" url路径="/cgi-bin/viewer/dns_view/dns_view.cgi?action=view"></侧栏>
+		<侧栏 名称="智能路由状态" url路径="/cgi-bin/viewer/policy_route_view/policy_route_view.cgi?action=init"></侧栏>
+		<侧栏 名称="虚拟IP池状态" url路径="/cgi-bin/viewer/ip_pool_stat/ip_pool_stat.cgi?action=list"></侧栏>
+		<侧栏 名称="动态路由表" url路径="/cgi-bin/viewer/route_table_stat/route_table.cgi?action=view"></侧栏>
+		<侧栏 名称="日志查看" url路径="/cgi-bin/webui_sys.cgi?requestname=18&amp;cmd=0"></侧栏>
+	</侧栏>
+	<侧栏 名称="报表配置" x序号="4">
+		<侧栏 名称="报表生成"></侧栏>
+		<侧栏 名称="报表中心"></侧栏>
+	</侧栏>
+	<侧栏 名称="公共对象" x序号="6">
+		<侧栏 名称="应用规则库"></侧栏>
+		<侧栏 名称="用户地址集"></侧栏>
+		<侧栏 名称="域名地址集"></侧栏>
+		<侧栏 名称="IP地址集"></侧栏>
+		<侧栏 名称="时间计划"></侧栏>
+		<侧栏 名称="脚本规则"></侧栏>
+		<侧栏 名称="自定义内容"></侧栏>
+	</侧栏>
+	<侧栏 名称="数据中心" x序号="8">
+		<侧栏 名称="状态概览"></侧栏>
+		<侧栏 名称="数据中心"></侧栏>
+		<侧栏 名称="本地服务设备"></侧栏>
+	</侧栏>
+	<侧栏 名称="应用负载" x序号="10">
+		<侧栏 名称="服务"></侧栏>
+		<侧栏 名称="IP组"></侧栏>
+		<侧栏 名称="会话保持"></侧栏>
+		<侧栏 名称="节点监视器"></侧栏>
+		<侧栏 名称="节点池"></侧栏>
+		<侧栏 名称="SSL"></侧栏>
+		<侧栏 名称="策略"></侧栏>
+		<侧栏 名称="虚拟服务"></侧栏>
+	</侧栏>
+	<侧栏 名称="智能DNS" x序号="12">
+		<侧栏 名称="DNS服务器"></侧栏>
+		<侧栏 名称="DNS记录"></侧栏>
+		<侧栏 名称="虚拟IP池"></侧栏>
+		<侧栏 名称="DNS映射"></侧栏>
+		<侧栏 名称="LDNS集合"></侧栏>
+		<侧栏 名称="静态就近性"></侧栏>
+		<侧栏 名称="全局配置还原"></侧栏>
+	</侧栏>
+	<侧栏 名称="路由配置" x序号="14">
+		<侧栏 名称="智能路由"></侧栏>
+		<侧栏 名称="静态路由"></侧栏>
+		<侧栏 名称="虚拟IP路由"></侧栏>
+		<侧栏 名称="IP Anycast"></侧栏>
+		<侧栏 名称="RIP"></侧栏>
+		<侧栏 名称="OSPF"></侧栏>
+		<侧栏 名称="BGP"></侧栏>
+		<侧栏 名称="OSPFV3"></侧栏>
+	</侧栏>
+	<侧栏 名称="网络配置" x序号="16">
+		<侧栏 名称="网络接口">
+			<标签栏 名称="网络接口" url路径="/cgi-bin/net/net_interface/net_interface.cgi?action=list"></标签栏>
+			<标签栏 名称="交换网口" url路径="/cgi-bin/net/net_switch/net_switch.cgi?action=list"></标签栏>
+			<标签栏 名称="端口聚合" url路径="/cgi-bin/net/net_bond/net_bond.cgi?action=list"></标签栏>
+			<标签栏 名称="PPPOE网口" url路径="/cgi-bin/net/net_pppoe/net_pppoe.cgi?action=list"></标签栏>
+			<标签栏 名称="VLAN子接口" url路径="/cgi-bin/net/net_vlan/net_vlan.cgi?action=list"></标签栏>
+			<标签栏 名称="接口模式" url路径="/cgi-bin/net/net_eth_mode/net_eth_mode.cgi?action=edit"></标签栏>
+		</侧栏>
+		<侧栏 名称="链路监视器" url路径="/cgi-bin/ad/monitor/monitor.cgi?action=monitor_list"></侧栏>
+		<侧栏 名称="源地址转换" url路径="/cgi-bin/ad/snat/snat.cgi?action=list"></侧栏>
+		<侧栏 名称="端口映射" url路径="/cgi-bin/net/mapped/portMap.cgi?action=list"></侧栏>
+		<侧栏 名称="DNS代理" url路径="/cgi-bin/net/dns/dns.cgi?action=edit"></侧栏>
+		<侧栏 名称="网络安全" url路径="/cgi-bin/net/dos/dos.cgi?action=list"></侧栏>
+		<侧栏 名称="ACL配置" url路径="/cgi-bin/net/acl_basic/acl_basic.cgi?action=list"></侧栏>
+	</侧栏>
+	<侧栏 名称="系统配置" x序号="18">
+		<侧栏 名称="设备管理">
+			<侧栏 名称="管理网口" url路径="/cgi-bin/sys/adminif/systemAdminif.cgi?action=edit"></侧栏>
+			<侧栏 名称="日期时间" url路径="/cgi-bin/sys/system_time/systemTime.cgi?action=edit"></侧栏>
+			<侧栏 名称="配置备份与恢复" url路径="/cgi-bin/sys/backup/backup_conf.cgi?action=list"></侧栏>
+			<侧栏 名称="关机重启" url路径="/cgi-bin/sys/reboot/systemReboot.cgi?action=list"></侧栏>
+			<侧栏 名称="控制台" url路径="/cgi-bin/sys/console/web_console.cgi"></侧栏>
+			<侧栏 名称="其他设置" url路径="/cgi-bin/sys/privacy/other.cgi?action=listsafe"></侧栏>
+		</侧栏>
+		<侧栏 名称="序列号" url路径="/cgi-bin/sys/sn/adSNinfor.cgi?action=edit"></侧栏>
+		<侧栏 名称="用户">
+			<侧栏 名称="用户" url路径="/cgi-bin/sys/user/userAdmin.cgi?action=userlist"></侧栏>
+			<侧栏 名称="角色" url路径="/cgi-bin/sys/user/userAdmin.cgi?action=rolelist"></侧栏>
+			<侧栏 名称="外部认证登录" url路径="/cgi-bin/sys/external_auth/externalAuth.cgi?action=edit"></侧栏>
+		</侧栏>
+		<侧栏 名称="SMTP服务器"></侧栏>
+		<侧栏 名称="SNMP"></侧栏>
+		<侧栏 名称="告警"></侧栏>
+		<侧栏 名称="日志设置"></侧栏>
+		<侧栏 名称="系统更新"></侧栏>
+	</侧栏>
+	<侧栏 名称="配置向导" x序号="20">
+		<侧栏 名称="应用负载模板"></侧栏>
+		<侧栏 名称="智能路由向导"></侧栏>
+	</侧栏>
+	<侧栏 名称="高可用性" x序号="22">
+		<侧栏 名称="模式"></侧栏>
+		<侧栏 名称="主备"></侧栏>
+	</侧栏>
+</模式>

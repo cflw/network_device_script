@@ -60,3 +60,13 @@ class C设备_s9v7(C设备_v7):
 	def f模式_用户(self):
 		from . import 用户模式
 		return 用户模式.C用户视图_s9v7(self)
+class C设备_s5v7(C设备_v7):
+	"""适用于: 华三s5560x(v7.1.070 r6526)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_s5v7(self)
+class C设备_sv7_2019(C设备_v7):
+	"""适用于: 华三s5560x(v7.1.070 r1119p20), 紫光s5600(v7.1.070 r7734p05)"""
+	def f模式_用户(self):
+		from . import 用户模式
+		return 用户模式.C用户视图_sv7_2019(self)

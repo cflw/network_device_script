@@ -23,7 +23,7 @@ class I设备(设备.I设备):
 			return 元素.f包装(v元素, a包装)
 		except exceptions.NoSuchElementException as e:
 			return None
-	def f查找_直到(self, a找, af条件 = 运算.f总是真, a超时: float = 10, a包装: bool = True):
+	def f查找_直到(self, a找: str, af条件 = 运算.f总是真, a超时: float = 10, a包装: bool = True):
 		v计时 = 时间.C循环阻塞(a超时)
 		while v计时.f滴答():
 			if v元素 := self.f查找(a找, a包装):
@@ -34,12 +34,12 @@ class I设备(设备.I设备):
 		f包装0 = 元素.F包装(a包装)
 		for v元素 in self.m连接.find_elements(By.XPATH, a找):
 			yield f包装0(v元素)
-	def f等待存在(self, a找, a超时 = 10):
+	def f等待存在(self, a找: str, a超时 = 10):
 		v计时 = 时间.C循环阻塞(a超时)
 		while v计时.f滴答():
 			if self.f查找(a找):
 				return
-	def f等待不存在(self, a找, a超时 = 10):
+	def f等待不存在(self, a找: str, a超时 = 10):
 		v计时 = 时间.C循环阻塞(a超时)
 		while v计时.f滴答():
 			if not self.f查找(a找):

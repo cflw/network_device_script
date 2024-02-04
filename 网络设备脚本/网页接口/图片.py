@@ -1,9 +1,8 @@
 import io
-import tkinter
-import PIL.Image	#pillow
 import cflw代码库py.cflw时间 as 时间
 from . import 元素
 def f取元素图片(a设备, a元素):
+	import PIL.Image	#pillow
 	v数据 = a设备.get_screenshot_as_png()
 	v输入 = io.BytesIO(v数据)
 	v图片 = PIL.Image.open(v输入)

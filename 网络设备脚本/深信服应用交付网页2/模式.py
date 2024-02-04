@@ -19,12 +19,13 @@ def f创建模式树(a模式栈: tuple, a序号: int, a父: ET.Element):
 			return S模式(a序号, v名称, None), va子节点
 		case "侧栏":
 			return S模式(a序号, v名称, a父.get("url路径")), va子节点
-		case "标签栏":
-			return S模式(a序号, v名称, a父.get("url路径")), va子节点
+		case "标签栏":	#通过标签按钮的utid属性查找元素
+			#v路径 = f"/html/body/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]/div[1]/ul/li[{a序号+1}]/a[2]/em/span/span"
+			return S模式(a序号, v名称, a父.get("ut标识")), va子节点
 		case _:
 			raise ValueError("标签名错误")
 def f创建模式类(a模式树):
-	v对象 = type("C模式_ad70", (object,), {})()	#创建空白对象
+	v对象 = type("C模式_ad705", (object,), {})()	#创建空白对象
 	c起始前缀 = "c"
 	def f创建模式类0(a模式树0, a常量名称0, a模式栈0):
 		v模式, va子节点 = a模式树0
@@ -54,4 +55,4 @@ def f创建模式():
 	v模式树 = f创建模式树((), 0, v根)
 	v对象 = f创建模式类(v模式树)
 	return v对象
-C模式_ad70 = f创建模式()
+C模式_ad705 = f创建模式()

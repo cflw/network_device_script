@@ -12,6 +12,7 @@ ca错误文本与异常类 = [
 	("% The Sequence number has existed", 异常.X执行),	#重复的acl规则序号
 	#("% Multiple ports are allowed on named ACLs only", 异常.X执行),	#多端口号只允许在命名acl使用
 	("% Unsupport port speed ability", 异常.X执行),	#敲"speed 速率"时端口不支持会报错
+	("% Can't find the access list", 异常.X执行),	#acl不存在
 ]
 class C设备_ev6(南向设备.I设备):
 	def __init__(self, a连接, a型号, a版本):
@@ -38,14 +39,13 @@ class C设备_ev6(南向设备.I设备):
 		v输出 = self.f执行命令(v命令)
 		v输出 = v输出.replace("\r\n", "\n")
 		return v输出
-	def f执行显示命令(self, a命令, a自动换页 = True):
+	def f处理显示命令(self, a命令):
 		v命令 = 命令.C命令(a命令)
 		#在配置模式，命令前要加个do
 		#在配置模式可以直接敲show running-config
 		if not isinstance(self.fg当前模式(), 用户模式.I用户模式):
 			v命令.f前面添加(c做)
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
-		return self.f处理显示结果(v输出)
+		return str(v命令)
 	def f处理显示结果(self, a输出):
 		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)

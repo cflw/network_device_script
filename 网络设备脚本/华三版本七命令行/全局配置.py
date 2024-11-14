@@ -38,16 +38,19 @@ class C系统视图_v7(旧全局配置.C系统视图):
 		from . import 访问控制列表 as 实现列表
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
 		if v类型 == 北向列表.E类型.e标准4:
-			return 实现列表.C基本4_v7(self, v名称)
+			return 实现列表.C基本4配置_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展4:
-			return 实现列表.C高级4_v7(self, v名称)
+			return 实现列表.C高级4配置_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e标准6:
-			return 实现列表.C基本6_v7(self, v名称)
+			return 实现列表.C基本6配置_v7(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展6:
-			return 实现列表.C高级6_v7(self, v名称)
+			return 实现列表.C高级6配置_v7(self, v名称)
 		else:
 			raise ValueError("错误的类型")
 	#服务
+	def f模式_安全外壳(self):
+		from . import 安全外壳
+		return 安全外壳.C安全外壳配置_v7(self)
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from ..华三命令行 import 网络时间协议
 		if a端 == 操作.E端.e服务器:

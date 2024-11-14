@@ -8,7 +8,8 @@ from ..基础接口 import 连接
 from ..基础接口 import 设备
 from ..基础接口 import 操作
 from ..基础接口 import 异常
-from ..命令行接口 import 模式
+from . import 等待
+from . import 模式
 #===============================================================================
 # 准备
 #===============================================================================
@@ -62,7 +63,6 @@ class I设备(设备.I设备):
 	def fs等待响应时间(self, a首次等待 = c首次等待, a等待 = c等待):
 		self.m首次等待 = a首次等待
 		self.m等待 = a等待
-		self.m间隔 = a等待 / 10
 	def fs自动换页(self, a文本):
 		"设置自动换页标记"
 		self.m自动换页文本 = a文本
@@ -86,39 +86,25 @@ class I设备(设备.I设备):
 		if self.m等待回显:
 			print(".", end = '', flush = True)
 	def f设备_停顿(self, a倍数 = 1):
+		"""手动等待间隔时间"""
 		time.sleep(self.m间隔 * a倍数)
-	def fs已登录(self):
-		self.mi登录 = True
 	#输入输出
 	def f输入(self, a文本):
 		self.f设备_停顿()
 		self.m连接.f写(a文本)
 	def f输出(self, a等待 = False):
 		"读取输出缓存中的内容, 清除输出缓存"
-		#不等待
-		if not a等待:
-			v内容 = self.m连接.f读_最新()
-			self.f设备_回显(v内容)
-			return v内容
-		#有等待
-		v等待计时 = 0
-		v等待上限 = self.m首次等待
+		v等待 = self.f解析等待(a等待)
 		v内容 = ""
 		while True:
 			v读 = self.m连接.f读_最新()
 			if v读:
 				v内容 += v读
-				v等待计时 = 0
-				v等待上限 = self.m等待
-				time.sleep(self.m间隔)
-				continue
-			else:
-				v等待计时 += self.m间隔
-				if v等待计时 >= v等待上限:
+				if v等待.fi结束(v内容):
 					break
-				else:
-					time.sleep(self.m间隔)
-					continue
+			v等待.f继续等待()
+			if v等待.fi超时():
+				break
 		self.f设备_回显(v内容)
 		return v内容
 	def f输入_回车(self, a数量 = 1, a等待 = 1):
@@ -172,10 +158,11 @@ class I设备(设备.I设备):
 		self.f执行命令(a命令)
 		if a自动提交:
 			self.f自动提交(操作.E自动提交.e立即)
-	def f执行显示命令(self, a命令, a自动换页 = True):
-		"有自动换页功能"
+	def f执行显示命令(self, a命令, a自动换页 = True, a等待 = None):	#参数太多,以后可能增加参数,禁止派生类重写此函数
+		"""执行显示命令并处理输出"""
 		#准备命令
-		v命令 = str(a命令)
+		self.f准备显示()
+		v命令 = self.f处理显示命令(a命令)
 		if v命令 == self.m历史命令:
 			return self.m历史输出
 		self.m历史命令 = v命令
@@ -183,39 +170,42 @@ class I设备(设备.I设备):
 		self.f刷新()
 		self.f输入(v命令)
 		self.f输入_回车()
-		return self.f输出显示结果(a自动换页)
-	def f输出显示结果(self, a自动换页 = True, a最小等待 = c等待):
+		v输出 = self.f输出显示结果(a自动换页, a等待 = a等待)
+		return self.f处理显示结果(v输出)
+	def f准备显示(self):	#显示管线,执行显示命令前做一些准备操作(比如:切换模式,检查状态)
+		pass	#默认什么都不做
+	def f处理显示命令(self, a命令): #显示管线,执行命令前预处理命令
+		return str(a命令)
+	def f输出显示结果(self, a自动换页 = True, a等待 = None):	#显示管线,确定如何输出
 		v输出 = ''
-		v计时 = 时间.C秒表()
+		v等待 = self.f解析等待(a等待)
 		if a自动换页:
 			vi有换页 = False
 			while True:
-				v读 = self.f输出(a等待 = True)
+				v读 = self.f输出(a等待 = v等待)
 				v输出 += v读
 				if self.mf换页判断(self, v读):	#还有更多
 					self.f输入_空格()
 					self.f设备_等待回显()
+					v等待.f重置计时()
 					vi有换页 = True
 					continue
 				else:	#没有更多
-					if v计时.f滴答() < a最小等待:
-						continue
-					else:
-						break
+					break
 			if vi有换页:
 				v输出 = self.f自动换页替换(v输出)
 		else:
-			v输出 = self.f输出(a等待 = True)
+			v输出 = self.f输出(a等待 = v等待)
 			if self.mf换页判断(self, v输出):	#还有更多
 				self.f停止显示()
 		self.m历史输出 = v输出.replace("\r\n", "\n")
 		return self.m历史输出
-	def f停止显示(self):
+	def f停止显示(self):	#显示管线,停止换页时调用,输入停止符
 		self.f输入_任意键()
-	def f处理显示结果(self, a输出):
+	def f处理显示结果(self, a输出: str):	#显示管线,处理输出
 		"""根据具体设备对显示结果进行处理"""
 		return a输出	# 默认不处理,原样返回
-	def f自动换页替换(self, a字符串: str):
+	def f自动换页替换(self, a字符串: str):	#显示管线,处理换页时产生的特殊符号
 		v替换位置 = a字符串.find(self.m自动换页文本)
 		if v替换位置 < 0:
 			return a字符串	#找不到,不处理
@@ -318,6 +308,19 @@ class I设备(设备.I设备):
 			self.m连接.f读_直到(a测试字符, 2)
 			v和 = v秒表.f滴答()
 		self.fs等待响应时间(v和 * 2)	#间隔设置为平均响应时间的2倍
+	def f解析等待(self, a):
+		v类型 = type(a)
+		if issubclass(v类型, 等待.I等待):
+			return a
+		elif v类型 == bool:
+			if a:
+				return 等待.C命令(self.m等待, self.m首次等待)
+			else:
+				return 等待.C无()
+		elif v类型 in (int, float):
+			return 等待.C长(a)
+		else:	#默认有等待
+			return 等待.C命令(self.m等待, self.m首次等待)
 	def f退出(self, a关闭 = False):
 		"""设备默认退出当前模式行为, 如果模式重写了 fg退出命令 则不调用该函数\n
 		如果当前模式是用户模式, 则退出登录"""

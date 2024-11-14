@@ -3,6 +3,7 @@ from ..基础接口 import 操作
 from ..基础接口 import 协议
 from ..命令行接口 import 路由 as 南向路由
 from ..思科命令行 import 实用 as 思科实用
+from ..思科命令行.常量 import *
 from . import 接口 as 实现接口
 class C全局配置nv7_0(全局配置.I全局配置):
 	"""适用于: 思科nexus9000(v7.0), 浪潮cn61108pcv(v7.0)"""
@@ -45,11 +46,11 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 旧列表.C助手)
 		#创建访问控制列表对象
 		if v类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4):
-			v模式 = 实现列表.C四(self, v名称)
+			v模式 = 实现列表.C四配置(self, v名称)
 		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
-			v模式 = 旧列表.C六(self, v名称)
-		else:
-			raise ValueError("未知的访问控制列表类型")
+			v模式 = 旧列表.C六配置(self, v名称)
+		else:	#没有类型,默认ipv4
+			v模式 = 实现列表.C四配置(self, v名称)
 		if a操作 == 操作.E操作.e删除:
 			v命令 = c不 + v模式.fg进入命令()
 			self.f执行当前模式命令(v命令)
@@ -80,6 +81,12 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		v模式 = 实现协议.C接口(self, v接口, a组号)
 		return v模式
 	#服务
+	def f模式_网络终端(self):
+		from ..思科命令行 import 网络终端
+		return 网络终端.C网络终端配置(self)
+	def f模式_安全外壳(self):
+		from .import 安全外壳
+		return 安全外壳.C安全外壳配置(self)
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议 as 实现协议
 		return 实现协议.f模式(self, a端, 实现协议.C客户端nv7_0, None, a操作)

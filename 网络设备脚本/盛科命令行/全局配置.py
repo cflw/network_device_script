@@ -53,6 +53,12 @@ class C全局配置_ev6(全局配置.I全局配置):
 		v模式 = 实现协议.C冗余路由(self, v接口, a组号)
 		return v模式
 	#服务
+	def f模式_网络终端(self):
+		from . import 网络终端
+		return 网络终端.C网络终端配置(self)
+	def f模式_安全外壳(self):
+		from . import 安全外壳
+		return 安全外壳.C安全外壳配置(self)
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表

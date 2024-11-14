@@ -1,7 +1,7 @@
 import time
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
-class C版本信息:
+class C版本信息:	#需重写
 	"""show version
 	适用于: 思科c7200"""
 	def __init__(self, a):
@@ -54,7 +54,7 @@ def f解析内存利用率(a文本):
 	v总共s = a文本[21:33]
 	v使用s = a文本[38:50]
 	return int(v使用s) / int(v总共s)
-class C进程表:
+class C进程表:	#需重写
 	"""show processes"""
 	c进程标识 = 0
 	QTy = 4	#?
@@ -65,7 +65,7 @@ class C进程表:
 	Stacks_TTY = 54	#?
 	c进程名称 = 65
 	c标题行 = " PID QTy       PC Runtime (ms)    Invoked   uSecs    Stacks TTY Process"
-class C进程处理器表:
+class C进程处理器表:	#需重写
 	"""show processes cpu"""
 	c进程标识 = 0
 	c运行时间 =	4	#单位:毫秒
@@ -77,6 +77,15 @@ class C进程处理器表:
 	TTY = 61	#?
 	c进程名称 = 66
 	c标题行 = " PID Runtime(ms)     Invoked      uSecs   5Sec   1Min   5Min TTY Process "
-class C进程内存表:
+class C进程内存表:	#需重写
 	"""show processes memory"""
 	c标题行 = " PID TTY  Allocated      Freed    Holding    Getbufs    Retbufs Process"
+def f计算生产日期(a序列号: str):
+	"""根据序列号计算生产日期, 精确到周
+	序列号格式: LLLYYWWXXXX, 其中的YYWW是生产的年,周"""
+	v年s = a序列号[3:5]
+	v周s = a序列号[5:7]
+	v相对年 = int(v年s)	#1=1997年,以此类推
+	v周 = int(v周s)
+	v日 = (v周 - 1) * 7
+	return time.strptime(f"{1996 + v相对年} {v日}", "%Y %j")

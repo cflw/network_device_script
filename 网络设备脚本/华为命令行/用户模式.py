@@ -37,8 +37,9 @@ class C用户视图(用户模式.I用户模式):
 		self.f切换到当前模式()
 	def f提升权限(self, a密码 = "", a级别 = 15):
 		self.f记住提权(a密码 = a密码, a级别 = a级别)
-		if self.m提权密码:
-			v输出 = self.m设备.f执行命令("super")
+		if not self.m提权密码:
+			return	#没有提权密码,不用执行命令
+		v输出 = self.m设备.f执行命令("super")
 		if "Password:" in v输出:
 			v输出 = self.m设备.f执行命令(self.m提权密码)
 	def f保存配置(self):

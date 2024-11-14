@@ -19,6 +19,12 @@ class C用户视图_v7(旧用户模式.C用户视图):
 			self.m设备.f输入_回车()
 			time.sleep(0.5)
 			v输出 = self.m设备.f输出()
+		if "[Y/N]" in v输出:	#密码过期提示,或者其他意义不明的提示. 适用于:紫光s8600x(7.1.070)
+			#Your password has expired. You are permitted to login 1 times in 6 days. Do you want to change it?
+			#[Y/N]
+			self.m设备.f输入("N")	#统一否
+			self.m设备.f输入_回车()
+			v输出 = self.m设备.f输出()
 		if "Automatic configuration" in v输出:	#刚开机,自动配置中,按ctrl+c中断
 			self.m设备.f输入(c中断符)
 			v输出 = self.m设备.f输出()

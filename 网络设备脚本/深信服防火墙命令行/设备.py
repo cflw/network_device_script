@@ -29,12 +29,11 @@ class C设备v8(南向设备.I设备):	#适用于8.0.35以上版本
 		v输出 = self.f执行命令(v命令)
 		v输出 = v输出.replace("\r\n", "\n")
 		return v输出
-	def f执行显示命令(self, a命令, a自动换页 = True):
+	def f处理显示命令(self, a命令):
 		v命令 = 命令.C命令(a命令)
 		if not isinstance(self.fg当前模式(), 用户模式.I用户模式):	#在配置模式，命令前要加个do
 			v命令.f前面添加(c做)
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
-		return self.f处理显示结果(v输出)
+		return str(v命令)
 	def f处理显示结果(self, a输出):
 		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)

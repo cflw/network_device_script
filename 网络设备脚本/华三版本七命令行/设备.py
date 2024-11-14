@@ -28,10 +28,6 @@ class C设备_v7(南向设备.I设备):
 	def f模式_启动(self):
 		from . import 启动
 		return 启动.C启动v7(self)
-	def f执行显示命令(self, a命令, a自动换页 = True):
-		v命令 = str(a命令)
-		v输出 = 南向设备.I设备.f执行显示命令(self, v命令, a自动换页)
-		return self.f处理显示结果(v输出)
 	def f处理显示结果(self, a输出):
 		v输出 = a输出.replace("\r", "")	#可能有多个\r,清掉
 		v输出 = 南向设备.f去头尾行(v输出)

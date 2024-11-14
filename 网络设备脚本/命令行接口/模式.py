@@ -80,9 +80,9 @@ class I显示模式:
 			return
 		if isinstance(a, 设备.I设备):	#a是设备
 			self.m设备 = weakref.proxy(a)
-		elif isinstance(a, I模式):	#a是父模式
-			self.m设备 = a.m设备
 		elif isinstance(a, I显示模式):	#a是父模式
+			self.m设备 = a.m设备
+		elif isinstance(a, I模式):	#a是父模式
 			self.m设备 = a.m设备
 		else:
 			raise TypeError("创建模式对象的第一个参数类型必需是 I设备 或 I显示模式")

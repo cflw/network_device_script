@@ -1,5 +1,6 @@
 import cflw代码库py.cflw网络连接 as 连接
 from ..命令行接口 import 设备 as 南向设备
+from ..思科命令行.常量 import *
 class C设备(南向设备.I设备):
 	"""适用于: s3956(v2.2.0B)"""
 	def __init__(self, a连接, a型号, a版本):
@@ -14,10 +15,6 @@ class C设备(南向设备.I设备):
 		self.fs自动换页("--More--")
 	def f输入_结束符(self):	#ctrl+c
 		self.f输入(c结束符)
-	def f执行显示命令(self, a命令, a自动换页 = True):
-		v命令 = str(a命令)
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令 = v命令, a自动换页 = a自动换页)
-		return self.f处理显示结果(v输出)
 	def f处理显示结果(self, a输出):
 		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)

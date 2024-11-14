@@ -14,8 +14,8 @@ class C全局配置(全局配置.I全局配置):
 		return 接口.C接口(self, v接口)
 	#服务
 	def f模式_网络终端(self):
-		from . import 登录协议
-		return 登录协议.C网络终端(self)
+		from . import 网络终端
+		return 网络终端.C网络终端配置(self)
 	def f模式_安全外壳(self):
-		from . import 登录协议
-		return 登录协议.C安全外壳(self)
+		from . import 安全外壳
+		return 安全外壳.C安全外壳配置(self)

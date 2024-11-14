@@ -3,7 +3,7 @@ from ..基础接口 import 操作
 from ..命令行接口 import 命令
 from ..命令行接口 import 模式
 from ..命令行接口 import 日志 as 南向日志
-#sv3
+#_sv3
 class C日志_sv3(模式.C同级模式, 南向日志.I日志配置):
 	"""适用于: 浪潮s6550(v3.x)"""
 	def __init__(self, a):

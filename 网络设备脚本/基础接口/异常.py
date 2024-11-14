@@ -15,7 +15,7 @@ class X执行(X设备):
 class X模式(X设备):
 	"在错误的模式执行命令"
 	def __init__(self, a消息):
-		if hasattr(a消息, c模式名):
+		if hasattr(a消息, "c模式名"):
 			X设备.__init__(self, "无法在%s执行命令" % (a消息.c模式名,))
 		elif type(a消息) == str:
 			X设备.__init__(self, a消息)

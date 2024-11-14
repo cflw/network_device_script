@@ -1,11 +1,13 @@
-import functools
+import pandas	#pandas
 import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 操作
 from ..基础接口 import 协议
 from ..基础接口 import 异常
+from ..基础接口 import 数据表
 from ..基础接口 import 访问控制列表 as 北向列表
 from ..命令行接口 import 命令
+from ..命令行接口 import 模式
 from ..命令行接口 import 访问控制列表 as 南向列表
 from .常量 import *
 #===============================================================================
@@ -13,6 +15,7 @@ from .常量 import *
 #===============================================================================
 c标准 = "standard"
 c扩展 = "extended"
+c版本6 = "ipv6"
 #访问控制列表序号范围
 ca标准范围 = (range(1, 100), range(1300, 2000))
 ca扩展范围 = (range(100, 200), range(2000, 2700))
@@ -91,25 +94,134 @@ def f生成地址6(a地址):
 	else:
 		return str(v地址)
 #===============================================================================
-# 类
+# 解析
 #===============================================================================
-class I访问控制列表(南向列表.I列表配置):
-	def __init__(self, a, a名称, a类型: str = "", a协议: str = "ip"):
-		南向列表.I列表配置.__init__(self, a)
+ca字符串到类型 = {	#show_access-lists显示的类型
+	"Standard IP": 北向列表.E类型.e标准4,
+	"Extended IP": 北向列表.E类型.e扩展4,
+	"IPv6": 北向列表.E类型.e扩展6,
+	"MAC": 北向列表.E类型.e物理,
+}
+def fe规则0(a文本: str, af解析规则):
+	"""解析show access-list XXX的输出结果"""
+	v位置 = 字符串.f连续找最后(a文本, "access list", "\n")
+	for v行 in a文本[v位置+1:].split("\n"):
+		if v行[0:4] != "    ":
+			continue
+		yield af解析规则(v行)
+def f解析访问列表摘要(a文本: str):
+	"""show access-lists | include access list
+	适用于: 浪潮cn61108pcv(9.2.3)"""
+	def f摘要0():
+		for v行 in a文本.split("\n"):
+			yield f解析访问列表摘要开头(v行)
+	return pandas.DataFrame(f摘要0())
+def f解析访问列表摘要开头(a行: str):
+	"""解析show access-lists每个列表开头的那一串"类型 access list 名称" """
+	v类型结束位置 = a行.find("access list") - 1
+	v名称开始位置 = a行.rfind(" ") + 1
+	v类型s = a行[:v类型结束位置]
+	v名称s = a行[v名称开始位置:]
+	return {
+		数据表.E字段.e本端名称: v名称s,
+		数据表.E字段.e本端访问控制列表类型: ca字符串到类型[v类型s]
+	}
+def f解析访问控制列表类型(a行: str)->北向列表.E类型:
+	"""解析show access-lists 名称 的类型,如果有多个结果只取第一个"""
+	v类型结束位置 = a行.find("access list") - 1
+	if v类型结束位置 > 0:
+		v类型s = a行[:v类型结束位置]
+		return ca字符串到类型[v类型s]
+	else:
+		return None	#输入空,列表不存在
+#===============================================================================
+# 显示
+#===============================================================================
+class I列表显示(北向列表.I列表显示, 模式.I显示模式):
+	def __init__(self, a, a名称, a列表缓存: str = None):
+		模式.I显示模式.__init__(self, a)
 		self.m名称 = a名称
-		self.m类型 = a类型
-		self.m协议 = a协议
-	def fg模式参数(self):
-		return (self.m类型, self.m名称)
-	def fg进入命令(self):
-		return 命令.C命令(self.m协议, "access-list", self.m类型, self.m名称)
+		self.m列表缓存 = a列表缓存	#外面执行显示命令确定类型后传进来作为缓存
+	def __bool__(self):
+		return self.fi存在()
+	def fi存在(self):
+		v列表 = self.fg列表文本()
+		return bool(v列表)	#不存在则什么都不显示
+	def fg列表文本(self):
+		if not hasattr(self, "m列表缓存") or not self.m列表缓存:
+			v命令 = self.fg显示命令()
+			self.m列表缓存 = self.m设备.f执行显示命令(v命令)
+		return self.m列表缓存
 	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令("show", self.m协议, "access-list", self.m名称)
+		v命令 = 命令.C命令("show", self.c协议, "access-list", self.m名称)
 		if a序号 != None:
 			v命令 += f"| include ^____{a序号}_"
 		return v命令
-	def f添加规则(self, a序号, a规则):
-		raise NotImplementedError()
+	def fe规则(self):
+		v列表 = self.fg列表文本()
+		return fe规则0(v列表, self.f解析规则)
+	def fg规则(self, a序号):
+		v命令 = self.fg显示命令(a序号)
+		v输出 = self.m设备.f执行显示命令(v命令)
+		v规则 = self.f解析规则(v输出)
+		return v规则
+class C标准4显示(I列表显示):
+	c协议 = "ip"
+	c类型 = "standard"
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号4()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m源地址 = v解析器.f地址标准4()
+		return v规则
+class C扩展4显示(I列表显示):
+	c协议 = "ip"
+	c类型 = "extended"
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号4()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m协议 = v解析器.f协议()
+		v规则.m源地址 = v解析器.f地址扩展4()
+		v规则.m源端口 = v解析器.f端口号()
+		v规则.m目的地址 = v解析器.f地址扩展4()
+		v规则.m目的端口 = v解析器.f端口号()
+		return v规则
+class C六显示(I列表显示):
+	c协议 = "ipv6"
+	c类型 = ""
+	def fg显示命令(self, a序号 = None):
+		v命令 = 命令.C命令("show", self.c协议, "access-list", self.m名称)
+		if a序号 != None:
+			v命令 += f"| include sequence_{a序号}$"
+		return v命令
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m协议 = v解析器.f协议()
+		v规则.m源地址 = v解析器.f地址6()
+		v规则.m源端口 = v解析器.f端口号()
+		v规则.m目的地址 = v解析器.f地址6()
+		v规则.m目的端口 = v解析器.f端口号()
+		v规则.m序号 = v解析器.f序号6()
+		return v规则
+#===============================================================================
+# 配置
+#===============================================================================
+class I列表配置(南向列表.I列表配置):
+	def __init__(self, a, a名称):
+		南向列表.I列表配置.__init__(self, a)
+		self.m名称 = a名称
+	def fg模式参数(self):
+		return (self.c类型, self.m名称)
+	def fg进入命令(self):
+		return 命令.C命令(self.c协议, "access-list", self.c类型, self.m名称)
 	def f删除规则(self, a序号: int):
 		self.f执行当前模式命令(c不 + str(a序号))
 	def fs规则(self, a序号 = 北向列表.c空序号, a规则 = 北向列表.c空规则, a操作 = 操作.E操作.e设置):
@@ -126,46 +238,23 @@ class I访问控制列表(南向列表.I列表配置):
 			self.f删除规则(a序号)
 		else:
 			raise 异常.X操作()
-	def fe规则0(self, af解析):
-		v命令 = self.fg显示命令()
-		v输出 = self.m设备.f执行显示命令(v命令)
-		v位置 = 字符串.f连续找最后(v输出, "access list", "\n")
-		for v行 in v输出[v位置+1:].split("\n"):
-			if v行[0:4] != "    ":
-				continue
-			yield af解析(v行)
-	def fe规则(self):
-		return self.fe规则0(self.f解析规则)
-	def fg规则(self, a序号):
-		v命令 = self.fg显示命令(a序号)
-		v输出 = self.m设备.f执行显示命令(v命令)
-		v规则 = self.f解析规则(v输出)
-		return v规则
-	@staticmethod
-	def f解析规则(self):
-		raise NotImplementedError()
-#===============================================================================
-class C标准4(I访问控制列表):
+class C标准4配置(I列表配置, C标准4显示):
+	c协议 = "ip"
+	c类型 = "standard"
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称, a类型 = "standard")
-	def f添加规则(self, a序号, a规则):
+		I列表配置.__init__(self, a, a名称, a类型 = c标准)
+	def f添加规则(self, a序号, a规则: 北向列表.S规则):
 		v序号 = f生成规则序号4(a序号)
 		v允许 = f生成允许(a规则.m允许)
 		v源地址 = f生成地址标准4(a规则.m源地址)
 		v命令 = f"{v序号} {v允许} {v源地址}"
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号4()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m源地址 = v解析器.f地址标准4()
-		return v规则
-class C扩展4(I访问控制列表):
+class C扩展4配置(I列表配置, C扩展4显示):
+	c协议 = "ip"
+	c类型 = "extended"
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称, a类型 = "extended")
-	def f添加规则(self, a序号, a规则):
+		I列表配置.__init__(self, a, a名称, a类型 = c扩展)
+	def f添加规则(self, a序号, a规则: 北向列表.S规则):
 		v命令 = 命令.C命令()
 		v命令 += f生成规则序号4(a序号)
 		v命令 += f生成允许(a规则.m允许)
@@ -182,32 +271,14 @@ class C扩展4(I访问控制列表):
 			v命令 += f生成地址扩展4(a规则.m目的地址)
 			v命令 += f生成端口(a规则.m目的端口)
 		else:
-			raise NotImplementedError("迷之逻辑")
+			raise NotImplementedError("其他层未实现")
 		#执行命令
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号4()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址扩展4()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址扩展4()
-		v规则.m目的端口 = v解析器.f端口号()
-		return v规则
-#===============================================================================
-class C六(I访问控制列表):
-	"互联网协议第6版命名访问控制列表"
-	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称, a协议 = "ipv6")
-	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令("show", self.m协议, "access-list", self.m名称)
-		if a序号 != None:
-			v命令 += f"| include sequence_{a序号}$"
-		return v命令
-	def f添加规则(self, a序号, a规则):
+class C六配置(I列表配置, C六显示):
+	c模式名 = "互联网协议第6版命名访问控制列表"
+	c协议 = "ipv6"
+	c类型 = ""
+	def f添加规则(self, a序号, a规则: 北向列表.S规则):
 		v命令 = 命令.C命令()
 		v命令 += f生成规则序号6(a序号)
 		v命令 += f生成允许(a规则.m允许)
@@ -224,21 +295,9 @@ class C六(I访问控制列表):
 			v命令 += f生成地址6(a规则.m目的地址)
 			v命令 += f生成端口(a规则.m目的端口)
 		else:
-			raise NotImplementedError("迷之逻辑")
+			raise NotImplementedError("其他层未实现")
 		#执行命令
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址6()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址6()
-		v规则.m目的端口 = v解析器.f端口号()
-		v规则.m序号 = v解析器.f序号6()
-		return v规则
 #===============================================================================
 class C助手(北向列表.I助手):
 	#元组结构含意:(序号开始, 序号结束（不包含）, 到目标序号的增加值)
@@ -381,6 +440,8 @@ class C规则解析器:
 			if v词.isdigit():
 				self.m取词.f推进()
 				va端口号.append(int(v词))
+			else:
+				break
 		return 北向列表.S端口号.fc不等于(*va端口号)
 	def f端口号_范围(self):
 		v词1 = self.m取词.f取词推进()

@@ -1,3 +1,4 @@
+import cflw代码库py.cflw网络地址 as 地址
 from ..基础接口 import 操作
 from ..基础接口 import 协议
 from ..基础接口 import 接口 as 北向接口
@@ -111,16 +112,17 @@ class C系统视图(全局配置.I全局配置):
 		from . import 访问控制列表 as 实现列表
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
 		if v类型 == 北向列表.E类型.e标准4:
-			return 实现列表.C基本4(self, v名称)
+			return 实现列表.C基本4配置(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展4:
-			return 实现列表.C高级4(self, v名称)
+			return 实现列表.C高级4配置(self, v名称)
 		elif v类型 == 北向列表.E类型.e标准6:
-			return 实现列表.C基本6(self, v名称)
+			return 实现列表.C基本6配置(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展6:
-			return 实现列表.C高级6(self, v名称)
+			return 实现列表.C高级6配置(self, v名称)
 		else:
 			raise ValueError("错误的类型")
 	def f模式_前缀列表(self, a名称, a类型 = 协议.E协议.e网络协议4):
+		from . import 前缀列表
 		if a类型 == 协议.E协议.e网络协议4:
 			return 前缀列表.C前缀列表(self, a名称, 前缀列表.c版本4, 地址.S网络地址4)
 		elif a类型 == 协议.E协议.e网络协议6:
@@ -136,11 +138,11 @@ class C系统视图(全局配置.I全局配置):
 		return v模式
 	#服务
 	def f模式_网络终端(self):
-		from . import 登录协议
-		return 登录协议.C网络终端(self)
+		from . import 网络终端
+		return 网络终端.C网络终端配置(self)
 	def f模式_安全外壳(self):
-		from . import 登录协议
-		return 登录协议.C安全外壳(self)
+		from . import 安全外壳
+		return 安全外壳.C安全外壳配置(self)
 	def f模式_网络时间协议(self, a端, a操作 = 操作.E操作.e设置):
 		from . import 网络时间协议
 		if a端 == 操作.E端.e服务器:
@@ -196,7 +198,7 @@ class C系统视图(全局配置.I全局配置):
 		return a助手.m行为模式
 	def f模式_流量策略(self, a名称, a操作 = 操作.E操作.e设置):
 		from . import 服务质量
-		v类型 == type(a名称)
+		v类型 = type(a名称)
 		if v类型 == 服务质量.C助手(a名称):
 			v模式 = self.f模式_流量策略1(a名称)
 		elif v类型 == str:

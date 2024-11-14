@@ -65,5 +65,5 @@ class C设备(网页设备.I设备, 命令行设备.I设备):
 		if not isinstance(self.fg当前模式(), 实现用户模式.C用户模式):
 			v命令.f前面添加(c做)
 		return self.f执行命令(v命令)
-	def f执行显示命令(self, a命令, a自动换页 = None):
+	def f执行显示命令(self, a命令, *arg, **kwarg):
 		return self.f执行用户命令(a命令)

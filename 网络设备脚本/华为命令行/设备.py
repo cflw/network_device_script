@@ -29,9 +29,6 @@ class C设备(南向设备.I设备):
 		v输出 = 南向设备.I设备.f执行命令(self, a命令)
 		self.f检测命令异常(v输出)
 		return v输出
-	def f执行显示命令(self, a命令, a自动换页 = False):
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
-		return self.f处理显示结果(v输出)
 	def f处理显示结果(self, a输出):
 		v输出 = 南向设备.f去头尾行(a输出)
 		if v输出.count("\n") < 10:

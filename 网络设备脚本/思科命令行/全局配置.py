@@ -4,6 +4,7 @@ from ..基础接口 import 协议
 from ..命令行接口 import 路由 as 南向路由
 from . import 实用 as 思科实用
 from . import 接口 as 实现接口
+from .常量 import *
 class C全局配置(全局配置.I全局配置):
 	c进入命令 = "configure terminal"
 	def __init__(self, a):
@@ -60,12 +61,12 @@ class C全局配置(全局配置.I全局配置):
 		#创建访问控制列表对象
 		if v类型 == 北向列表.E类型.e标准4:
 			实现列表.fi标准范围(v名称)
-			v模式 = 实现列表.C标准4(self, v名称)
+			v模式 = 实现列表.C标准4配置(self, v名称)
 		elif v类型 == 北向列表.E类型.e扩展4:
 			实现列表.fi扩展范围(v名称)
-			v模式 = 实现列表.C扩展4(self, v名称)
+			v模式 = 实现列表.C扩展4配置(self, v名称)
 		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
-			v模式 = 实现列表.C六(self, v名称)
+			v模式 = 实现列表.C六配置(self, v名称)
 		else:
 			raise ValueError("未知的访问控制列表类型")
 		if a操作 == 操作.E操作.e删除:
@@ -175,11 +176,11 @@ class C全局配置(全局配置.I全局配置):
 		return v模式
 	#服务
 	def f模式_网络终端(self):
-		from . import 登录协议
-		return 登录协议.C网络终端(self)
+		from . import 网络终端
+		return 网络终端.C网络终端配置(self)
 	def f模式_安全外壳(self):
-		from . import 登录协议
-		return 登录协议.C安全外壳(self)
+		from . import 安全外壳
+		return 安全外壳.C安全外壳配置(self)
 	def f模式_动态主机配置协议地址池(self, a名称):
 		from . import 动态主机配置协议
 		return 动态主机配置协议.C地址池4(self, a名称)

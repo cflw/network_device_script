@@ -27,11 +27,8 @@ class C设备_sv3_50(南向设备.I设备):
 		#退到用户模式执行
 		self.ma模式[0].f切换到当前模式()
 		return self.f执行命令(a命令)
-	def f执行显示命令(self, a命令, a自动换页 = True):
-		#退到用户模式执行
+	def f准备显示(self):
 		self.ma模式[0].f切换到当前模式()
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
-		return self.f处理显示结果(v输出)
 	def f处理显示结果(self, a输出):
 		v输出 = a输出.replace("\r\n", "\n")
 		v输出 = 南向设备.f去头尾行(v输出)
@@ -42,8 +39,5 @@ class C设备_sv3_60(C设备_sv3_50):
 	"""适用于: s6550(v3.60)"""
 	def __init__(self, a连接, a型号, a版本):
 		C设备_sv3_50.__init__(self, a连接, a型号, a版本)
-	def f执行显示命令(self, a命令, a自动换页 = True):
-		v输出 = 南向设备.I设备.f执行显示命令(self, a命令, a自动换页)
-		v输出 = v输出.replace("\r\n", "\n")
-		v输出 = 南向设备.f去头尾行(v输出)
-		return v输出
+	def f准备显示(self):
+		pass

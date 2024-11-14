@@ -223,6 +223,8 @@ class S规则:
 		self.m目的地址 = None
 		self.m源端口 = None
 		self.m目的端口 = None
+		self.m源虚拟路由 = None
+		self.m目的虚拟路由 = None
 		self.f更新(**a)
 	def __ior__(self, a):
 		v类型 = type(a)
@@ -242,12 +244,14 @@ class S规则:
 			self.f更新_规则(a规则)
 		self.f更新_字典(a字典)
 	def f更新_规则(self, a规则):
-		self.m允许 = a规则.m允许 if a规则.m允许 else self.m允许
-		self.m协议 = a规则.m协议 if a规则.m协议 else self.m协议
-		self.m源地址 = a规则.m源地址 if a规则.m源地址 else self.m源地址
-		self.m目的地址 = a规则.m目的地址 if a规则.m目的地址 else self.m目的地址
-		self.m源端口 = a规则.m源端口 if a规则.m源端口 else self.m源端口
-		self.m目的端口 = a规则.m目的端口 if a规则.m目的端口 else self.m目的端口
+		self.m允许 = a规则.m允许 or self.m允许
+		self.m协议 = a规则.m协议 or self.m协议
+		self.m源地址 = a规则.m源地址 or self.m源地址
+		self.m目的地址 = a规则.m目的地址 or self.m目的地址
+		self.m源端口 = a规则.m源端口 or self.m源端口
+		self.m目的端口 = a规则.m目的端口 or self.m目的端口
+		self.m源虚拟路由 = a规则.m源虚拟路由 or self.m源虚拟路由
+		self.m目的虚拟路由 = a规则.m目的虚拟路由 or self.m目的虚拟路由
 	def f更新_字典(self, a字典):
 		for k, v in S规则.ca更新函数.items():
 			if k in a字典:
@@ -263,16 +267,21 @@ class S规则:
 		else:
 			v += "拒绝, "
 		#协议
-		v += S规则.ca协议到字符串[self.m协议] + ", "
+		if self.m协议:
+			v += S规则.ca协议到字符串[self.m协议] + ", "
 		#地址
+		if self.m源虚拟路由:
+			v += f"源虚拟路由{self.m源虚拟路由}, "
 		if self.m源地址:
-			v += "源地址%s, " % (self.m源地址,)
+			v += f"源地址{self.m源地址}, "
 		if self.m源端口:
-			v += "源端口%s, " % (self.m源端口,)
+			v += f"源端口{self.m源端口}, "
+		if self.m目的虚拟路由:
+			v += f"目的虚拟路由{self.m目的虚拟路由}, "
 		if self.m目的地址:
-			v += "目的地址%s, " % (self.m目的地址,)
+			v += f"目的地址{self.m目的地址}, "
 		if self.m目的端口:
-			v += "目的端口%s, " % (self.m目的端口,)
+			v += f"目的端口{self.m目的端口}, "
 		return v
 	#属性
 	def fs允许(self, a):
@@ -322,6 +331,7 @@ class S规则:
 	}
 	ca协议到字符串 = {
 		协议.E协议.ip: "互联网协议第4版",
+		协议.E协议.ipv4: "互联网协议第4版",
 		协议.E协议.ipv6: "互联网协议第6版",
 		协议.E协议.tcp: "传输控制协议",
 		协议.E协议.udp: "用户数据报协议",
@@ -347,13 +357,15 @@ class S统一编号:
 #===============================================================================
 # 接口
 #===============================================================================
-class I列表配置:
-	c模式名 = "访问控制列表配置模式"
-	def fs规则(self, a序号, a规则, a操作):
-		raise NotImplementedError()
+class I列表显示:
+	c模式名 = "访问控制列表显示模式"
 	def fe规则(self):
 		raise NotImplementedError()
 	def fg规则(self, a序号):
+		raise NotImplementedError()
+class I列表配置:
+	c模式名 = "访问控制列表配置模式"
+	def fs规则(self, a序号, a规则, a操作):
 		raise NotImplementedError()
 	def f应用到(self, a模式, a方向, a操作):
 		raise NotImplementedError()

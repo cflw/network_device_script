@@ -1,4 +1,3 @@
-import functools
 import cflw代码库py.cflw网络地址 as 地址
 import cflw代码库py.cflw字符串 as 字符串
 from .. import 华为
@@ -6,8 +5,12 @@ from ..基础接口 import 操作
 from ..基础接口 import 协议
 from ..基础接口 import 访问控制列表 as 北向列表
 from ..命令行接口 import 命令
+from ..命令行接口 import 模式
 from ..命令行接口 import 访问控制列表 as 南向列表
 from .常量 import *
+#===============================================================================
+# 声明
+#===============================================================================
 c源地址 = "source"
 c源端口 = "source-port"
 c目的地址 = "destination"
@@ -74,9 +77,83 @@ def fe规则行(a文本):
 	#结束
 	yield v规则s
 #===============================================================================
-# 模式
+# 显示
 #===============================================================================
-class I访问控制列表(南向列表.I列表配置):
+class I列表显示(北向列表.I列表显示, 模式.I显示模式):
+	def __init__(self, a, a名称, a协议 = ""):
+		模式.I显示模式.__init__(self, a)
+		self.m名称 = a名称
+		self.m协议 = a协议
+	def fg显示命令(self, a序号 = None):
+		v命令 = 命令.C命令("display acl")
+		v命令 += self.m协议
+		v命令 += f生成名称(self.m名称)
+		if a序号 != None:
+			if self.m设备.m型号 & 华为.E型号.c云:
+				v命令 += "| include rule\\s%d\\s" % (a序号,)
+			else:
+				v命令 += "| include rule_%d_" % (a序号,)
+		return v命令
+	def fe规则(self):
+		v命令 = self.fg显示命令()
+		v输出 = self.m设备.f执行显示命令(v命令)
+		for v行 in fe规则行(v输出):
+			yield self.f解析规则(v行)
+	def fg规则(self, a序号):
+		v命令 = self.fg显示命令(a序号)
+		v输出 = self.m设备.f执行显示命令(v命令)
+		for v行 in fe规则行(v输出):
+			return self.f解析规则(v行)
+	def f解析规则(self, a规则):
+		raise NotImplementedError()
+class C基本4显示(I列表显示):
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m源地址 = v解析器.f地址4()
+		return v规则
+class C高级4显示(I列表显示):
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m协议 = v解析器.f协议()
+		v规则.m源地址 = v解析器.f地址4()
+		v规则.m源端口 = v解析器.f端口号()
+		v规则.m目的地址 = v解析器.f地址4()
+		v规则.m目的端口 = v解析器.f端口号()
+		return v规则
+class C基本6显示(I列表显示):
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m源地址 = v解析器.f地址6()
+		return v规则
+class C高级6显示(I列表显示):
+	@staticmethod
+	def f解析规则(a规则: str):
+		v解析器 = C规则解析器(a规则)
+		v规则 = 北向列表.S规则()
+		v规则.m序号 = v解析器.f序号()
+		v规则.m允许 = v解析器.f允许()
+		v规则.m协议 = v解析器.f协议()
+		v规则.m源地址 = v解析器.f地址6()
+		v规则.m源端口 = v解析器.f端口号()
+		v规则.m目的地址 = v解析器.f地址6()
+		v规则.m目的端口 = v解析器.f端口号()
+		return v规则
+#===============================================================================
+# 配置
+#===============================================================================
+class I列表配置(南向列表.I列表配置):
 	def __init__(self, a, a名称, a协议 = ""):
 		南向列表.I列表配置.__init__(self, a)
 		self.m名称 = a名称
@@ -87,16 +164,6 @@ class I访问控制列表(南向列表.I列表配置):
 		v命令 = 命令.C命令("acl")
 		v命令 += self.m协议
 		v命令 += f生成名称(self.m名称)
-		return v命令
-	def fg显示命令(self, a序号 = None):
-		v命令 = 命令.C命令("display acl")
-		v命令 += self.m协议
-		v命令 += f生成名称(self.m名称)
-		if a序号 != None:
-			if self.m设备.m型号 & 华为.E型号.c云:
-				v命令 += "| include rule\\s%d\\s" % (a序号,)
-			else:
-				v命令 += "| include rule_%d_" % (a序号,)
 		return v命令
 	def f删除规则(self, a序号: int):
 		v命令 = f生成规则序号(a序号)
@@ -117,35 +184,17 @@ class I访问控制列表(南向列表.I列表配置):
 			self.f添加规则(v序号, v规则)
 		elif v操作 == 操作.E操作.e删除:
 			self.f删除规则(a序号)
-	def fe规则(self):
-		v命令 = self.fg显示命令()
-		v输出 = self.m设备.f执行显示命令(v命令)
-		for v行 in fe规则行(v输出):
-			yield self.f解析规则(v行)
-	def fg规则(self, a序号):
-		v命令 = self.fg显示命令(a序号)
-		v输出 = self.m设备.f执行显示命令(v命令)
-		for v行 in fe规则行(v输出):
-			return self.f解析规则(v行)
-class C基本4(I访问控制列表):
+class C基本4配置(I列表配置, C基本4显示):
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称)
+		I列表配置.__init__(self, a, a名称)
 	def f添加规则(self, a序号 = None, a规则 = None):
 		v命令 = f生成规则序号(a序号)
 		v命令 += f生成允许(a规则.m允许)
 		v命令 += f生成地址4(c源地址, a规则.m源地址)
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m源地址 = v解析器.f地址4()
-		return v规则
-class C高级4(I访问控制列表):
+class C高级4配置(I列表配置, C高级4显示):
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称)
+		I列表配置.__init__(self, a, a名称)
 	def f添加规则(self, a序号 = None, a规则 = None):
 		v命令 = f生成规则序号(a序号)
 		v命令 += f生成允许(a规则.m允许)
@@ -155,37 +204,17 @@ class C高级4(I访问控制列表):
 		v命令 += f生成地址4(c目的地址, a规则.m目的地址)
 		v命令 += f生成端口(c目的端口, a规则.m目的端口)
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址4()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址4()
-		v规则.m目的端口 = v解析器.f端口号()
-		return v规则
-class C基本6(I访问控制列表):
+class C基本6配置(I列表配置, C基本6显示):
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称, "ipv6")
+		I列表配置.__init__(self, a, a名称, "ipv6")
 	def f添加规则(self, a序号 = None, a规则 = None):
 		v命令 = f生成规则序号(a序号)
 		v命令 += f生成允许(a规则.m允许)
 		v命令 += f生成地址6(c源地址, a规则.m源地址)
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m源地址 = v解析器.f地址6()
-		return v规则
-class C高级6(I访问控制列表):
+class C高级6配置(I列表配置, C高级6显示):
 	def __init__(self, a, a名称):
-		I访问控制列表.__init__(self, a, a名称, "ipv6")
+		I列表配置.__init__(self, a, a名称, "ipv6")
 	def f添加规则(self, a序号 = None, a规则 = None):
 		v命令 = f生成规则序号(a序号)
 		v命令 += f生成允许(a规则.m允许)
@@ -195,18 +224,6 @@ class C高级6(I访问控制列表):
 		v命令 += f生成地址6(c目的地址, a规则.m目的地址)
 		v命令 += f生成端口(c目的端口, a规则.m目的端口)
 		self.f执行当前模式命令(v命令)
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址6()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址6()
-		v规则.m目的端口 = v解析器.f端口号()
-		return v规则
 #===============================================================================
 # 其它
 #===============================================================================

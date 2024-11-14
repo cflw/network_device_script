@@ -52,4 +52,4 @@ class C用户模式_nv9_2(C用户模式_nv7_3):
 		return 全局配置.C全局配置nv9_2(self)
 	def f模式_全局显示(self):
 		from . import 全局显示
-		return 全局显示.C全局显示nv9_2(self)
+		return 全局显示.C全局显示_nv9_2(self)

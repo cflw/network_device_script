@@ -1,4 +1,3 @@
-import functools
 import pandas	#pandas
 import cflw代码库py.cflw字符串 as 字符串
 import cflw代码库py.cflw网络地址 as 地址
@@ -91,7 +90,7 @@ f接口状态表_v12 = F接口状态表_v12()
 #===============================================================================
 class F网络接口表4(数据表.I解析表格管线):
 	"""show ip interface brief
-	适用于: 思科c7200(v15.*), 
+	适用于: 思科c7200(v15.*), 思科csr1000v(v16.9.1)
 		浪潮s6650(v11.12.*)"""
 	c接口 = 0	#Interface
 	c地址 = 23	#IP-Address

@@ -2,9 +2,9 @@ import cflw代码库py.cflw网络连接 as 连接
 from ..命令行接口 import 设备 as 南向设备
 from ..思科命令行.常量 import *
 class C设备(南向设备.I设备):
-	"""适用于: mps4120(v6.6.4.1.3)"""
+	"""适用于: sm4120(v6.6.4.1.3)"""
 	def __init__(self, a连接, a型号, a版本):
-		南向设备.I设备.__init__(self)
+		南向设备.I设备.__init__(self, a连接)
 		if a连接.c连接特性 & 连接.E连接特性.e命令行:
 			self.m连接 = a连接
 			self.m连接.fs编码("gb2312")
@@ -26,4 +26,10 @@ class C设备(南向设备.I设备):
 	def f模式_用户(self):
 		from . import 用户模式
 		v模式 = 用户模式.C用户模式(self)
+		return v模式
+class C设备_v9(C设备):
+	#模式
+	def f模式_用户(self):
+		from . import 用户模式
+		v模式 = 用户模式.C用户模式_v9(self)
 		return v模式

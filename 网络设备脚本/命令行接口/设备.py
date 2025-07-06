@@ -55,7 +55,7 @@ class I设备(设备.I设备):
 		if not self.m连接:
 			return
 		#收集信息
-		vi自动提交 = self.m自动提交 != 操作.E自动提交.e不提交
+		vi自动提交 = self.m自动提交 != 0	#模块可能比对象先析构? 为了防止抛异常, "操作.E自动提交.e不提交"改成0
 		#安全关闭
 		if self.m自动关闭 or vi自动提交:
 			self.f关闭()

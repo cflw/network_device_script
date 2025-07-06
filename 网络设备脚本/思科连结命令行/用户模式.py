@@ -30,6 +30,8 @@ class C用户模式_nv7_0(用户模式.I用户模式):
 			self.m设备.f执行命令(self.m登录密码)
 		self.f切换到当前模式()
 		time.sleep(0.5)
+	def f提升权限(self, a密码 = "", a级别 = None):
+		pass	#nexus系列按用户确定权限,没有enable命令
 	def f保存配置(self):
 		self.f执行当前模式命令("write")
 class C用户模式_nv7_3(C用户模式_nv7_0):

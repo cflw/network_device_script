@@ -1,7 +1,7 @@
 class S规则:
 	def __init__(self, **a):
 		self.m序号 = None
-		self.m允许 = True
+		self.m动作 = True
 		self.m网络号 = None
 		self.m最小长度 = None
 		self.m最大长度 = None
@@ -12,7 +12,7 @@ class S规则:
 		if self.m序号 >= 0:
 			v += "序号%d, " % (self.m序号,)
 		#允许
-		if self.m允许:
+		if self.m动作:
 			v += "允许, "
 		else:
 			v += "拒绝, "
@@ -30,8 +30,8 @@ class S规则:
 				v(self, a[k])
 	def fs序号(self, a):
 		self.m序号 = a
-	def fs允许(self, a):
-		self.m允许 = a
+	def fs动作(self, a):
+		self.m动作 = a
 	def fs网络号(self, a):
 		self.m网络号 = a
 	def fs最小长度(self, a):
@@ -39,7 +39,7 @@ class S规则:
 	def fs最大长度(self, a):
 		self.m最大长度 = a
 	ca更新函数 = {
-		"a允许": fs允许,
+		"a动作": fs动作,
 		"a网络号": fs网络号,
 		"a最小长度": fs最小长度,
 		"a最大长度": fs最大长度,

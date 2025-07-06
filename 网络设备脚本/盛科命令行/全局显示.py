@@ -43,11 +43,11 @@ class C全局显示_ev6(全局显示.I全局显示, 模式.I显示模式):
 		v输出 = self.m设备.f执行显示命令(v命令)
 		return 实现列表.f解析访问列表摘要(v输出)
 	def f模式_访问控制列表(self, a名称, a类型 = None):
+		"""适用于: 浪潮cn61108pcvh(v6.2.*, v6.6.*), 浪潮s5350(v6.2.*)"""
 		from ..基础接口 import 访问控制列表 as 北向列表
-		from ..命令行接口 import 访问控制列表 as 南向列表
 		from . import 访问控制列表 as 实现列表
+		#判断类型
 		v类型 = a类型
-		v输出 = None	#显示缓存
 		if v类型 == None:
 			v命令 = f"show running-config | include access-list {a名称}"
 			v输出 = self.m设备.f执行显示命令(v命令)	#不存在显示空

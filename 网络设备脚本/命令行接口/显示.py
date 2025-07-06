@@ -4,6 +4,7 @@ import cflw代码库py.cflw字符串 as 字符串
 # 管道
 #===============================================================================
 def F单节选(a查找: str):
+	"""| section XXX 但是只找一节"""
 	def f(a文本: str)->str:
 		v切片 = f找单节选(a文本, a查找)
 		if v切片 == None:
@@ -27,6 +28,7 @@ def f找单节选(a文本: str, a查找: str, a开始位置: int = 0):
 		v结束位置 = v行切片.stop
 	return slice(v开始位置, v结束位置)
 def F多节选(a查找: str):
+	"""| section XXX"""
 	def f(a文本: str)->str:
 		v文本 = ""
 		v位置 = 0
@@ -41,6 +43,7 @@ def F多节选(a查找: str):
 		return v文本
 	return f
 def F开始行(a查找: str):
+	"""| begin XXX"""
 	def f(a文本: str)->str:
 		v位置 = a文本.find(a查找)
 		if v位置 == -1:
@@ -49,6 +52,7 @@ def F开始行(a查找: str):
 		return a文本[v位置:]
 	return f
 def F结束行(a查找: str):
+	"""| end XXX"""
 	def f(a文本: str)->str:
 		v位置 = a文本.find(a查找)
 		if v位置 == -1:
@@ -57,6 +61,7 @@ def F结束行(a查找: str):
 		return a文本[:v位置]
 	return f
 def F包含行(a查找: str):
+	"""| include XXX"""
 	def f(a文本: str)->str:
 		v文本 = ""
 		v位置 = 0

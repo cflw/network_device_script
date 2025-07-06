@@ -5,7 +5,21 @@ from ..命令行接口 import 命令
 from ..命令行接口 import 模式
 from ..命令行接口 import 安全外壳 as 南向安全外壳
 from ..华三命令行.常量 import *
-from . import 接口 as 实现接口
+#===============================================================================
+# 解析
+#===============================================================================
+def f解析访问列表(a行: str):
+	"""解析display current-configuration | include ssh.server.acl的显示结果"""
+	if a行:
+		return 字符串.f提取字符串之间(a行, "ssh server acl ", "\n", a结束严谨 = False)
+class C安全外壳解析配置_v7:
+	def __init__(self, a配置: str):
+		self.m配置 = a配置
+	def fg开关(self):
+		return "ssh server enable" in self.m配置
+	def fg访问列表(self):
+		v行 = 字符串.f提取包含行(self.m配置, "ssh server acl")
+		return v行
 #===============================================================================
 # 显示
 #===============================================================================

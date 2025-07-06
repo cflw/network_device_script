@@ -36,10 +36,10 @@ class C绑定类(南向服务质量.I流量行为):
 		"""命令: class 名称"""
 		return f"class {self.m名称}"
 	#动作
-	def fs允许(self, a允许 = True):
+	def fs动作(self, a动作 = True):
 		"""命令: [no] drop"""
 		v命令 = 命令.C命令("drop")
-		v命令.f前置肯定(a允许, c不)
+		v命令.f前置肯定(a动作, c不)
 		self.f执行当前模式命令(v命令)
 	#设置
 	@策略.A设置(策略.E类型.e优先级)

@@ -1,4 +1,5 @@
-import math
+import cflw代码库py.cflw字符串 as 字符串
+import cflw代码库py.cflw工具_序列 as 序列
 from ..基础接口 import 操作
 from ..基础接口 import 登录 as 北向登录
 from ..命令行接口 import 命令

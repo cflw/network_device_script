@@ -42,9 +42,9 @@ class C行为(南向服务质量.I流量行为):
 		v命令 = f"traffic behavior {self.m名称}"
 		return v命令
 	#动作
-	def fs允许(self, a允许 = True):
+	def fs动作(self, a动作 = True):
 		"""命令: 动作"""
-		v命令 = "permit" if a允许 else "deny"
+		v命令 = "permit" if a动作 else "deny"
 		self.f执行当前模式命令(v命令)
 	#设置
 	@策略.A设置(策略.E类型.e下一跳4)

@@ -60,11 +60,24 @@ class C全局配置_ev6(全局配置.I全局配置):
 		from . import 安全外壳
 		return 安全外壳.C安全外壳配置(self)
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		"""适用于: 浪潮cn61108pcvh(v6.2.27.13)"""
 		from ..基础接口 import 访问控制列表 as 北向列表
-		from ..命令行接口 import 访问控制列表 as 南向列表
 		from . import 访问控制列表 as 实现列表
-		if a类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4, None):
-			v模式 = 实现列表.C网络4(self, a名称)
+		#判断类型
+		v类型 = a类型
+		if v类型 == None:
+			v命令 = f"show running-config | include access-list {a名称}"
+			v输出 = self.m设备.f执行显示命令(v命令)	#不存在显示空
+			if not v输出:
+				return None
+			v类型 = 实现列表.f解析访问控制列表类型(v输出)
+		#创建访问控制列表对象
+		if v类型 == 北向列表.E类型.e标准4:
+			v模式 = 实现列表.C标准4配置(self, a名称)
+		elif v类型 == 北向列表.E类型.e扩展4:
+			v模式 = 实现列表.C扩展4配置(self, a名称)
+		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
+			raise NotImplementedError()
 		else:
 			raise ValueError("未知的访问控制列表类型")
 		return v模式

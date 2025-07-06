@@ -14,11 +14,17 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 		return 时间.C时间显示(self)
 	#配置
 	def f显示_启动配置(self):
-		v输出 = self.m设备.f执行显示命令("show startup-config")
+		v输出 = self.m设备.f执行显示命令("show startup-config", a等待 = 10)
 		return v输出
 	def f显示_当前配置(self):
-		v输出 = self.m设备.f执行显示命令("show running-config")
+		v输出 = self.m设备.f执行显示命令("show running-config", a等待 = 10)
 		return v输出
+	#对象
+	def fe用户名(self):
+		"""适用于: 思科c7200"""
+		import 用户
+		v输出 = self.m设备.f执行显示命令("show running-config | section username")
+		return 用户.fe提取用户名(v输出)
 	#表
 	def f显示_接口详细(self):
 		v输出 = self.m设备.f执行显示命令("show interface")
@@ -56,9 +62,11 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 			v输出 = self.m设备.f执行显示命令(v命令)
 			return 实现列表.f解析访问列表摘要(v输出)
 	def f模式_访问控制列表(self, a名称, a类型 = None):
+		"""适用于: 浪潮s6650(v11.12.1) 浪潮s5960(v12.5)"""
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
 		from . import 访问控制列表 as 实现列表
+		#判断类型
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
 		v输出 = None	#显示缓存
 		if v类型 == None:
@@ -74,7 +82,7 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 			实现列表.fi扩展范围(v名称)
 			v模式 = 实现列表.C扩展4显示(self, v名称, a列表缓存 = v输出)
 		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
-			v模式 = 实现列表.C六显示(self, v名称)
+			v模式 = 实现列表.C六显示(self, v名称, a列表缓存 = v输出)
 		else:
 			raise ValueError("未知的访问控制列表类型")
 		return v模式

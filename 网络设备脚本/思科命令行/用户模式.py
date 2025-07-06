@@ -40,9 +40,12 @@ class C用户模式(用户模式.I用户模式):
 		self.f切换到当前模式()
 		self.m设备.mf自动登录 = self.f自动登录
 		time.sleep(0.5)
-	def f提升权限(self, a密码 = ""):
+	def f提升权限(self, a密码 = "", a级别 = None):
 		self.f记住提权(a密码 = a密码)
-		v输出 = self.m设备.f执行命令("enable")
+		if a级别:
+			v输出 = self.m设备.f执行命令("enable " + a级别)
+		else:
+			v输出 = self.m设备.f执行命令("enable")
 		if "Password" in v输出:
 			v输出 = self.m设备.f执行命令(self.m提权密码)
 		if "密码" in v输出:	#浪潮s5960(12.2(5)I1)显示中文

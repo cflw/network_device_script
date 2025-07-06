@@ -15,7 +15,7 @@ class C节点(路由映射.I路由映射节点):
 		路由映射.I路由映射节点.__init__(self, a, a序号, a动作)
 	def fg进入命令(self):
 		"""命令: route-policy 名称 动作 node 序号"""
-		return f"route-policy {self.m名称} {访问列表.f生成允许(self.m动作)} node {self.m序号}"
+		return f"route-policy {self.m名称} {访问列表.f生成动作(self.m动作)} node {self.m序号}"
 	@策略.A匹配(策略.E类型.e访问列表)
 	def f匹配_访问列表(self, a值, a操作 = 操作.E操作.e设置):
 		"""命令: if-match acl 访问列表"""

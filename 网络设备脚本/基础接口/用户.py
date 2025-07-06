@@ -33,3 +33,12 @@ class I用户配置:
 		raise NotImplementedError()
 	def fs服务类型(self, a服务类型, a操作):
 		raise NotImplementedError()
+class I用户显示:
+	def fg用户名(self):
+		raise NotImplementedError()
+	def fg密码(self):	#基本上只能显示密文密码
+		raise NotImplementedError()
+	def fg权限(self):
+		raise NotImplementedError()
+	def fg服务类型(self):
+		raise NotImplementedError()

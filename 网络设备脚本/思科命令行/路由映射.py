@@ -15,7 +15,7 @@ class C路由映射节点(路由映射.I路由映射节点):
 		路由映射.I路由映射节点.__init__(self, a, a序号, a动作)
 	def fg进入命令(self):
 		"""route-map 名称 [动作] [序号]"""
-		return f"route-map {self.m名称} {访问列表.f生成允许(self.m动作)} {self.m序号}"
+		return f"route-map {self.m名称} {访问列表.f生成动作(self.m动作)} {self.m序号}"
 	#匹配
 	@策略.A匹配(策略.E类型.e访问列表)
 	def f匹配_访问列表(self, a访问列表, a操作 = 操作.E操作.e添加):

@@ -1,4 +1,5 @@
 import time
+from ..基础接口 import 异常
 from ..华三命令行 import 用户模式 as 旧用户模式
 from ..华为命令行.常量 import *
 class C用户视图_v7(旧用户模式.C用户视图):
@@ -19,6 +20,11 @@ class C用户视图_v7(旧用户模式.C用户视图):
 			self.m设备.f输入_回车()
 			time.sleep(0.5)
 			v输出 = self.m设备.f输出()
+		if "Old password" in v输出:	#强制重置密码
+			#First login or password reset. For security reason, you need to change your password. Please enter your password.
+			#Old password:
+			#设备要求重置密码,脚本不修改密码(防止脚本出现意外导致密码遗失),请手动修改密码后再执行脚本.
+			raise 异常.X登录("密码过期")
 		if "[Y/N]" in v输出:	#密码过期提示,或者其他意义不明的提示. 适用于:紫光s8600x(7.1.070)
 			#Your password has expired. You are permitted to login 1 times in 6 days. Do you want to change it?
 			#[Y/N]

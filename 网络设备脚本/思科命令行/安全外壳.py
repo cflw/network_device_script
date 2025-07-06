@@ -4,9 +4,35 @@ from ..基础接口 import 操作
 from ..基础接口 import 安全外壳 as 北向安全外壳
 from ..命令行接口 import 命令
 from ..命令行接口 import 模式
+from ..命令行接口 import 显示
 from ..命令行接口 import 安全外壳 as 南向安全外壳
 from .常量 import *
 from . import 接口 as 实现接口
+#===============================================================================
+# 解析
+#===============================================================================
+def f提取访问列表(a多节: str):
+	"""从show running-config | section line vty提取acl名称"""
+	# line vty 0 4
+	#  access-class ssh in vrfname Mgmt-vrf
+	#  transport input all
+	# line vty 5 15
+	v分割 = a多节.split("line vty")	#可能有多段line vty
+	for v节 in v分割[1:]:
+		v允许协议 = 字符串.f提取字符串之间(v节, "transport input ", "\n", a结束严谨 = False)
+		if v允许协议 in ("all", "ssh", None):
+			return 字符串.f提取字符串之间(v节, "access-class ", " ")
+class C安全外壳配置解析:
+	def __init__(self, a配置: str):
+		self.m配置 = a配置
+	def fg开关(self):
+		raise NotImplementedError("不知道哪个配置体现ssh开关")
+	def fg访问列表(self):
+		v输出 = 显示.F多节选("line vty")(self.m配置)
+		return f提取访问列表(v输出)
+#===============================================================================
+# 显示
+#===============================================================================
 class C安全外壳显示(北向安全外壳.I安全外壳显示, 模式.I显示模式):
 	"""适用于: (模拟器)思科c7200(15.2(4)M11)
 		浪潮s5960(12.2(5)I1), 浪潮s6650(11.12.1a)"""
@@ -29,15 +55,7 @@ class C安全外壳显示(北向安全外壳.I安全外壳显示, 模式.I显示
 		return "SSH Enabled" in v输出
 	def fg访问列表(self):
 		v输出 = self.m设备.f执行显示命令("show running-config | section line vty", a等待 = 5)
-		# line vty 0 4
-		#  access-class ssh in vrfname Mgmt-vrf
-		#  transport input all
-		# line vty 5 15
-		v分割 = v输出.split("line vty")	#可能有多段line vty
-		for v节 in v分割[1:]:
-			v允许协议 = 字符串.f提取字符串之间(v节, "transport input ", "\n", a结束严谨 = False)
-			if v允许协议 in ("all", "ssh", None):
-				return 字符串.f提取字符串之间(v节, "access-class ", " ")
+		return f提取访问列表(v输出)
 	def fg版本(self):
 		v输出 = self.m设备.f执行显示命令("show running-config | include ip ssh version")
 		# ip ssh version 2
@@ -46,6 +64,9 @@ class C安全外壳显示(北向安全外壳.I安全外壳显示, 模式.I显示
 		v输出 = self.m设备.f执行显示命令("show running-config | include ip ssh logging")
 		# ip ssh logging events
 		return bool(v输出)
+#===============================================================================
+# 配置
+#===============================================================================
 class C安全外壳配置(南向安全外壳.I安全外壳配置, 模式.C同级模式):
 	"""适用于: 思科c7200(15.2(4)M11)"""
 	def __init__(self, a):

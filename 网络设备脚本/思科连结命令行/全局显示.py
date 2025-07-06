@@ -78,6 +78,7 @@ class C全局显示_nv7_0(全局显示.I全局显示, 模式.I显示模式):
 		from ..命令行接口 import 访问控制列表 as 南向列表
 		from ..思科命令行 import 访问控制列表 as 旧列表
 		from . import 访问控制列表 as 实现列表
+		#判断类型
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 旧列表.C助手)
 		v输出 = None	#显示缓存
 		if v类型 == None:

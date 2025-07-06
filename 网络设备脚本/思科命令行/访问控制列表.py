@@ -13,27 +13,6 @@ from .常量 import *
 #===============================================================================
 # 生成
 #===============================================================================
-c标准 = "standard"
-c扩展 = "extended"
-c版本6 = "ipv6"
-#访问控制列表序号范围
-ca标准范围 = (range(1, 100), range(1300, 2000))
-ca扩展范围 = (range(100, 200), range(2000, 2700))
-class F序号范围检查:
-	def __init__(self, aa范围, a异常文本):
-		self.ma范围 = aa范围
-		self.m异常文本 = a异常文本
-	def __call__(self, a序号, a异常 = True):
-		if type(a序号) == int:
-			for v in self.ma范围:
-				if a序号 in v:
-					return True
-			if a异常:
-				raise ValueError(self.m异常文本)
-			return False
-		return False
-fi标准范围 = F序号范围检查(ca标准范围, "标准访问控制列表号码范围应为1~99,1300~1999")
-fi扩展范围 = F序号范围检查(ca扩展范围, "扩展访问控制列表号码范围应为100~199,2000~2699")
 #端口号
 class F生成端口(北向列表.I生成端口):
 	def f大于(self, a值):
@@ -59,8 +38,8 @@ def f生成规则序号6(a序号):
 	else:
 		return "sequence " + str(a序号)
 #协议
-#允许
-f生成允许 = 南向列表.f生成允许
+#动作
+f生成动作 = 南向列表.f生成动作
 #地址
 def f生成地址标准4(a地址):
 	if not a地址:
@@ -93,15 +72,79 @@ def f生成地址6(a地址):
 		return "any"
 	else:
 		return str(v地址)
+def f生成规则_标准4(a序号, a规则: 北向列表.S规则):
+	v序号 = f生成规则序号4(a序号)
+	v动作 = f生成动作(a规则.m动作)
+	v源地址 = f生成地址标准4(a规则.m源地址)
+	v命令 = f"{v序号} {v动作} {v源地址}"
+	return v命令
+def f生成规则_扩展4(a序号, a规则: 北向列表.S规则):
+	v命令 = 命令.C命令()
+	v命令 += f生成规则序号4(a序号)
+	v命令 += f生成动作(a规则.m动作)
+	#确定
+	v命令 += 南向列表.ca协议到字符串4[a规则.m协议]
+	v层 = 协议.f取协议层(a规则.m协议)
+	#按层
+	if v层 == 3:
+		v命令 += f生成地址扩展4(a规则.m源地址)
+		v命令 += f生成地址扩展4(a规则.m目的地址)
+	elif v层 == 4:
+		v命令 += f生成地址扩展4(a规则.m源地址)
+		v命令 += f生成端口(a规则.m源端口)
+		v命令 += f生成地址扩展4(a规则.m目的地址)
+		v命令 += f生成端口(a规则.m目的端口)
+	else:
+		raise NotImplementedError("其他层未实现")
+	return v命令
+def f生成规则_6(self, a序号, a规则: 北向列表.S规则):
+	v命令 = 命令.C命令()
+	v命令 += f生成规则序号6(a序号)
+	v命令 += f生成动作(a规则.m动作)
+	#确定
+	v命令 += 南向列表.ca协议到字符串6[a规则.m协议]
+	v层 = 协议.f取协议层(a规则.m协议)
+	#按层
+	if v层 == 3:
+		v命令 += f生成地址6(a规则.m源地址)
+		v命令 += f生成地址6(a规则.m目的地址)
+	elif v层 == 4:
+		v命令 += f生成地址6(a规则.m源地址)
+		v命令 += f生成端口(a规则.m源端口)
+		v命令 += f生成地址6(a规则.m目的地址)
+		v命令 += f生成端口(a规则.m目的端口)
+	else:
+		raise NotImplementedError("其他层未实现")
+	return v命令
 #===============================================================================
 # 解析
 #===============================================================================
+#范围
+ca标准范围 = (range(1, 100), range(1300, 2000))
+ca扩展范围 = (range(100, 200), range(2000, 2700))
+class F序号范围检查:
+	def __init__(self, aa范围, a异常文本):
+		self.ma范围 = aa范围
+		self.m异常文本 = a异常文本
+	def __call__(self, a序号, a异常 = True):
+		if type(a序号) == int:
+			for v in self.ma范围:
+				if a序号 in v:
+					return True
+			if a异常:
+				raise ValueError(self.m异常文本)
+			return False
+		return False
+fi标准范围 = F序号范围检查(ca标准范围, "标准访问控制列表号码范围应为1~99,1300~1999")
+fi扩展范围 = F序号范围检查(ca扩展范围, "扩展访问控制列表号码范围应为100~199,2000~2699")\
+#类型字符串
 ca字符串到类型 = {	#show_access-lists显示的类型
 	"Standard IP": 北向列表.E类型.e标准4,
 	"Extended IP": 北向列表.E类型.e扩展4,
 	"IPv6": 北向列表.E类型.e扩展6,
 	"MAC": 北向列表.E类型.e物理,
 }
+#解析规则
 def fe规则0(a文本: str, af解析规则):
 	"""解析show access-list XXX的输出结果"""
 	v位置 = 字符串.f连续找最后(a文本, "access list", "\n")
@@ -134,8 +177,56 @@ def f解析访问控制列表类型(a行: str)->北向列表.E类型:
 		return ca字符串到类型[v类型s]
 	else:
 		return None	#输入空,列表不存在
+def f解析规则_标准4(a规则: str):
+	v解析器 = C规则解析器(a规则)
+	v规则 = 北向列表.S规则()
+	v规则.m序号 = v解析器.f序号4()
+	v规则.m动作 = v解析器.f动作()
+	v规则.m源地址 = v解析器.f地址标准4()
+	return v规则
+def f解析规则_扩展4(a规则: str):
+	v解析器 = C规则解析器(a规则)
+	v规则 = 北向列表.S规则()
+	v规则.m序号 = v解析器.f序号4()
+	v规则.m动作 = v解析器.f动作()
+	v规则.m协议 = v解析器.f协议()
+	v规则.m源地址 = v解析器.f地址扩展4()
+	v规则.m源端口 = v解析器.f端口号()
+	v规则.m目的地址 = v解析器.f地址扩展4()
+	v规则.m目的端口 = v解析器.f端口号()
+	return v规则
+def f解析规则_6(a规则: str):
+	v解析器 = C规则解析器(a规则)
+	v规则 = 北向列表.S规则()
+	v规则.m动作 = v解析器.f动作()
+	v规则.m协议 = v解析器.f协议()
+	v规则.m源地址 = v解析器.f地址6()
+	v规则.m源端口 = v解析器.f端口号()
+	v规则.m目的地址 = v解析器.f地址6()
+	v规则.m目的端口 = v解析器.f端口号()
+	v规则.m序号 = v解析器.f序号6()
+	return v规则
+class C全局列表配置解析:
+	def __init__(self, a配置):
+		self.m配置 = a配置
+	def fe列表(self):
+		pass
+class C单列表配置解析:
+	def __init__(self, a配置):
+		self.m配置 = a配置
+	def fg类型(self):
+		pass
+	def fe规则(self, af解析规则):
+		pass
+#本地列表
+def fc本地列表_标准4(a配置: str):
+	return 北向列表.C列表(fe规则0(a配置, f解析规则_标准4))
+def fc本地列表_扩展4(a配置: str):
+	return 北向列表.C列表(fe规则0(a配置, f解析规则_扩展4))
+def fc本地列表_6(a配置: str):
+	return 北向列表.C列表(fe规则0(a配置, f解析规则_6))
 #===============================================================================
-# 显示
+# 显示模式
 #===============================================================================
 class I列表显示(北向列表.I列表显示, 模式.I显示模式):
 	def __init__(self, a, a名称, a列表缓存: str = None):
@@ -148,7 +239,7 @@ class I列表显示(北向列表.I列表显示, 模式.I显示模式):
 		v列表 = self.fg列表文本()
 		return bool(v列表)	#不存在则什么都不显示
 	def fg列表文本(self):
-		if not hasattr(self, "m列表缓存") or not self.m列表缓存:
+		if not self.m列表缓存:
 			v命令 = self.fg显示命令()
 			self.m列表缓存 = self.m设备.f执行显示命令(v命令)
 		return self.m列表缓存
@@ -168,72 +259,46 @@ class I列表显示(北向列表.I列表显示, 模式.I显示模式):
 class C标准4显示(I列表显示):
 	c协议 = "ip"
 	c类型 = "standard"
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号4()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m源地址 = v解析器.f地址标准4()
-		return v规则
+	f解析规则 = staticmethod(f解析规则_标准4)
 class C扩展4显示(I列表显示):
 	c协议 = "ip"
 	c类型 = "extended"
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m序号 = v解析器.f序号4()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址扩展4()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址扩展4()
-		v规则.m目的端口 = v解析器.f端口号()
-		return v规则
+	f解析规则 = staticmethod(f解析规则_扩展4)
 class C六显示(I列表显示):
 	c协议 = "ipv6"
 	c类型 = ""
+	f解析规则 = staticmethod(f解析规则_6)
 	def fg显示命令(self, a序号 = None):
 		v命令 = 命令.C命令("show", self.c协议, "access-list", self.m名称)
 		if a序号 != None:
 			v命令 += f"| include sequence_{a序号}$"
 		return v命令
-	@staticmethod
-	def f解析规则(a规则: str):
-		v解析器 = C规则解析器(a规则)
-		v规则 = 北向列表.S规则()
-		v规则.m允许 = v解析器.f允许()
-		v规则.m协议 = v解析器.f协议()
-		v规则.m源地址 = v解析器.f地址6()
-		v规则.m源端口 = v解析器.f端口号()
-		v规则.m目的地址 = v解析器.f地址6()
-		v规则.m目的端口 = v解析器.f端口号()
-		v规则.m序号 = v解析器.f序号6()
-		return v规则
 #===============================================================================
-# 配置
+# 配置模式
 #===============================================================================
 class I列表配置(南向列表.I列表配置):
-	def __init__(self, a, a名称):
+	def __init__(self, a, a名称, a列表缓存: str = None):
 		南向列表.I列表配置.__init__(self, a)
 		self.m名称 = a名称
+		self.m列表缓存 = a列表缓存
 	def fg模式参数(self):
 		return (self.c类型, self.m名称)
 	def fg进入命令(self):
 		return 命令.C命令(self.c协议, "access-list", self.c类型, self.m名称)
 	def f删除规则(self, a序号: int):
 		self.f执行当前模式命令(c不 + str(a序号))
-	def fs规则(self, a序号 = 北向列表.c空序号, a规则 = 北向列表.c空规则, a操作 = 操作.E操作.e设置):
+	def f添加规则(self, a序号, a规则: 北向列表.S规则):
+		v命令 = self.f生成规则(a序号, a规则)
+		self.f执行当前模式命令(v命令)
+	def fs规则(self, a序号, a规则 = None, a操作 = 操作.E操作.e设置):
 		v操作 = 操作.f解析操作(a操作)
 		if v操作 in (操作.E操作.e设置, 操作.E操作.e新建, 操作.E操作.e添加):
 			self.f添加规则(a序号, a规则)
 		elif v操作 == 操作.E操作.e修改:
-			v序号 = a序号 if a序号 >= 0 else a规则.m序号
-			v规则 = self.fg规则(v序号)
+			v规则 = self.fg规则(a序号)
 			v规则.f更新_规则(a规则)
-			self.f删除规则(v序号)
-			self.f添加规则(v序号, v规则)
+			self.f删除规则(a序号)	#不能直接覆盖,需要先删除再添加
+			self.f添加规则(a序号, v规则)
 		elif v操作 == 操作.E操作.e删除:
 			self.f删除规则(a序号)
 		else:
@@ -241,63 +306,17 @@ class I列表配置(南向列表.I列表配置):
 class C标准4配置(I列表配置, C标准4显示):
 	c协议 = "ip"
 	c类型 = "standard"
-	def __init__(self, a, a名称):
-		I列表配置.__init__(self, a, a名称, a类型 = c标准)
-	def f添加规则(self, a序号, a规则: 北向列表.S规则):
-		v序号 = f生成规则序号4(a序号)
-		v允许 = f生成允许(a规则.m允许)
-		v源地址 = f生成地址标准4(a规则.m源地址)
-		v命令 = f"{v序号} {v允许} {v源地址}"
-		self.f执行当前模式命令(v命令)
+	f生成规则 = staticmethod(f生成规则_标准4)
 class C扩展4配置(I列表配置, C扩展4显示):
+	"""适用于: 浪潮s6650(v11.12.1) 浪潮s5960(v12.2)"""
 	c协议 = "ip"
 	c类型 = "extended"
-	def __init__(self, a, a名称):
-		I列表配置.__init__(self, a, a名称, a类型 = c扩展)
-	def f添加规则(self, a序号, a规则: 北向列表.S规则):
-		v命令 = 命令.C命令()
-		v命令 += f生成规则序号4(a序号)
-		v命令 += f生成允许(a规则.m允许)
-		#确定
-		v命令 += 南向列表.ca协议到字符串4[a规则.m协议]
-		v层 = 协议.f取协议层(a规则.m协议)
-		#按层
-		if v层 == 3:
-			v命令 += f生成地址扩展4(a规则.m源地址)
-			v命令 += f生成地址扩展4(a规则.m目的地址)
-		elif v层 == 4:
-			v命令 += f生成地址扩展4(a规则.m源地址)
-			v命令 += f生成端口(a规则.m源端口)
-			v命令 += f生成地址扩展4(a规则.m目的地址)
-			v命令 += f生成端口(a规则.m目的端口)
-		else:
-			raise NotImplementedError("其他层未实现")
-		#执行命令
-		self.f执行当前模式命令(v命令)
+	f生成规则 = staticmethod(f生成规则_扩展4)
 class C六配置(I列表配置, C六显示):
 	c模式名 = "互联网协议第6版命名访问控制列表"
 	c协议 = "ipv6"
 	c类型 = ""
-	def f添加规则(self, a序号, a规则: 北向列表.S规则):
-		v命令 = 命令.C命令()
-		v命令 += f生成规则序号6(a序号)
-		v命令 += f生成允许(a规则.m允许)
-		#确定
-		v命令 += 南向列表.ca协议到字符串6[a规则.m协议]
-		v层 = 协议.f取协议层(a规则.m协议)
-		#按层
-		if v层 == 3:
-			v命令 += f生成地址6(a规则.m源地址)
-			v命令 += f生成地址6(a规则.m目的地址)
-		elif v层 == 4:
-			v命令 += f生成地址6(a规则.m源地址)
-			v命令 += f生成端口(a规则.m源端口)
-			v命令 += f生成地址6(a规则.m目的地址)
-			v命令 += f生成端口(a规则.m目的端口)
-		else:
-			raise NotImplementedError("其他层未实现")
-		#执行命令
-		self.f执行当前模式命令(v命令)
+	f生成规则 = staticmethod(f生成规则_6)
 #===============================================================================
 class C助手(北向列表.I助手):
 	#元组结构含意:(序号开始, 序号结束（不包含）, 到目标序号的增加值)
@@ -367,9 +386,9 @@ class C助手(北向列表.I助手):
 # 解析器
 #===============================================================================
 class C规则解析器:
-	def __init__(self, a文本):
+	def __init__(self, a文本: str):
 		self.m取词 = 字符串.C推进取词(a文本)
-	def f允许(self):
+	def f动作(self):
 		return self.m取词.f取词推进() == "permit"
 	def f协议(self):
 		return 南向列表.ca字符串到协议[self.m取词.f取词推进()]

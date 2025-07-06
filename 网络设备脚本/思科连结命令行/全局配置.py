@@ -39,18 +39,27 @@ class C全局配置nv7_0(全局配置.I全局配置):
 		return v模式
 	#数据结构
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		"""适用于: 浪潮cn8696q(v7.3)"""
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
 		from ..思科命令行 import 访问控制列表 as 旧列表
 		from . import 访问控制列表 as 实现列表
+		#判断类型
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 旧列表.C助手)
+		v输出 = None	#显示缓存
+		if v类型 == None:
+			v输出 = self.m设备.f执行显示命令(f"show access-lists {a名称}")	#不存在显示空
+			if not v输出:
+				return None
+			v类型 = 实现列表.f解析访问控制列表类型_nv7(v输出)
 		#创建访问控制列表对象
 		if v类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4):
-			v模式 = 实现列表.C四配置(self, v名称)
+			v模式 = 实现列表.C四配置(self, v名称, a列表缓存 = v输出)
 		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
-			v模式 = 旧列表.C六配置(self, v名称)
-		else:	#没有类型,默认ipv4
-			v模式 = 实现列表.C四配置(self, v名称)
+			v模式 = 旧列表.C六配置(self, v名称, a列表缓存 = v输出)	#未实现,先用旧的
+		else:
+			raise ValueError("未知的访问控制列表类型")
+		#判断操作
 		if a操作 == 操作.E操作.e删除:
 			v命令 = c不 + v模式.fg进入命令()
 			self.f执行当前模式命令(v命令)
@@ -107,3 +116,32 @@ class C全局配置nv7_3(C全局配置nv7_0):
 		return 实现协议.f模式(self, a端, 实现协议.C客户端nv7_3, None, a操作)
 class C全局配置nv9_2(C全局配置nv7_3):
 	"""适用于: 浪潮cn61108pcv(v9.2.3)"""
+	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		"""适用于: 浪潮cv61108pcv(v9.2.3)"""
+		from ..基础接口 import 访问控制列表 as 北向列表
+		from ..命令行接口 import 访问控制列表 as 南向列表
+		from ..思科命令行 import 访问控制列表 as 旧列表
+		from . import 访问控制列表 as 实现列表
+		#判断类型
+		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 旧列表.C助手)
+		v输出 = None	#显示缓存
+		if v类型 == None:
+			v输出 = self.m设备.f执行显示命令(f"show access-lists {a名称}")	#不存在显示空
+			if not v输出:
+				return None
+			v类型 = 实现列表.f解析访问控制列表类型_nv9(v输出)
+		#创建访问控制列表对象
+		if v类型 in (北向列表.E类型.e标准4, 北向列表.E类型.e扩展4):
+			v模式 = 实现列表.C四配置(self, v名称, a列表缓存 = v输出)
+		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
+			v模式 = 旧列表.C六配置(self, v名称, a列表缓存 = v输出)	#未实现,先用旧的
+		else:
+			raise ValueError("未知的访问控制列表类型")
+		#判断操作
+		if a操作 == 操作.E操作.e删除:
+			v命令 = c不 + v模式.fg进入命令()
+			self.f执行当前模式命令(v命令)
+		elif a操作 == 操作.E操作.e重置:
+			v命令 = c默认 + v模式.fg进入命令()
+			self.f执行当前模式命令(v命令)
+		return v模式

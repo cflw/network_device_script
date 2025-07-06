@@ -54,21 +54,30 @@ class C全局配置(全局配置.I全局配置):
 		from . import 时间范围 as 时间范围
 		return 时间范围.C时间范围(self, a)
 	def f模式_访问控制列表(self, a名称, a类型 = None, a操作 = 操作.E操作.e设置):
+		"""适用于: 浪潮s6650(v11.12.1) 浪潮s5960(v12.5)"""
 		from ..基础接口 import 访问控制列表 as 北向列表
 		from ..命令行接口 import 访问控制列表 as 南向列表
 		from . import 访问控制列表 as 实现列表
+		#判断类型
 		v名称, v类型 = 南向列表.f解析名称和类型(a名称, a类型, 实现列表.C助手)
+		v输出 = None	#显示缓存
+		if v类型 == None:
+			v输出 = self.m设备.f执行显示命令(f"show access-lists {a名称}")
+			if not v输出:
+				return None
+			v类型 = 实现列表.f解析访问控制列表类型(v输出)
 		#创建访问控制列表对象
 		if v类型 == 北向列表.E类型.e标准4:
 			实现列表.fi标准范围(v名称)
-			v模式 = 实现列表.C标准4配置(self, v名称)
+			v模式 = 实现列表.C标准4配置(self, v名称, a列表缓存 = v输出)
 		elif v类型 == 北向列表.E类型.e扩展4:
 			实现列表.fi扩展范围(v名称)
-			v模式 = 实现列表.C扩展4配置(self, v名称)
+			v模式 = 实现列表.C扩展4配置(self, v名称, a列表缓存 = v输出)
 		elif v类型 in (北向列表.E类型.e标准6, 北向列表.E类型.e扩展6):
-			v模式 = 实现列表.C六配置(self, v名称)
+			v模式 = 实现列表.C六配置(self, v名称, a列表缓存 = v输出)
 		else:
 			raise ValueError("未知的访问控制列表类型")
+		#判断操作
 		if a操作 == 操作.E操作.e删除:
 			v命令 = v模式.fg删除命令()
 			self.f执行当前模式命令(v命令)

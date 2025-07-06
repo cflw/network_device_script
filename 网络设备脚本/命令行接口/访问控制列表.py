@@ -45,14 +45,12 @@ def f解析名称和类型(a名称, a类型, a助手):
 		raise TypeError("无法解析的类型")
 #协议
 ca协议到字符串4 = {
-	协议.E协议.ip: "ip",
 	协议.E协议.ipv4: "ip",
 	协议.E协议.ipv6: "ipv6",
 	协议.E协议.tcp: "tcp",
 	协议.E协议.udp: "udp",
 }
 ca协议到字符串6 = {
-	协议.E协议.ip: "ipv6",
 	协议.E协议.ipv4: "ip",
 	协议.E协议.ipv6: "ipv6",
 	协议.E协议.tcp: "tcp",
@@ -81,19 +79,19 @@ f生成协议6 = F生成协议(ca协议到字符串6)
 #动作
 c允许 = "permit"
 c拒绝 = "deny"
-c允许元组 = (c允许, c拒绝)
-def F生成允许(a元组: tuple):
-	def f(a允许)->str:
-		if type(a允许) == str:
-			if a允许 in a元组:
-				return a允许
+c动作元组 = (c允许, c拒绝)
+def F生成动作(a元组: tuple):
+	def f(a动作)->str:
+		if type(a动作) == str:
+			if a动作 in a元组:
+				return a动作
 			raise ValueError()
-		if a允许:
+		if a动作:
 			return a元组[0]
 		else:
 			return a元组[1]
 	return f
-def F解析允许(a元组: tuple):
+def F解析动作(a元组: tuple):
 	def f(a字符串: str)->bool:
 		if a字符串 == a元组[0]:
 			return True
@@ -102,8 +100,8 @@ def F解析允许(a元组: tuple):
 		else:
 			raise ValueError()
 	return f
-f生成允许 = F生成允许(c允许元组)
-f解析允许 = F解析允许(c允许元组)
+f生成动作 = F生成动作(c动作元组)
+f解析动作 = F解析动作(c动作元组)
 #地址
 def f生成地址和通配符4(a地址)->str:
 	v地址 = 地址.S网络地址4.fc自动(a地址)

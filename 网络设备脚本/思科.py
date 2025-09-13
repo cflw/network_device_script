@@ -30,6 +30,7 @@ class E型号(enum.IntEnum):
 	nxosv9k = c交换机 + c连结 + c虚拟2 + 9000	#nxos v9000
 	#xr系列运营商路由器
 	c12000 = c路由器 + c路由 + 12000	#cisco 12000
+	xrv = c路由器 + c路由 + c虚拟2	#xrv
 	xrv7k = c路由器 + c路由 + c虚拟2 + 7000	#xrv7000
 	xrv9k = c路由器 + c路由 + c虚拟2 + 9000	#xrv9000
 	xr12000 = c路由器 + c路由 + 12000	#cisco xr 12000

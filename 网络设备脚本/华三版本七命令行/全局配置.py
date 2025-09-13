@@ -19,9 +19,9 @@ class C系统视图_v7(旧全局配置.C系统视图):
 		from . import 用户 as 用户
 		v次版本 = self.m设备.m版本[1]
 		if v次版本 < 1:	#版本 <= 7.0
-			return 用户.C用户v7(self, a用户名)
+			return 用户.C用户配置_v7(self, a用户名)
 		else:	#版本 >= 7.1
-			return 用户.C用户v7_1(self, a用户名)
+			return 用户.C用户配置_v7_1(self, a用户名)
 	def f模式_登录(self, a方式, a范围, a操作 = 操作.E操作.e设置):	#废弃
 		from . import 登录
 		return 登录.C登录v7(self, a方式, a范围)

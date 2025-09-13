@@ -34,7 +34,9 @@ class C用户视图_v7(旧用户模式.C用户视图):
 		if "Automatic configuration" in v输出:	#刚开机,自动配置中,按ctrl+c中断
 			self.m设备.f输入(c中断符)
 			v输出 = self.m设备.f输出()
-		if "login:" in v输出:
+		if "Your login failures since the last successful login:" in v输出:	#上次登录失败提示,出现于:紫光s7800xp
+			pass	#忽略提示
+		elif "login:" in v输出:
 			v输出 = self.m设备.f执行命令(a用户名)
 		if "Password:" in v输出:
 			v输出 = self.m设备.f执行命令(a密码)

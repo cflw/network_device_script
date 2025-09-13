@@ -1,3 +1,4 @@
+import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 全局显示
 from ..命令行接口 import 模式
 from . import 基本表信息
@@ -12,6 +13,9 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 	def f模式_时间(self):
 		from . import 时间
 		return 时间.C时间显示(self)
+	def f模式_用户(self, a用户名: str):
+		from . import 用户
+		return 用户.C用户显示(self, a用户名)
 	#配置
 	def f显示_启动配置(self):
 		v输出 = self.m设备.f执行显示命令("show startup-config", a等待 = 10)
@@ -20,11 +24,12 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 		v输出 = self.m设备.f执行显示命令("show running-config", a等待 = 10)
 		return v输出
 	#对象
-	def fe用户名(self):
+	def fe用户(self):
 		"""适用于: 思科c7200"""
-		import 用户
-		v输出 = self.m设备.f执行显示命令("show running-config | section username")
-		return 用户.fe提取用户名(v输出)
+		from . import 用户
+		v输出 = self.m设备.f执行显示命令("show running-config | section username", a等待 = 10)
+		for v行 in 字符串.fe包含行(v输出, "username"):
+			yield 用户.C用户显示(self, 用户.f提取用户名(v行), v行)
 	#表
 	def f显示_接口详细(self):
 		v输出 = self.m设备.f执行显示命令("show interface")

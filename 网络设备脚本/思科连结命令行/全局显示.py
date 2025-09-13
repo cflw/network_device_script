@@ -40,6 +40,14 @@ class C全局显示_nv7_0(全局显示.I全局显示, 模式.I显示模式):
 	def f显示_当前配置(self):
 		v输出 = self.m设备.f执行显示命令("show running-config")
 		return v输出
+	#对象
+	def fe用户(self):
+		from . import 用户
+		v命令 = "show running-config | section username"
+		v输出 = self.m设备.f执行显示命令(v命令, a等待 = 10)
+		for v用户名 in 用户.fe配置用户名(v输出):
+			v用户配置 = 用户.f提取用户配置(v输出, v用户名)
+			yield 用户.C用户显示_nv7(self, v用户名, v用户配置)
 	#表格
 	f显示_接口表 = 显示.F显示并解析(c命令_接口状态表, 基本表信息.f接口状态表_nv7)
 	f显示_物理地址表 = 显示.F显示并解析(c命令_物理地址表, 基本表信息.f物理地址表_nv7)

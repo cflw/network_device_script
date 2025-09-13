@@ -15,7 +15,7 @@ class C全局配置nv7_0(全局配置.I全局配置):
 	def f模式_用户(self, a用户名, a操作 = 操作.E操作.e设置):
 		from . import 用户
 		v操作 = 操作.f解析操作(a操作)
-		v模式 = 用户.C用户nv7(self, a用户名)
+		v模式 = 用户.C用户配置_nv7(self, a用户名)
 		if 操作.fi减操作(v操作):
 			self.f执行当前模式命令(v模式.fg删除命令())
 		return v模式

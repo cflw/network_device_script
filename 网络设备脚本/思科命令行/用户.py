@@ -10,12 +10,29 @@ from .常量 import *
 #===============================================================================
 # 函数
 #===============================================================================
-def fe提取用户名(a配置: str):
+def f提取用户名(a行: str):
+	"""从username行提取用户名"""
+	return 字符串.f提取字符串之间(a行, "username ", " ")
+def f提取密码(a行: str):
+	v关键字位置 = a行.find("password")
+	v加密级别位置 = a行.find(" ", v关键字位置) + 1
+	v密码位置 = a行.find(" ", v加密级别位置) + 1
+	return a行[v密码位置:].strip()
+def f提取权限(a行: str):
+	v关键字位置 = a行.find("privilege")
+	if v关键字位置 == -1:
+		return 北向用户.E用户权限.e最低
+	v数字位置 = a行.find(" ", v关键字位置) + 1
+	v数字结束 = a行.find(" ", v数字位置)
+	v数字 = int(a行[v数字位置 : v数字结束])
+	if v数字 == 15:
+		return 北向用户.E用户权限.e最高
+	return v数字
+def fe配置用户名(a配置: str):
 	"""show running-config | section username
 	适用于: 思科c7200(15.2(4)M11)"""
-	for v行 in a配置.split("\n"):
-		if v用户名 := 字符串.f提取字符串之间(v行, "username ", " "):
-			yield v用户名
+	for v行 in 字符串.fe包含行(a配置, "username"):
+		yield f提取用户名(v行)
 #===============================================================================
 # 用户配置
 #===============================================================================
@@ -59,4 +76,26 @@ class C用户配置(模式.C同级模式, 南向用户.I用户配置):
 			v权限 = int(a权限)
 		self.f执行用户命令("privildge %d" % (v权限,))
 	def fs服务类型(self, a服务类型 = None, a操作 = 操作.E操作.e设置):
+		pass	#无命令
+#===============================================================================
+# 用户显示
+#===============================================================================
+class C用户显示(模式.I显示模式, 北向用户.I用户显示):
+	"""适用于: (模拟器)思科c7200"""
+	def __init__(self, a, a用户名: str, a缓存: str = ""):
+		模式.I显示模式.__init__(self, a)
+		self.m用户名 = a用户名
+		self.m缓存 = a缓存
+	def fg配置(self)->str:
+		if not self.m缓存:
+			v命令 = f"show running-config | include username {self.m用户名} "
+			self.m缓存 = self.m设备.f执行显示命令(v命令)	#只有一行
+		return self.m缓存
+	def fg用户名(self):
+		return self.m用户名
+	def fg密码(self):	#基本上只能显示密文密码
+		return f提取密码(self.fg配置())
+	def fg权限(self):
+		return f提取权限(self.fg配置())
+	def fg服务类型(self):
 		pass	#无命令

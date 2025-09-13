@@ -1,3 +1,4 @@
+import cflw代码库py.cflw字符串 as 字符串
 from ..基础接口 import 全局显示
 from ..命令行接口 import 模式
 from ..命令行接口 import 显示
@@ -30,6 +31,14 @@ class C全局显示_ev6(全局显示.I全局显示, 模式.I显示模式):
 	def f显示_启动配置(self):
 		v输出 = self.m设备.f执行显示命令("show startup-config")
 		return v输出
+	#对象
+	def fe用户(self):
+		from . import 用户
+		v命令 = "show running-config | include username"
+		v输出 = self.m设备.f执行显示命令(v命令, a等待 = 10)
+		for v用户名 in 用户.fe配置用户名(v输出):
+			v用户配置 = 字符串.f提取包含行(v输出, v用户名)
+			yield 用户.C用户显示_ev6(self, v用户名, v用户配置)
 	#网络接口
 	f显示_接口表 = 显示.F显示并解析(c命令_接口状态表, 基本表信息.f接口状态_ev6)
 	f显示_网络接口表4 = 显示.F显示并解析(c命令_网络接口表4, 基本表信息.f网络接口表4_ev6)

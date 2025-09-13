@@ -14,9 +14,9 @@ class I全局显示:
 	def f显示_当前配置(self):
 		raise NotImplementedError()
 	#显示对象
-	def fe用户名(self):
+	def fe用户(self):
 		raise NotImplementedError()
-	def fe访问列表名(self):
+	def fe访问列表(self):
 		raise NotImplementedError()
 	#显示全局表格
 	def f显示_路由表4(self):

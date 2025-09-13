@@ -63,108 +63,44 @@ f接口详细_v7 = F接口详细_v7()
 #===============================================================================
 class F网络接口表4_v7(数据表.I解析表格管线):
 	"""display ip interface brief
-	适用于: 华三s5560x(v7.1.070), 华三s6900(v7.1.070), 
-		紫光s5600(v7.1.070 r7734p05)"""
-	c标题行 = "Interface           Physical Protocol IP address      VPN instance Description"
-	c接口 = 0
-	c物理 = 20
-	c协议 = 29
-	c地址 = 38
-	c实例 = 54
-	c描述 = 67
-	ca列 = 数据表.C切割列(c接口, c物理, c协议, c地址, c实例, c描述)
+	适用于: 华三s5560x(v7.1.070), 华三s6520x(v7.1.070), 华三s6900(v7.1.070), 华三s9850(v7.1.070)
+		紫光s5200(v7.1.*), 紫光s5600(v7.1.070 r7734p05)"""
+	ca标题字段 = ("Interface", "Physical", "Protocol", "IP address", "VPN instance", "Description")
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端协议状态, self.ca列[2], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列[3], 信息.f解析网络地址4)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[5], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
+		self.m自动切割列 = 数据表.C自动切割列()
+		self.f添加字段(数据表.E字段.e本端接口, self.m自动切割列[0], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e本端链路状态, self.m自动切割列[1], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端协议状态, self.m自动切割列[2], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端网络地址4, self.m自动切割列[3], 信息.f解析网络地址4)
+		self.f添加字段(数据表.E字段.e本端虚拟路由转发, self.m自动切割列[4], lambda x: x if x != "--" else None)
+		self.f添加字段(数据表.E字段.e本端描述, self.m自动切割列[5], str)
+	f初始处理 = 数据表.C自动切割列.F初始处理(*ca标题字段)
+	fi有效行 = 数据表.C自动切割列.Fi有效行()
+	fi结束 = staticmethod(数据表.fi空行)
 f网络接口表4_v7 = F网络接口表4_v7()
-class F网络接口表4_s5v7(数据表.I解析表格管线):
+class F网络接口表4_sv7(数据表.I解析表格管线):
 	"""display ip interface brief
-	适用于: 华三s5820v2(v7.1.075)"""
-	c接口 = 0
-	c物理 = 25
-	c协议 = 34
-	c地址 = 43
-	c描述 = 59
-	ca列 = 数据表.C切割列(c接口, c物理, c协议, c地址, c描述)
-	c标题行0 = "Interface                Physical Protocol IP Address      Description "
+	适用于: 华三s5820v2(v7.1.075), 华三S9810(V7.1.*)"""
+	ca标题字段 = ("Interface", "Physical", "Protocol", "IP Address", "Description")
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端协议状态, self.ca列[2], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列[3], 信息.f解析网络地址4)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[4], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
+		self.m自动切割列 = 数据表.C自动切割列()
+		self.f添加字段(数据表.E字段.e本端接口, self.m自动切割列[0], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e本端链路状态, self.m自动切割列[1], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端协议状态, self.m自动切割列[2], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端网络地址4, self.m自动切割列[3], 信息.f解析网络地址4)
+		self.f添加字段(数据表.E字段.e本端描述, self.m自动切割列[4], str)
+	f初始处理 = 数据表.C自动切割列.F初始处理(*ca标题字段)
+	fi有效行 = 数据表.C自动切割列.Fi有效行()
 	fi结束 = staticmethod(数据表.fi空行)
-f网络接口表4_s5v7 = F网络接口表4_s5v7()
-class F网络接口表4_s7v7(数据表.I解析表格管线):
-	"""display ip interface brief
-	适用于: 紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*), 紫光s5600(v7.1.070 r7748p01)"""
-	c接口 = 0
-	c物理 = 20
-	c协议 = 29
-	c地址 = 38
-	c实例 = 57
-	c描述 = 70
-	ca列 = 数据表.C切割列(c接口, c物理, c协议, c地址, c实例, c描述)
-	c标题行0 = "Interface           Physical Protocol IP address/Mask    VPN instance Description"
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端协议状态, self.ca列[2], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列[3], 信息.f解析网络地址4)
-		self.f添加字段(数据表.E字段.e本端虚拟路由转发, self.ca列[4], lambda x: x if x != "--" else None)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[5], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
-	fi结束 = staticmethod(数据表.fi空行)
-f网络接口表4_s7v7 = F网络接口表4_s7v7()
-class F网络接口表4_us5v7(F网络接口表4_s7v7):
-	"""display ip interface brief
-	适用于: 紫光s5200(v7.1.*)"""
-	c接口 = 0
-	c物理 = 19
-	c协议 = 28
-	c地址 = 37
-	c实例 = 56
-	c描述 = 69
-	ca列 = 数据表.C切割列(c接口, c物理, c协议, c地址, c实例, c描述)
-	c标题行0 = "Interface          Physical Protocol IP address/Mask    VPN instance Description"
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
-f网络接口表4_us5v7 = F网络接口表4_us5v7()
-class F网络接口表4_s9v7(数据表.I解析表格管线):
-	"""display ip interface brief
-	适用于: 华三S9810(V7.1.*)"""
-	c标题行0 = "Interface                     Physical Protocol IP Address      Description "
-	c数据行0 = "M-GE1/0/0/0                   down     down     xxx.xxx.xxx.xxx M-Gigabit..."
-	ca列 = 数据表.f自动分列(c标题行0, c数据行0)
-	c接口, c物理, c协议, c地址, c描述 = ca列.fe列位置()
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写s9v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端协议状态, self.ca列[2], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端网络地址4, self.ca列[3], 信息.f解析网络地址4)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[4], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
-	fi结束 = staticmethod(数据表.fi空行)
-f网络接口表4_s9v7 = F网络接口表4_s9v7()
+f网络接口表4_sv7 = F网络接口表4_sv7()
 #===============================================================================
 # 网络接口表6
 #===============================================================================
 class F网络接口表6_s9v7(数据表.I解析表格管线):
 	"""display ipv6 interface brief
-	适用于: 华三S9810(V7.1.*)"""
+	适用于: 华三S9810(V7.1.*), 紫光s8600(v7.1.070)"""
 	c标题行0 = "Interface                                 Physical Protocol IPv6 Address"
 	c数据行0 = "M-GigabitEthernet1/0/0/0                  down     down     Unassigned"
 	ca列 = 数据表.f自动分列(c标题行0, c数据行0)
@@ -182,109 +118,45 @@ f网络接口表6_s9v7 = F网络接口表6_s9v7()
 #===============================================================================
 # 接口表
 #===============================================================================
-class F接口表_s5v7(数据表.I解析表格管线):
-	"""display interface brief
-	适用于: 华三s5820v2(v7.1.075), 华三s6900(v7.1.070)
-		紫光s5600(v7.1.070 r7734p05)"""
-	c接口 = 0
-	c链路 = 21
-	c速率 = 26
-	c双工 = 35
-	c类型 = 41
-	c虚拟局域网 = 46
-	c描述 = 51
-	ca列 = 数据表.C切割列(c接口, c链路, c速率, c双工, c类型, c虚拟局域网, c描述)
-	c标题行0 = "Interface            Link Speed   Duplex Type PVID Description"
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端速率, self.ca列[2], 信息.f解析速率)
-		self.f添加字段(数据表.E字段.e本端双工模式, self.ca列[3], 信息.f解析双工模式)
-		self.f添加字段(数据表.E字段.e本端链路类型, self.ca列[4], 信息.f解析链路类型)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[5], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[6], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
-	fi结束 = staticmethod(数据表.fi空行)
-f接口表_s5v7 = F接口表_s5v7()
-class F接口表_s7v7(数据表.I解析表格管线):
+class F接口表_v7(数据表.I解析表格管线):
 	"""display interface brief,只看二层接口
-	适用于: 华三s5560x(v7.1.070)
-		紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*), 紫光s5200(v7.1.*), 紫光s5600(v7.1.070 r7748p01)"""
-	c接口 = 0
-	c链路 = 21
-	c速率 = 26
-	c双工 = 36
-	c类型 = 43
-	c虚拟局域网 = 48
-	c描述 = 53
-	ca列 = 数据表.C切割列(c接口, c链路, c速率, c双工, c类型, c虚拟局域网, c描述)
-	c标题行0 = "Interface            Link Speed     Duplex Type PVID Description              "
+	适用于: 华三s5560x(v7.1.070), 华三s5820v2(v7.1.075), 华三s6520x(v7.1.070), 华三s6900(v7.1.070), 
+		华三S9810(V7.1.*), 华三s9850(v7.1.070)
+		紫光s5200(v7.1.*), 紫光s5600(v7.1.070), 紫光s7800xp(v7.1.*), 紫光s8600x(v7.1.070)"""
+	ca标题字段 = "Interface", "Link", "Speed", "Duplex", "Type", "PVID", "Description"
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端速率, self.ca列[2], 信息.f解析速率)
-		self.f添加字段(数据表.E字段.e本端双工模式, self.ca列[3], 信息.f解析双工模式缩写)
-		self.f添加字段(数据表.E字段.e本端链路类型, self.ca列[4], 信息.f解析链路类型缩写)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[5], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[6], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
+		self.m自动切割列 = 数据表.C自动切割列()
+		self.f添加字段(数据表.E字段.e本端接口, self.m自动切割列[0], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e本端链路状态, self.m自动切割列[1], 信息.f解析起宕状态)
+		self.f添加字段(数据表.E字段.e本端速率, self.m自动切割列[2], 信息.f解析速率)
+		self.f添加字段(数据表.E字段.e本端双工模式, self.m自动切割列[3], 信息.f解析双工模式缩写)
+		self.f添加字段(数据表.E字段.e本端链路类型, self.m自动切割列[4], 信息.f解析链路类型缩写)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.m自动切割列[5], 信息.f解析虚拟局域网)
+		self.f添加字段(数据表.E字段.e本端描述, self.m自动切割列[6], str)
+	f初始处理 = 数据表.C自动切割列.F初始处理(*ca标题字段)
+	fi有效行 = 数据表.C自动切割列.Fi有效行()
 	fi结束 = staticmethod(数据表.fi空行)
-f接口表_s7v7 = F接口表_s7v7()
-class F接口表_s9v7(数据表.I解析表格管线):
-	"""display interface brief,只看二层接口
-	适用于: 华三S9810(V7.1.*)"""
-	c标题行0 = "Interface            Link Speed   Duplex Type PVID Description                "
-	c数据行0 = "BAGG6                DOWN auto    A      T    1    "
-	ca列 = 数据表.f自动分列(c标题行0, c数据行0)
-	c接口, c链路, c速率, c双工, c类型, c虚拟局域网, c描述 = ca列.fe列位置()
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[0], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端链路状态, self.ca列[1], 信息.f解析起宕状态)
-		self.f添加字段(数据表.E字段.e本端速率, self.ca列[2], 信息.f解析速率)
-		self.f添加字段(数据表.E字段.e本端双工模式, self.ca列[3], 信息.f解析双工模式缩写)
-		self.f添加字段(数据表.E字段.e本端链路类型, self.ca列[4], 信息.f解析链路类型缩写)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[5], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端描述, self.ca列[6], str)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c描述))
-	fi结束 = staticmethod(数据表.fi空行)
-f接口表_s9v7 = F接口表_s9v7()
+f接口表_v7 = F接口表_v7()
 #===============================================================================
 # 物理地址表
 #===============================================================================
 class F物理地址表_v7(数据表.I解析表格管线):
 	"""display mac-address
-	适用于: 华三s5560x(v7.1.070), 华三s5820v2(v7.1.075), 华三s6900(v7.1.070), 
-		紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*), 紫光s5200(v7.1.*)"""
-	c地址 = 0
-	c虚拟局域网 = 17
-	c状态 = 28
-	c端口 = 45
-	c老化 = 70
-	ca列 = 数据表.C切割列(c地址, c虚拟局域网, c状态, c端口, c老化)
-	c标题行0 = "MAC Address      VLAN ID    State            Port/Nickname            Aging"
+	适用于: 华三s5560x(v7.1.070), 华三s5820v2(v7.1.075), 
+		华三s6900(v7.1.070), 华三s9810(v7.1.*), 华三s9850(v7.1.070)
+		紫光s5200(v7.1.*), 紫光s5600(v7.1.070), 紫光s8600x(v7.1.070), 紫光s7800xp(v7.1.*)"""
+	ca标题字段 = ("MAC Address", "VLAN ID", "State", "Port", "Aging")
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[0], 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[1], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[3], 实现接口.f创建接口缩写v7)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c老化))
+		self.m自动切割列 = 数据表.C自动切割列()
+		self.f添加字段(数据表.E字段.e对端物理地址, self.m自动切割列[0], 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.m自动切割列[1], 信息.f解析虚拟局域网)
+		self.f添加字段(数据表.E字段.e本端接口, self.m自动切割列[3], 实现接口.f创建接口缩写v7)
+	f初始处理 = 数据表.C自动切割列.F初始处理(*ca标题字段)
+	fi有效行 = 数据表.C自动切割列.Fi有效行()
 	fi结束 = staticmethod(数据表.fi空行)
 f物理地址表_v7 = F物理地址表_v7()
-class F物理地址表_s9v7(F物理地址表_v7):
-	"""display mac-address
-	适用于: 华三s9810(v7.1.*)"""
-	c标题行0 = "MAC Address      VLAN ID    State            Port/NickName            Aging"	#和其他型号的区别就是NickName大小写不一样
-	def __init__(self):
-		F物理地址表_v7.__init__(self)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-f物理地址表_s9v7 = F物理地址表_s9v7()
 #===============================================================================
 # 地址解析表
 #===============================================================================
@@ -314,74 +186,24 @@ class F地址解析表_s5v7(数据表.I解析表格管线):
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
 	fi有效行 = staticmethod(数据表.F有效长度(c类型))
 f地址解析表_s5v7 = F地址解析表_s5v7()
-class F地址解析表_s6v7(数据表.I解析表格管线):
+class F地址解析表_v7(数据表.I解析表格管线):
 	"""display arp
-	适用于: 华三s6900(v7.1.070)"""
-	c网络地址 = 0
-	c物理地址 = 16
-	c虚拟局域网 = 31
-	c接口 = 42
-	c寿命 = 67
-	c类型 = 73
-	ca列 = 数据表.C切割列(c网络地址, c物理地址, c虚拟局域网, c接口, c寿命, c类型)
-	c标题行0 = "IP address      MAC address    VLAN/VSI   Interface/Link ID        Aging Type "
+	适用于: 华三msr3640(v7.1.070),
+		华三s5560x(v7.1.070), 华三s6520x(v7.1.070), 华三s6900(v7.1.070), 华三s9850(v7.1.070)
+		紫光s5600(v7.1.070)"""
+	ca标题字段 = ("IP address", "MAC address", "VLAN", "Interface", "Aging", "Type")
 	def __init__(self):
 		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端网络地址4, self.ca列[0], 地址.S网络地址4.fc主机地址字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[1], 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[2], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[3], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端寿命, self.ca列[4], int)
-		self.f添加字段(数据表.E字段.e本端地址解析协议类型, self.ca列[5], ca地址解析协议类型.get)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c类型))
-f地址解析表_s6v7 = F地址解析表_s6v7()
-class F地址解析表_sv7_2019(数据表.I解析表格管线):
-	"""display arp
-	适用于: 华三s5560x(v7.1.070 r1119p20), 紫光s5600(v7.1.070 r7734p05)"""
-	c网络地址 = 0
-	c物理地址 = 16
-	c虚拟局域网 = 31
-	c接口 = 42
-	c寿命 = 67
-	c类型 = 73
-	ca列 = 数据表.C切割列(c网络地址, c物理地址, c虚拟局域网, c接口, c寿命, c类型)
-	c标题行0 = "IP address      MAC address    VLAN/VSI   Interface                Aging Type"
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端网络地址4, self.ca列[0], 地址.S网络地址4.fc主机地址字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[1], 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[2], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[3], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端寿命, self.ca列[4], int)
-		self.f添加字段(数据表.E字段.e本端地址解析协议类型, self.ca列[5], ca地址解析协议类型.get)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c类型))
-f地址解析表_sv7_2019 = F地址解析表_sv7_2019()
-class F地址解析表_s7v7(数据表.I解析表格管线):
-	"""display arp
-	适用于: 华三s5560x(v7.1.070 r6526)
-		紫光s8600x(v7.1.070 r7748), 紫光s7800xp(v7.1.070 r6010p08), 
-		紫光s5200(v7.1.*), 紫光s5600(v7.1.070 r7748p01)"""
-	c网络地址 = 0
-	c物理地址 = 16
-	c虚拟局域网 = 31
-	c接口 = 45
-	c寿命 = 70
-	c类型 = 76
-	ca列 = 数据表.C切割列(c网络地址, c物理地址, c虚拟局域网, c接口, c寿命, c类型)
-	c标题行0 = "IP address      MAC address    VLAN/VSI name Interface                Aging Type"
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端网络地址4, self.ca列[0], 地址.S网络地址4.fc主机地址字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[1], 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[2], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[3], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端寿命, self.ca列[4], int)
-		self.f添加字段(数据表.E字段.e本端地址解析协议类型, self.ca列[5], ca地址解析协议类型.get)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c类型))
-f地址解析表_s7v7 = F地址解析表_s7v7()
+		self.m自动切割列 = 数据表.C自动切割列()
+		self.f添加字段(数据表.E字段.e对端网络地址4, self.m自动切割列[0], 地址.S网络地址4.fc主机地址字符串)
+		self.f添加字段(数据表.E字段.e对端物理地址, self.m自动切割列[1], 地址.S物理地址.fc字符串)
+		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.m自动切割列[2], 信息.f解析虚拟局域网)
+		self.f添加字段(数据表.E字段.e本端接口, self.m自动切割列[3], 实现接口.f创建接口缩写v7)
+		self.f添加字段(数据表.E字段.e本端寿命, self.m自动切割列[4], int)
+		self.f添加字段(数据表.E字段.e本端地址解析协议类型, self.m自动切割列[5], ca地址解析协议类型.get)
+	f初始处理 = 数据表.C自动切割列.F初始处理(*ca标题字段)
+	fi有效行 = 数据表.C自动切割列.Fi有效行()
+f地址解析表_v7 = F地址解析表_v7()
 class F地址解析表_s9v7(数据表.I解析表格管线):
 	"""display arp
 	适用于: 华三s9810(v7.1.*)"""
@@ -400,25 +222,3 @@ class F地址解析表_s9v7(数据表.I解析表格管线):
 	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
 	fi有效行 = staticmethod(数据表.F有效长度(c类型))
 f地址解析表_s9v7 = F地址解析表_s9v7()
-class F地址解析表_rv7(数据表.I解析表格管线):
-	"""display arp
-	适用于: 华三msr3640(v7.1.070)"""
-	c网络地址 = 0
-	c物理地址 = 16
-	c虚拟局域网 = 31
-	c接口 = 40
-	c寿命 = 65
-	c类型 = 71
-	ca列 = 数据表.C切割列(c网络地址, c物理地址, c虚拟局域网, c接口, c寿命, c类型)
-	c标题行0 = "IP address      MAC address    VLAN     Interface                Aging Type "
-	def __init__(self):
-		数据表.I解析表格管线.__init__(self)
-		self.f添加字段(数据表.E字段.e对端网络地址4, self.ca列[0], 地址.S网络地址4.fc主机地址字符串)
-		self.f添加字段(数据表.E字段.e对端物理地址, self.ca列[1], 地址.S物理地址.fc字符串)
-		self.f添加字段(数据表.E字段.e本端虚拟局域网, self.ca列[2], 信息.f解析虚拟局域网)
-		self.f添加字段(数据表.E字段.e本端接口, self.ca列[3], 实现接口.f创建接口缩写v7)
-		self.f添加字段(数据表.E字段.e本端寿命, self.ca列[4], int)
-		self.f添加字段(数据表.E字段.e本端地址解析协议类型, self.ca列[5], ca地址解析协议类型.get)
-	f初始处理 = staticmethod(数据表.F去标题行(c标题行0))
-	fi有效行 = staticmethod(数据表.F有效长度(c类型))
-f地址解析表_rv7 = F地址解析表_rv7()

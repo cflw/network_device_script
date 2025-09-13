@@ -306,19 +306,19 @@ class C切割列:	#相对于通用的 序列.C切片组 , 数据表.C切割列 �
 		return "[" + ", ".join(str(x) for x in self.ma索引) + "]"
 	def fe列位置(self):
 		return self.ma索引
-	def fg切片(self, k):
+	def fg切片(self, k):	#立即计算
 		if self.m长度 > k + 1:
 			return slice(self.ma索引[k], self.ma索引[k+1])
 		elif self.m长度 == k + 1:
 			return slice(self.ma索引[k], None)
 		else:
 			raise IndexError()
-	def F切片(self, k):
+	def F切片(self, k):	#立即计算
 		v切片 = self.fg切片(k)
 		def f切片(a行: str):
 			return a行[v切片].strip()
 		return f切片
-	def F跨行切片(self, k):
+	def F跨行切片(self, k):	#立即计算
 		v切片 = self.fg切片(k)
 		def f切片(a文本: str):
 			return functools.reduce(lambda s, v行: s + v行[v切片].strip(), a文本.split("\n"), "")
@@ -348,6 +348,69 @@ def f自动分列(*aa行: str)->C切割列:	#传入多个标题行或数据行,�
 	v列表 = list(va单词开始)
 	v列表.sort()
 	return C切割列(*v列表)
+class C自动切割列:
+	"""根据标题字段计算出每列在每行的位置
+	需要在使用的类中定义: self.m自动切割列 = C自动切割列"""
+	def __init__(self):
+		self.ma索引 = []
+	@staticmethod
+	def f计算切割(a文本, *aa标题字段):
+		"""计算切割列,返回索引列表"""
+		v标题行开始 = 0
+		while True:	#逐行查找
+			if v标题行切片 := 字符串.f找包含行(a文本, aa标题字段[0], v标题行开始):
+				v标题行 = a文本[v标题行切片]
+				va索引 = [0]
+				v上一字段位置 = 0
+				for v当前字段 in aa标题字段[1:]:	#逐列查找
+					v当前字段位置 = v标题行.find(v当前字段, v上一字段位置)
+					if v当前字段位置 > 0:
+						va索引.append(v当前字段位置)
+					else:
+						break
+					#下一列循环
+					v上一字段位置 = v当前字段位置
+				else:
+					return va索引
+				#下一行循环
+				v标题行开始 = v标题行切片.stop
+			else:
+				raise ValueError("未找到标题行")
+	@staticmethod
+	def F初始处理(*aa标题字段):
+		def f初始处理(self, a文本: str):
+			"""计算切割列,返回去掉标题行的文本
+			self指包含 自动切割列 的父对象"""
+			self.m自动切割列.ma索引 = C自动切割列.f计算切割(a文本, *aa标题字段)
+			v标题位置 = 字符串.f连续找最后(a文本, *aa标题字段)
+			v下一行位置 = 字符串.f找下一行位置(a文本, v标题位置)
+			return a文本[v下一行位置:]
+		return f初始处理
+	@staticmethod
+	def Fi有效行():
+		def fi有效行(self, a行: str):
+			return len(a行) >= self.m自动切割列.ma索引[-1]
+		return fi有效行
+	def __getitem__(self, k):
+		return self.F切片(k)
+	def fg切片(self, k):	#立即计算
+		v长度 = len(self.ma索引)
+		if v长度 > k + 1:
+			return slice(self.ma索引[k], self.ma索引[k+1])
+		elif v长度 == k + 1:
+			return slice(self.ma索引[k], None)
+		else:
+			raise IndexError()
+	def F切片(self, k):	#延迟计算
+		def f切片(a行: str):
+			v切片 = self.fg切片(k)
+			return a行[v切片].strip()
+		return f切片
+	def F跨行切片(self, k):	#延迟计算
+		def f切片(a文本: str):
+			v切片 = self.fg切片(k)
+			return functools.reduce(lambda s, v行: s + v行[v切片].strip(), a文本.split("\n"), "")
+		return f切片
 #===============================================================================
 # 表格管线
 #===============================================================================
@@ -388,7 +451,7 @@ class I解析表格管线:
 	def f初始处理(self, a文本):
 		"""先把文本做初步处理"""
 		return a文本	#默认不处理
-	def fe记录(self, a文本: str)->dict:
+	def fe记录(self, a文本: str):
 		"""解析出记录"""
 		for v行 in self.fe分割行(a文本):
 			if self.fi结束(v行):
@@ -428,7 +491,7 @@ class I解析多行表格管线:
 		raise NotImplementedError()
 	def f初始处理(self, a文本):
 		return a文本	#默认不处理
-	def fe记录(self, a文本: str)->dict:
+	def fe记录(self, a文本: str):
 		for v行 in self.fe分割行(a文本):
 			if self.fi结束(v行):
 				break

@@ -40,6 +40,15 @@ class C全局显示(全局显示.I全局显示):
 		return 基本表信息.f网络接口表4(v输出)
 class C全局显示_v9(C全局显示):
 	"""适用于: 迈普t6100(v9.3.4.45)"""
+	#对象
+	def fe用户(self):
+		"""适用于: 迈普t6100(v9.3.4.45)"""
+		from . import 用户
+		v命令 = "show running-config | include user"
+		v输出 = self.m设备.f执行显示命令(v命令, a等待 = 10)
+		for v用户名 in 用户.fe配置用户名(v输出):
+			v用户配置 = 用户.f提取用户配置(v输出, v用户名)
+			yield 用户.C用户显示_v9(self, v用户名, v用户配置)		
 	#服务
 	def f模式_安全外壳(self):
 		"""适用于: 迈普t6100(v9.3.4.45)"""

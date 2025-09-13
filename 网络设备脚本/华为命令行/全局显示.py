@@ -5,6 +5,7 @@ from . import 基本表信息
 # 全局显示
 #===============================================================================
 class C全局显示(全局显示.I全局显示, 模式.I显示模式):
+	"""适用于: (模拟器)华为s5700(v5.110)"""
 	def __init__(self, a):
 		全局显示.I全局显示.__init__(self, a)
 	#设备
@@ -14,6 +15,13 @@ class C全局显示(全局显示.I全局显示, 模式.I显示模式):
 	def f模式_时间(self):
 		from . import 时间
 		return 时间.C时间显示(self)
+	#遍历对象
+	def fe用户(self):
+		from . import 用户
+		v命令 = "display current-configuration | include local-user"
+		v输出 = self.m设备.f执行显示命令(v命令)
+		for v用户名 in 用户.fe配置用户名(v输出):
+			yield 用户.C用户显示(self, v用户名, 用户.f提取用户配置(v输出, v用户名))
 	#配置
 	def f显示_启动配置(self):
 		v命令 = "display saved-configuration"
